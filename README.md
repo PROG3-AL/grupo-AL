@@ -29,7 +29,8 @@ En este primer trabajo práctico se implementara diversos métodos de **arrays**
 En este trabajo se aplican los siguientes métodos de arrays en JavaScript:
 
 - `length`
-- Recorrer arrays
+- `for of`
+- `forEach`
 - `push()`
 - `pop()`
 - `sort()`
