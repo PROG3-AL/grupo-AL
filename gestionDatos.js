@@ -1,65 +1,110 @@
-//GRUPO AL: Diak, Ortiz, Sanchez, Labra
+// Grupo AL: 
+// Diak Demian, Labra Andres, Ortiz Micaela Giselle y Sanchez Ezequiel Eduardo
+
+// TP 1: Manuales Educativos
 
 let manuales = [
     {id: 1, nombre: "Matematicas con Jorge", precio: "30.000", stock: 400},
     {id: 2, nombre: "English World!", precio: "50.000", stock: 0},
     {id: 3, nombre: "Historia Peninsular", precio: "150.000", stock: 200},
     {id: 4, nombre: "Programacion con Java", precio: "200.000", stock: 0},
-    {id: 5, nombre: "Vida y estilo", precio: "15.000", stock: 500},
+    {id: 5, nombre: "Vida y estilo", precio: "15.000", stock: 500}
 ];
 
-//Imprimir la longitud total
+console.log("\n--- Manuales originales ---");
+console.log (manuales);
+
+
+// Longitud total del array manuales.
+
+console.log("\n--- Longitud total del array Manuales: ---");
 console.log(`La longitud total del array de manuales es: ${manuales.length}`);
+
+
+// Nombre del segundo y cuarto elemento del array utilizando su índice:
+
+console.log("\n--- Segundo elemento y cuarto elemento de Manuales: ---");
 console.log(`Nombre del segundo elemento: ${manuales[1].nombre} y del cuarto elemento: ${manuales[3].nombre}`);
 
-//Recorrido del array
+//Recorrido del array Manuales
+
+console.log("\n--- Bucle for of : ---");
+
 for (let manual of manuales) {
-    console.log(`${manual.nombre} - ${manual.precio}`)
+    console.log(`${manual.nombre} - $${manual.precio}`)
 };
+
+console.log("\n--- Metodo forEach : ---");
+
 manuales.forEach(m => {
-    console.log(`Producto: ${m.nombre}. Precio: ${m.precio}`)
+    console.log(`Manual: ${m.nombre}, Precio: $${m.precio}`)
 });
 
 //Manipulacion de arrays
+
+//Metodo push():
+
 const marquez = {id: 6, nombre: "Cien años de soledad", precio: "120.500", stock: 20};
 const quijote = {id: 7, nombre: "Don Quijote de la Mancha", precio: "250.000", stock: 0};
+
 manuales.push(marquez);
 manuales.push(quijote);
-function mostrarManuales () {
-    let mostrar = [];
+
+function mostrarManuales(){
     manuales.forEach(m => {
-        mostrar.push(m.nombre);
-    })
-    return mostrar;
-}
-console.log(`Se agregaron dos elementos al final de la lista: ${mostrarManuales()}`);
+        console.log(`ID: ${m.id} | Nombre: ${m.nombre} | Precio: $${m.precio} | Stock: ${m.stock}`);
+    });
+};
+
+console.log("\n--- Se agregaron dos elementos ---");
+mostrarManuales();
+
+//Metodo pop():
 
 manuales.pop();
-console.log(`Se elimino el ultimo elemento de la lista: ${mostrarManuales()}`);
+
+console.log("\n--- Se elimino el último elemento: ---");
+mostrarManuales();
+
+
+//Metodo unshift():
 
 const romeo = {id: 8, nombre: "Romeo y Julieta", precio: "500.000", stock: 0};
 manuales.unshift(romeo);
-console.log(`Se agrego un primer elemento en la lista: ${mostrarManuales()}`);
+console.log("\n--- Se agrego a un nuevo elemento al inicio: ---");
+mostrarManuales();
+
+//Metodo shift():
 
 manuales.shift();
-console.log(`Se elimino el primer elemento en la lista: ${mostrarManuales()}`);
+console.log("\n--- Se elimino el primer elemento: ---");
+mostrarManuales();
 
-const productosConStock = manuales.filter(manual => {
-    return manual.stock > 0;
-});
-console.log(`Los productos que tienen stock son: ${productosConStock}`);
+// Metodo Filter()
+let productosConStock = manuales.filter(manual => manual.stock > 0);
+console.log("\n--- Manuales con stock mayores a 0: ---");
+productosConStock.forEach(p => {
+        console.log(`ID: ${p.id} | Nombre: ${p.nombre} | Precio: $${p.precio} | Stock: ${p.stock}`);
+    });
 
-const nombreProductos =  manuales.map(manual => {
-    return manual.nombre;
-});
-console.log(`Los nombres de los productos son: ${nombreProductos}`);
+// Metodo MAP()
+const nombresProductos = manuales.map(manual => manual.nombre);
+console.log("\n--- Nombres de los manuales ---");
+for (const nombre of nombresProductos) {
+    console.log(nombre); 
+}
+    
+// Método FIND()
 
-let idProducto = 0;
-let producto = manuales.find(indice => indice.id === idProducto);
-if (producto === undefined) {
-    console.log('El producto no existe');
+let idManual = 3;
+let manual = manuales.find(indice => indice.id === idManual);
+if (manual === undefined) {
+    console.log(`\nEl manual con id ${idManual} no se encontró.`);
 } else {
-    console.log(producto);
+    console.log(`\n--- El manual con id ${idManual} se encontró: ---`);
+    console.log(`ID: ${manual.id} | Nombre: ${manual.nombre} | Precio: $${manual.precio} | Stock: ${manual.stock}`);
 }
 
-//FALTA EL SORT()
+// Método sort()
+
+//FALTA SORT
