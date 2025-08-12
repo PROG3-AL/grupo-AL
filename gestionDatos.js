@@ -106,5 +106,13 @@ if (manual === undefined) {
 }
 
 // Método sort()
+const productosOrdenados = [...manuales].sort((a, b) => {
+    const precioA = Number(a.precio.replace (",", ""));
+    const precioB = Number(b.precio.replace(",", ""));
+    return precioB-precioA
+});
 
-//FALTA SORT
+//Resolucion si los precios fueran numeros reales
+//const productosOrdenados = [...manuales].sort((a, b) => b.precio - a.precio);
+
+console.log(`Productos ordenados de manera decreciente: ${productosOrdenados}`);
