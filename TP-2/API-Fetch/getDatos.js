@@ -24,8 +24,6 @@ async function recuperarProductos() {
     }
 }
 
-// recuperarProductos();
-
 // 1.2 Recuperar la información de un número limitado de productos
 async function recuperarAlgunosProductos(hasta){
     try{
@@ -64,9 +62,6 @@ const persistirDatos = async (datosParaPersistir) => {
     }
 }
 
-// const algunosProductos = recuperarAlgunosProductos(3);
-// persistirDatos(algunosProductos);
-
 // 1.4 Agregar un nuevo producto (POST)
 
 async function nuevoProducto(producto){
@@ -96,9 +91,6 @@ const producto = {
     price: 1000,
 }
 
-// nuevoProducto(producto);
-
-
 // 1.5 Buscar la información de un determinado producto, utilizando un “id” como parámetro (GET).
 
 async function buscarporId(id){
@@ -115,8 +107,6 @@ async function buscarporId(id){
         console.log('error', error);
     }
 }
-
-// buscarporId(3);
 
 // 1.6 Eliminar un producto determinado, utilizando DELETE
 
@@ -138,8 +128,6 @@ async function eliminarPorId(id){
         console.error(error);
     }
 }
-
-// eliminarPorId(3);
 
 // 1.7 Modificar los datos de un producto, utilizando UPDATE
 
@@ -169,8 +157,6 @@ async function modificarProducto(id, title, price){
     }
 }
 
-// modificarProducto(2, 'Producto Modificado', 99.99)
-
 //FS
 
 async function leerJson(){
@@ -198,7 +184,7 @@ const agregarProductoFs = async (productoAgregar) => {
 };
 
 const productoAgregar = {
-    id: 10,
+    id: 26,
     title: "Don Quijote de la Mancha",
     price: 25.25,
     description: "La historia de un loco disfrazado de héroe",
@@ -210,19 +196,69 @@ const productoAgregar = {
     }
 };
 
-const eliminarMenor100 = async () => {
+const eliminarMayor60 = async () => {
     try {
         const lectura = await leerJson();
-        const datos = await JSON.parse(lectura);
-        const Menor100 = datos.filter(d => d.price > 100);
-        console.log(`\n--- 1.9 Se eliminaron todos los productos menores a $100:. ---`);
-        console.log(Menor100);
+        let datos = JSON.parse(lectura);
+
+        // productos eliminados (mayores a 60)
+        const eliminados = datos.filter(d => d.price > 60);
+
+        // productos que quedan (menores o iguales a 60)
+        const filtrados = datos.filter(d => d.price <= 60);
+
+        await fs.writeFile('./productos.json', JSON.stringify(filtrados, null, 2));
+
+        console.log(`\n--- 1.9 Se eliminaron todos los productos mayores a $60:. ---`);
+        console.log("\nProductos eliminados:");
+        console.log(eliminados);
+
+        console.log("\nProductos restantes:");
+        console.log(filtrados);
+
     } catch (err) {
         console.error(`Error: ${err}`)
     }
 };
 
-//EJECUTAR CODIGO EN ORDEN CON TIMEOUT
+//  EJECUTAR CODIGO EN ORDEN (opción A)
+async function ejecutarEnOrden() {
+  try {
+    // 1.1
+    await recuperarProductos();
+
+    // 1.2 + 1.3
+    const algunos = await recuperarAlgunosProductos(3);
+    await persistirDatos(algunos);
+
+    // 1.4
+    await nuevoProducto(producto);
+
+    // 1.5
+    await buscarporId(3);
+
+    // 1.6
+    await eliminarPorId(3);
+
+    // 1.7
+    await modificarProducto(2, 'Producto Modificado', 99.99);
+
+    // 1.8
+    await agregarProductoFs(productoAgregar);
+
+    // 1.9
+    await eliminarMayor60();
+
+    console.log("\n Funciones en orden.");
+  } catch (error) {
+    console.error(" Error en la ejecución:", error);
+  }
+}
+
+ejecutarEnOrden();
+
+
+/* //EJECUTAR CODIGO EN ORDEN CON TIMEOUT (opción B)
 
 function retraso(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -251,7 +287,7 @@ async function ejecutarEnOrden() {
   await agregarProductoFs(productoAgregar);
 
   await retraso(1000);
-  await eliminarMenor100();
+  await eliminarMayor60();
 }
 
-ejecutarEnOrden();
+ejecutarEnOrden(); */
