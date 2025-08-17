@@ -1,0 +1,68 @@
+// Grupo AL: 
+// Diak Demian, Labra Andres, Ortiz Micaela Giselle y Sanchez Ezequiel Eduardo
+
+// TP 2 JS Fecth y FileSystem
+
+// Módulo fs 
+const fs = require('fs').promises;
+
+// 1 Utilizar la API fake store api
+const url = 'https://fakestoreapi.com/products';
+
+// 1.1 Recuperar la información de todos los productos
+async function recuperarProductos() {
+    try {
+        const response = await fetch(url);
+        if (!response.ok){
+            throw new Error ('Ocurrió un error:' + response.status);
+        }
+        const datos = await response.json();
+        console.log('--- 1.1 GET de todos los productos ---');
+        console.log(datos);
+    } catch(error){
+        console.log('error', error);
+    }
+}
+
+recuperarProductos();
+
+// 1.2 Recuperar la información de un número limitado de productos
+async function recuperarAlgunosProductos(hasta){
+    try{
+        const response = await fetch(`${url}?limit=${hasta}`);
+        if (!response.ok){
+            throw new Error ('Ocurrió un error:' + response.status);
+        }
+        const datos = await response.json();
+        console.log(`\n--- 1.2 Se recuperaron ${hasta} productos. ---`)            
+        console.log(datos);
+        return datos;      
+    } catch(error) {
+        console.log('error', error);
+    }
+}
+
+
+// 1.3 Persistir los datos de la consulta en un archivo local JSON
+
+const persistirDatos = async (datosParaPersistir) => {
+    try{
+        // obtengo los datos de la consulta anterior
+        const datos = await datosParaPersistir;
+
+        if (datos){
+            const productos = JSON.stringify(datos);
+            console.log('--- Escribiendo en el archivo ---');
+
+            await fs.writeFile('./productos.json', productos);
+            console.log('\ --- 1.3 El archivo se guardó con éxito. ---');
+
+        }
+
+    }catch (error){
+        console.log(error);
+    }
+}
+
+const algunosProductos = recuperarAlgunosProductos(3);
+persistirDatos(algunosProductos);
