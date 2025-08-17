@@ -117,3 +117,54 @@ async function buscarporId(id){
 }
 
 buscarporId(3);
+
+// 1.6 Eliminar un producto determinado, utilizando DELETE
+
+async function eliminarPorId(id){
+    try{
+        const response = await fetch(`${url}/${id}`, {
+            method: 'DELETE'
+        });
+
+        if(!response.ok){
+            throw new Error('Ocurrio un error:' + response.status);
+        }
+
+        const datos = await response.json();
+        return datos;
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+eliminarPorId(3);
+
+// 1.7 Modificar los datos de un producto, utilizando UPDATE
+
+async function modificarProducto(id, title, price){
+    try{
+        const productoActualizado = {
+            title: title,
+            price: price
+        };
+
+        const response = await fetch(`${url}/${id}`,{
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(productoActualizado)
+        });
+
+        if (!response.ok){
+            throw new Error( 'Ocurrio un error:' + response.status );
+        }
+
+        const datos = await response.json();
+        return datos
+
+    } catch (error){
+        console.error(error);
+    }
+}
+
+modificarProducto(2, 'Producto Modificado', 99.99)
