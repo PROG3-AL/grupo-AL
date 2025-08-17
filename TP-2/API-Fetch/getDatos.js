@@ -51,11 +51,11 @@ const persistirDatos = async (datosParaPersistir) => {
         const datos = await datosParaPersistir;
 
         if (datos){
-            const productos = JSON.stringify(datos);
+            const productos = JSON.stringify(datos, null, 2);
             console.log('--- Escribiendo en el archivo ---');
 
             await fs.writeFile('./productos.json', productos);
-            console.log('\ --- 1.3 El archivo se guardó con éxito. ---');
+            console.log('\n --- 1.3 El archivo se guardó con éxito. ---');
 
         }
 
@@ -66,3 +66,54 @@ const persistirDatos = async (datosParaPersistir) => {
 
 const algunosProductos = recuperarAlgunosProductos(3);
 persistirDatos(algunosProductos);
+
+// 1.4 Agregar un nuevo producto (POST)
+
+async function nuevoProducto(producto){
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(producto)
+        })
+        if (!response.ok){ 
+            throw new Error('Error ' + response.status)
+        }
+        
+        const datos = await response.json();
+        console.log(`\n --- 1.4 El nuevo producto ${producto.title} se guardó con éxito. ---`);
+        console.log(datos);
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const producto = {
+    title: 'double door refrigerator', 
+    price: 1000,
+}
+
+nuevoProducto(producto);
+
+
+// 1.5 Buscar la información de un determinado producto, utilizando un “id” como parámetro (GET).
+
+async function buscarporId(id){
+    try{
+        const response = await fetch(`${url}/${id}`); 
+        if (!response.ok){
+            throw new Error ('Ocurrió un error:' + response.status);
+        }
+        const datos = await response.json();
+        console.log(`\n--- 1.5 Se recupero la información del producto con id ${id}:. ---`)            
+        console.log(datos);
+        return datos;      
+    } catch(error) {
+        console.log('error', error);
+    }
+}
+
+buscarporId(3);
