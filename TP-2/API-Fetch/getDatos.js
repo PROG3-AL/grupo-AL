@@ -24,7 +24,7 @@ async function recuperarProductos() {
     }
 }
 
-recuperarProductos();
+// recuperarProductos();
 
 // 1.2 Recuperar la información de un número limitado de productos
 async function recuperarAlgunosProductos(hasta){
@@ -64,8 +64,8 @@ const persistirDatos = async (datosParaPersistir) => {
     }
 }
 
-const algunosProductos = recuperarAlgunosProductos(3);
-persistirDatos(algunosProductos);
+// const algunosProductos = recuperarAlgunosProductos(3);
+// persistirDatos(algunosProductos);
 
 // 1.4 Agregar un nuevo producto (POST)
 
@@ -96,7 +96,7 @@ const producto = {
     price: 1000,
 }
 
-nuevoProducto(producto);
+// nuevoProducto(producto);
 
 
 // 1.5 Buscar la información de un determinado producto, utilizando un “id” como parámetro (GET).
@@ -116,7 +116,7 @@ async function buscarporId(id){
     }
 }
 
-buscarporId(3);
+// buscarporId(3);
 
 // 1.6 Eliminar un producto determinado, utilizando DELETE
 
@@ -131,14 +131,15 @@ async function eliminarPorId(id){
         }
 
         const datos = await response.json();
-        return datos;
+        console.log(`\n--- 1.6 Se eliminó el producto con el id: ${id} con el status: ${response.status}:. ---`)
+        console.log(datos);
 
     } catch (error) {
         console.error(error);
     }
 }
 
-eliminarPorId(3);
+// eliminarPorId(3);
 
 // 1.7 Modificar los datos de un producto, utilizando UPDATE
 
@@ -160,11 +161,97 @@ async function modificarProducto(id, title, price){
         }
 
         const datos = await response.json();
-        return datos
+        console.log(`\n--- 1.7 Se modificó el producto con el status: ${response.status}:. ---`)
+        console.log(datos);
 
     } catch (error){
         console.error(error);
     }
 }
 
-modificarProducto(2, 'Producto Modificado', 99.99)
+// modificarProducto(2, 'Producto Modificado', 99.99)
+
+//FS
+
+async function leerJson(){
+    const lectura = await fs.readFile('./productos.json', 'utf-8');
+    return lectura;
+}
+
+const agregarProductoFs = async (productoAgregar) => {
+    try {
+        const lectura = await leerJson();
+        const datos = await JSON.parse(lectura);
+        console.log(`\n--- 1.8 Datos actuales en el archivo:. ---`)
+        console.log(datos);
+
+        datos.push(productoAgregar);
+
+        const datosGuardar = JSON.stringify(datos)
+        fs.writeFile('./productos.json', datosGuardar);
+        console.log(`\n--- 1.8 Se agregó el producto ${productoAgregar.title} en el archivo con id: ${productoAgregar.id}:. ---`);
+        console.log(datos);
+
+    } catch (err) {
+        console.error(`Error: ${err}`);
+    }
+};
+
+const productoAgregar = {
+    id: 10,
+    title: "Don Quijote de la Mancha",
+    price: 25.25,
+    description: "La historia de un loco disfrazado de héroe",
+    category: "libros",
+    image: "https://fakestoreapi.com/img/71YAIFU48IL._AC_UL640_QL65_ML3_t.png",
+    rating: {
+        rate: 5,
+        count: 30
+    }
+};
+
+const eliminarMenor100 = async () => {
+    try {
+        const lectura = await leerJson();
+        const datos = await JSON.parse(lectura);
+        const Menor100 = datos.filter(d => d.price > 100);
+        console.log(`\n--- 1.9 Se eliminaron todos los productos menores a $100:. ---`);
+        console.log(Menor100);
+    } catch (err) {
+        console.error(`Error: ${err}`)
+    }
+};
+
+//EJECUTAR CODIGO EN ORDEN CON TIMEOUT
+
+function retraso(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function ejecutarEnOrden() {
+  await retraso(1000);
+  await recuperarProductos();
+
+  await retraso(1000);
+  await persistirDatos(recuperarAlgunosProductos(3));
+
+  await retraso(1000);
+  await nuevoProducto(producto);
+
+  await retraso(1000);
+  await buscarporId(3);
+
+  await retraso(1000);
+  await eliminarPorId(3);
+
+  await retraso(1000);
+  await modificarProducto(2, 'Producto Modificado', 99.99);
+
+  await retraso(1000);
+  await agregarProductoFs(productoAgregar);
+
+  await retraso(1000);
+  await eliminarMenor100();
+}
+
+ejecutarEnOrden();
