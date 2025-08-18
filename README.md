@@ -1,7 +1,8 @@
 # 📌 Repositorio del Grupo AL - Programación 3 💻
 
 Este repositorio ha sido creado para centralizar y organizar el material del trabajo práctico de **Programación 3** de la **Tecnicatura en Desarrollo Web**.  
-En este primer trabajo práctico se implementarán diversos métodos de **arrays** en JavaScript.
+TP 1: se implementarán diversos métodos de **arrays** en JavaScript y se encuentra en la carpeta TP-1. 
+TP 2: FETCH API y FileSystem, localizado en la carpeta TP-2 / API - Fetch
 
 ---
 
@@ -24,18 +25,5 @@ En este primer trabajo práctico se implementarán diversos métodos de **arrays
 
 ---
 
-## 🛠️ Métodos de Arrays Utilizados
-
-En este trabajo se aplican los siguientes métodos de arrays en JavaScript:
-
-- `length`
-- `for of`
-- `forEach`
-- `push()`
-- `pop()`
-- `sort()`
-- `find()`
-- `filter()`
-- `unshift()`
 - `shift()`
 - `map()`
