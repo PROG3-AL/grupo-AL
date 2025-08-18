@@ -19,6 +19,9 @@ async function recuperarProductos() {
         const datos = await response.json();
         console.log('--- 1.1 GET de todos los productos ---');
         console.log(datos);
+        console.log('------------------------------------------------');
+        console.log('------------------------------------------------');
+        console.log('------------------------------------------------');
     } catch(error){
         console.log('error', error);
     }
@@ -34,6 +37,9 @@ async function recuperarAlgunosProductos(hasta){
         const datos = await response.json();
         console.log(`\n--- 1.2 Se recuperaron ${hasta} productos. ---`)            
         console.log(datos);
+        console.log('------------------------------------------------');
+        console.log('------------------------------------------------');
+        console.log('------------------------------------------------');
         return datos;      
     } catch(error) {
         console.log('error', error);
@@ -53,7 +59,10 @@ const persistirDatos = async (datosParaPersistir) => {
             console.log('--- Escribiendo en el archivo ---');
 
             await fs.writeFile('./productos.json', productos);
-            console.log('\n --- 1.3 El archivo se guardó con éxito. ---');
+            console.log('\n --- 1.3 El archivo "productos.json" se guardó con éxito. ---');
+            console.log('------------------------------------------------');
+            console.log('------------------------------------------------');
+            console.log('------------------------------------------------');
 
         }
 
@@ -78,8 +87,11 @@ async function nuevoProducto(producto){
         }
         
         const datos = await response.json();
-        console.log(`\n --- 1.4 El nuevo producto ${producto.title} se guardó con éxito. ---`);
+        console.log(`\n --- 1.4 El nuevo producto ${producto.title} se guardó con éxito. Status: ${response.status} ---`);
         console.log(datos);
+        console.log('------------------------------------------------');
+        console.log('------------------------------------------------');
+        console.log('------------------------------------------------');
 
     } catch (error) {
         console.log(error)
@@ -100,8 +112,11 @@ async function buscarporId(id){
             throw new Error ('Ocurrió un error:' + response.status);
         }
         const datos = await response.json();
-        console.log(`\n--- 1.5 Se recupero la información del producto con id ${id}:. ---`)            
+        console.log(`\n--- 1.5 Se recupero la información del producto con id ${id} con el status ${response.status}: ---`)            
         console.log(datos);
+        console.log('------------------------------------------------');
+        console.log('------------------------------------------------');
+        console.log('------------------------------------------------');
         return datos;      
     } catch(error) {
         console.log('error', error);
@@ -123,6 +138,9 @@ async function eliminarPorId(id){
         const datos = await response.json();
         console.log(`\n--- 1.6 Se eliminó el producto con el id: ${id} con el status: ${response.status}:. ---`)
         console.log(datos);
+        console.log('------------------------------------------------');
+        console.log('------------------------------------------------');
+        console.log('------------------------------------------------');
 
     } catch (error) {
         console.error(error);
@@ -151,6 +169,9 @@ async function modificarProducto(id, title, price){
         const datos = await response.json();
         console.log(`\n--- 1.7 Se modificó el producto con el status: ${response.status}:. ---`)
         console.log(datos);
+        console.log('------------------------------------------------');
+        console.log('------------------------------------------------');
+        console.log('------------------------------------------------');
 
     } catch (error){
         console.error(error);
@@ -174,10 +195,12 @@ const agregarProductoFs = async (productoAgregar) => {
         datos.push(productoAgregar);
 
         const datosGuardar = JSON.stringify(datos)
-        fs.writeFile('./productos.json', datosGuardar);
+        await fs.writeFile('./productos.json', datosGuardar);
         console.log(`\n--- 1.8 Se agregó el producto ${productoAgregar.title} en el archivo con id: ${productoAgregar.id}:. ---`);
         console.log(datos);
-
+        console.log('------------------------------------------------');
+        console.log('------------------------------------------------');
+        console.log('------------------------------------------------');
     } catch (err) {
         console.error(`Error: ${err}`);
     }
@@ -215,13 +238,16 @@ const eliminarMayor60 = async () => {
 
         console.log("\nProductos restantes:");
         console.log(filtrados);
+        console.log('------------------------------------------------');
+        console.log('------------------------------------------------');
+        console.log('------------------------------------------------');
 
     } catch (err) {
         console.error(`Error: ${err}`)
     }
 };
 
-//  EJECUTAR CODIGO EN ORDEN (opción A)
+//  EJECUTAR CODIGO EN ORDEN
 async function ejecutarEnOrden() {
   try {
     // 1.1
@@ -256,38 +282,3 @@ async function ejecutarEnOrden() {
 }
 
 ejecutarEnOrden();
-
-
-/* //EJECUTAR CODIGO EN ORDEN CON TIMEOUT (opción B)
-
-function retraso(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-async function ejecutarEnOrden() {
-  await retraso(1000);
-  await recuperarProductos();
-
-  await retraso(1000);
-  await persistirDatos(recuperarAlgunosProductos(3));
-
-  await retraso(1000);
-  await nuevoProducto(producto);
-
-  await retraso(1000);
-  await buscarporId(3);
-
-  await retraso(1000);
-  await eliminarPorId(3);
-
-  await retraso(1000);
-  await modificarProducto(2, 'Producto Modificado', 99.99);
-
-  await retraso(1000);
-  await agregarProductoFs(productoAgregar);
-
-  await retraso(1000);
-  await eliminarMayor60();
-}
-
-ejecutarEnOrden(); */
