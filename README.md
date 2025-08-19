@@ -24,6 +24,3 @@ Este repositorio ha sido creado para centralizar y organizar el material del tra
 - Andrés Labra  
 
 ---
-
-- `shift()`
-- `map()`
