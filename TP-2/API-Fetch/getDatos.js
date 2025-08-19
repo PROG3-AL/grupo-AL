@@ -87,7 +87,7 @@ async function nuevoProducto(producto){
         }
         
         const datos = await response.json();
-        console.log(`\n --- 1.4 El nuevo producto ${producto.title} se guardó con éxito. Status: ${response.status} ---`);
+        console.log(`\n --- 1.4 El nuevo producto ${producto.title} se guardó con éxito. ---`);
         console.log(datos);
         console.log('------------------------------------------------');
         console.log('------------------------------------------------');
@@ -112,7 +112,7 @@ async function buscarporId(id){
             throw new Error ('Ocurrió un error:' + response.status);
         }
         const datos = await response.json();
-        console.log(`\n--- 1.5 Se recupero la información del producto con id ${id} con el status ${response.status}: ---`)            
+        console.log(`\n--- 1.5 Se recupero la información del producto con id ${id}: ---`)            
         console.log(datos);
         console.log('------------------------------------------------');
         console.log('------------------------------------------------');
