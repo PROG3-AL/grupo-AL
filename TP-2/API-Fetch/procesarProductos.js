@@ -251,6 +251,7 @@ const eliminarMayor60 = async () => {
 async function ejecutarEnOrden() {
   try {
     // 1.1
+    console.log("\n Funciones en orden.");
     await recuperarProductos();
 
     // 1.2 + 1.3
@@ -275,7 +276,7 @@ async function ejecutarEnOrden() {
     // 1.9
     await eliminarMayor60();
 
-    console.log("\n Funciones en orden.");
+    
   } catch (error) {
     console.error(" Error en la ejecución:", error);
   }
