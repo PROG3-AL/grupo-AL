@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{{title}}}</title>
+    <!-- Favicon -->
+    <link rel="icon" href="Assets/Favicon.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Importación de tipografía Nunito -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Enlace a librería de íconos -->
+    <script src="https://kit.fontawesome.com/39373c75b8.js" crossorigin="anonymous"></script>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <!-- Enlace a la carpeta de estilos -->
+    <link rel="stylesheet" href="CSS/styles.css">
+</head>
+<body>
+    <!-- Nav bar-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary p-0">
+        <div class="container">
+            <a class="navbar-brand me-0" href="/">
+                <img src="#" alt="TIF Prog 3 2025" height="40" class="d-inline-block align-text-top">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-around" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {{#if (eq title 'Inicio')}}active{{/if}}" href="/">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{#if (eq title 'Institucional')}}active{{/if}}" href="/institucional">Institucional</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/salones">Salones</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/servicios">Servicios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/reservar">Reservar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{#if (eq title 'Contacto')}}active{{/if}}" href="/contacto">Contacto</a>
+                    </li>
+                </ul>
+                
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link text-white d-flex align-items-center user-link" href="/login">
+                            <i class="fa-solid fa-circle-user fs-2 d-none d-lg-inline"></i>
+                            <span class="d-inline d-lg-none">Administración</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!--Fin de Nav bar-->
+    
+    <main>
+        {{{body}}}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row text-center text-md-start">
+                <div class="col-md-4 mb-4">
+                    <h2 class="h2">TIF Prog 3 2025</h2>
+                    <h3 class="h3">Grupo AL</h3>
+                    <p>Encontrá todo lo que necesitas para tu cumpleaños infantil</p>
+                </div>
+                <!-- Menú -->
+                <div class="col-md-4 mb-4">
+                    <ul class="footer-nav nav flex-column">
+                        <li class="nav-item"><a href="/" class="nav-link text-white">Inicio</a></li>
+                        <li class="nav-item"><a href="/institucional" class="nav-link text-white">Institucional</a></li>
+                        <li class="nav-item"><a href="/salones" class="nav-link text-white">Salones</a></li>
+                        <li class="nav-item"><a href="/servicios" class="nav-link text-white">Servicios</a></li>
+                        <li class="nav-item"><a href="/contacto" class="nav-link text-white">Contacto</a></li>
+                    </ul>
+                </div>
+                <!-- Contacto y redes -->
+                <div class="col-md-4 mb-4">
+                    <h5>Contacto</h5>
+                    <p><i class="fa-regular fa-map me-2"></i>Calle Thames 500</p>
+                    <p><i class="fa-regular fa-flag me-2"></i>Ciudad de Buenos Aires</p>
+                    <p><i class="fa-solid fa-phone me-2"></i>+54 11 123 456</p>
+                    <p><i class="fa-regular fa-paper-plane me-2"></i>mail@salones.com</p>
+                    <div class="d-flex gap-3 mt-3 justify-content-center justify-content-md-start">
+                        <a href="https://facebook.com" target="_blank" class="text-white fs-5"><i
+                                class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://instagram.com" target="_blank" class="text-white fs-5"><i
+                                class="fa-brands fa-instagram"></i></a>
+                        <a href="https://twitter.com" target="_blank" class="text-white fs-5"><i
+                                class="fa-brands fa-x-twitter"></i></a>
+                        <a href="https://www.tiktok.com/" target="_blank" class="text-white fs-5"><i
+                                class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- Copyright -->
+            <div class="text-center pt-4 border-top mt-4">
+                <p class="mb-0"><i class="fa-regular fa-copyright"></i> TIF Prog 3 2025 | Todos los derechos reservados
+                </p>
+            </div>
+        </div>
+    </footer>
+    <!-- Fin de Footer -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+        crossorigin="anonymous"></script>
+    
+
+</body>
+</html>
