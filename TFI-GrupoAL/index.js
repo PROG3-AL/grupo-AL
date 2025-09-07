@@ -8,7 +8,7 @@ import { dirname } from 'path';
 dotenv.config();
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 // Simular __dirname en ES Modules
 const __filename = fileURLToPath(import.meta.url);
