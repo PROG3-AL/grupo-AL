@@ -1,9 +1,10 @@
 import express from 'express';
 import expressHandlebars from 'express-handlebars';
 import dotenv from 'dotenv';
-import mysql from 'mysql2/promise';
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import { dirname, join } from 'path';
+
+import { getTodosLosSalones } from './database/conexion.js';
 
 dotenv.config();
 
@@ -17,9 +18,10 @@ const __dirname = dirname(__filename);
 // HELPERS para comparar strings
 const hbs = expressHandlebars.create({
   defaultLayout: 'main',
+  layoutsDir: join(__dirname, 'src', 'views', 'layouts'), // Mejorar concatenacion
   helpers: {
-    eq: function (str1, str2, options) {
-      return str1 === str2 ? options : '';
+    eq: function (arg1, arg2) {
+      return arg1 === arg2;
     }
   }
 });
@@ -27,6 +29,7 @@ const hbs = expressHandlebars.create({
 // Configuro Handlebars como motor de vistas
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
+app.set('views', __dirname + '/src/views/pages'); // le digo a Express donde estan las vistas
 
 // Servir recursos estáticos
 app.use(express.static(__dirname + '/public'));
@@ -60,28 +63,17 @@ app.listen(port, () =>
 );
 
 // =======================
-// Conexión a MySQL (esto deberíamos pasarlo a otra carpeta)
+// EJECUCION MANUAL DE getTodosLosSalones
 // =======================
-async function getTodosLosSalones() {
+
+async function testDatabase() {
   try {
-    const conexion = await mysql.createConnection({
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
-    });
-
-    const sqlQuery = 'SELECT * FROM salones';
-
-    const [rows] = await conexion.query(sqlQuery);
-
-    console.log('Query results:', rows);
-
-    await conexion.end();
-
-  } catch (err) {
-    console.error('Error executing SELECT query:', err);
+    const salones = await getTodosLosSalones();
+    console.log('✅ Conexión a MySQL exitosa');
+    console.log('📊 Salones encontrados:', salones.length);
+  } catch (error) {
+    console.error('❌ Error de MySQL:', error.message);
   }
 }
 
-getTodosLosSalones();
+// testDatabase();  // Descomentar para probar
