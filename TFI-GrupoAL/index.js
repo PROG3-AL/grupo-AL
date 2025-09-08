@@ -45,6 +45,10 @@ app.get('/contacto', (req, res) => {
   res.render('contacto', { title: 'Contacto' });
 });
 
+app.get('/salones', (req, res) => {
+  res.render('salones', { title: 'Salones' });
+});
+
 // Página personalizada de error 404
 app.use((req, res) => {
   res.status(404);
@@ -76,4 +80,4 @@ async function testDatabase() {
   }
 }
 
-// testDatabase();  // Descomentar para probar
+testDatabase();  // Descomentar para probar
