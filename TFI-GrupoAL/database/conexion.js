@@ -1,36 +1,43 @@
 import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
 
-dotenv.config()
+dotenv.config();
 
-export async function getTodosLosSalones() {
-    let conexion;
-    try {
-        conexion = await mysql.createConnection({
-        host: process.env.DB_HOST,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_NAME,
-      });
+export const conexion = await mysql.createConnection({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+    });
+
+// export async function getTodosLosSalones() {
+//     let conexion;
+//     try {
+//         conexion = await mysql.createConnection({
+//         host: process.env.DB_HOST,
+//         user: process.env.DB_USER,
+//         password: process.env.DB_PASSWORD,
+//         database: process.env.DB_NAME,
+//       });
   
-      const sqlQuery = 'SELECT * FROM salones';
+//       const sqlQuery = 'SELECT * FROM salones';
   
-      const [rows] = await conexion.query(sqlQuery);
+//       const [rows] = await conexion.query(sqlQuery);
   
-      console.log('Query results:', rows);
+//       console.log('Query results:', rows);
 
-      return rows;
+//       return rows;
   
-    } catch (err) {
+//     } catch (err) {
 
-      console.error('Error executing SELECT query:', err);
+//       console.error('Error executing SELECT query:', err);
 
-    } finally {
+//     } finally {
 
-      if (conexion) {
-        await conexion.end();
+//       if (conexion) {
+//         await conexion.end();
 
-      };
-    }
-  }
+//       };
+//     }
+//   }
   
