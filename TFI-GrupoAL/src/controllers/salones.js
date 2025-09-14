@@ -40,3 +40,23 @@ export async function listarSalonPorIdBody (req, res, next) {
         next(err);
     }
 };
+
+// Actualizar Salon 
+export async function actualizarSalon(req, res, next) {
+    if (!req.params.id || !req.body) {
+        return res.status(400).send({ Estado: false, mensaje: "Faltan datos requeridos" });
+    }
+
+    try {
+        const { id } = req.params;
+        const actualizado = await salonesBD.actualizarSalon(id, req.body);
+
+        if (!actualizado) {
+            return res.status(404).send({Estado: false,mensaje: "No se encontró el salón para actualizar"});
+        }
+
+        res.send({Estado: true,mensaje: "Salón actualizado correctamente"});
+    } catch (err) {
+        next(err);
+    }
+};

@@ -4,36 +4,6 @@
   "items": [
     {
       "type": "http",
-      "name": "salones",
-      "filename": "salones.bru",
-      "seq": 1,
-      "settings": {
-        "encodeUrl": true
-      },
-      "tags": [],
-      "request": {
-        "url": "http://localhost:3000/salones",
-        "method": "GET",
-        "headers": [],
-        "params": [],
-        "body": {
-          "mode": "none",
-          "formUrlEncoded": [],
-          "multipartForm": [],
-          "file": []
-        },
-        "script": {},
-        "vars": {},
-        "assertions": [],
-        "tests": "",
-        "docs": "",
-        "auth": {
-          "mode": "inherit"
-        }
-      }
-    },
-    {
-      "type": "http",
       "name": "salones/:id",
       "filename": "salones--id.bru",
       "seq": 2,
@@ -68,9 +38,83 @@
           "mode": "inherit"
         }
       }
+    },
+    {
+      "type": "http",
+      "name": "salones",
+      "filename": "salones.bru",
+      "seq": 1,
+      "settings": {
+        "encodeUrl": true
+      },
+      "tags": [],
+      "request": {
+        "url": "http://localhost:3000/salones",
+        "method": "GET",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Actualizar Salones",
+      "filename": "Actualizar Salones.bru",
+      "seq": 3,
+      "settings": {
+        "encodeUrl": true
+      },
+      "tags": [],
+      "request": {
+        "url": "f",
+        "method": "PUT",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
+        }
+      }
     }
   ],
-  "environments": [],
+  "activeEnvironmentUid": "QqxsTjjQ5XQxBgmAimwe7",
+  "environments": [
+    {
+      "variables": [
+        {
+          "name": "apiUrl",
+          "value": "http://localhost:3000",
+          "enabled": true,
+          "secret": false,
+          "type": "text"
+        }
+      ],
+      "name": "apiUrl"
+    }
+  ],
   "brunoConfig": {
     "version": "1",
     "name": "TUDW-PROG3-GRUPOAL",
