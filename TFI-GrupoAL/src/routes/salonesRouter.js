@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { listarSalones, listarSalonPorId, listarSalonPorIdBody, desactivarSalon, activarSalon } from '../controllers/salones.js';
+import { listarSalones, listarSalonPorId, listarSalonPorIdBody, desactivarSalon, activarSalon, actualizarSalon } from '../controllers/salones.js';
 
 const router = Router();
 

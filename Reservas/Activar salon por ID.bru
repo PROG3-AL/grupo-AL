@@ -1,0 +1,28 @@
+meta {
+  name: Activar salon por ID
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://localhost:3000/salones/5
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+      "titulo": "Trampolín Play",
+      "direccion": "Belgrano 100",
+      "capacidad": 50,
+      "importe": "200000.00"
+    }
+}
+
+settings {
+  encodeUrl: true
+}

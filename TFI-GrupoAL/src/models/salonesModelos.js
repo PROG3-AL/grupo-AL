@@ -37,17 +37,17 @@ export async function activarSalon(salonId) {
     }
 };
 
-//export async function actualizarSalon(salonId, datos) {
-//    const { titulo, direccion, capacidad, importe } = datos;
-//    try {
-//        const [result] = await conexion.execute(
-//            `UPDATE salones 
-//            SET titulo = ?, direccion = ?, capacidad = ?, importe = ?, modificado = NOW()
-//            WHERE salon_id = ?`,
-//            [titulo, direccion, capacidad, importe, salonId]
-//        );
-//        return result;
-//    } catch (err) {
-//        throw new Error(err);
-//    }
-//};
+export async function actualizarSalon(salonId, datos) {
+    const { titulo, direccion, capacidad, importe } = datos;
+    try {
+        const [result] = await conexion.execute(
+            `UPDATE salones 
+            SET titulo = ?, direccion = ?, capacidad = ?, importe = ?, modificado = NOW()
+            WHERE salon_id = ?`,
+            [titulo, direccion, capacidad, importe, salonId]
+        );
+        return result;
+    } catch (err) {
+        throw new Error(err);
+    }
+};

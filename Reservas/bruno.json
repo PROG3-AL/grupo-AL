@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Reservas",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
