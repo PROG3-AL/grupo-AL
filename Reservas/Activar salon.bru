@@ -1,11 +1,11 @@
 meta {
-  name: Desactivar salon
+  name: Activar salon
   type: http
-  seq: 3
+  seq: 5
 }
 
-delete {
-  url: http://localhost:3000/salones/6
+patch {
+  url: http://localhost:3000/salones/6/activar
   body: none
   auth: inherit
 }
