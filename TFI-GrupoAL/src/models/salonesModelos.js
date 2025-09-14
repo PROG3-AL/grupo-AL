@@ -37,17 +37,55 @@ export async function activarSalon(salonId) {
     }
 };
 
-export async function actualizarSalon(salonId, datos) {
-    const { titulo, direccion, capacidad, importe } = datos;
+// Actualizar Salon (los dos campos que no se modifican son activo y fecha de creación )
+export async function actualizarSalon(id, datos) {
+    const salonId = Number(id);
+
     try {
-        const [result] = await conexion.execute(
+        const { 
+            titulo, 
+            direccion, 
+            latitud, 
+            longitud, 
+            capacidad, 
+            importe
+        } = datos;
+
+        const [resultados] = await conexion.execute(
             `UPDATE salones 
-            SET titulo = ?, direccion = ?, capacidad = ?, importe = ?, modificado = NOW()
-            WHERE salon_id = ?`,
-            [titulo, direccion, capacidad, importe, salonId]
+             SET titulo = ?, direccion = ?, latitud = ?, longitud = ?, 
+                 capacidad = ?, importe = ?, 
+                 modificado = CURRENT_TIMESTAMP
+             WHERE salon_id = ?`,
+            [titulo, direccion, latitud, longitud, capacidad, importe, salonId]
         );
-        return result;
+
+        return resultados.affectedRows > 0;
     } catch (err) {
         throw new Error(err);
     }
 };
+
+export async function crearSalon(salon) {
+    const [resultado] = await conexion.query(
+        `INSERT INTO salones (
+            titulo, 
+            direccion, 
+            latitud, 
+            longitud, 
+            capacidad, 
+            importe,
+            activo
+        ) VALUES (?, ?, ?, ?, ?, ?, 1)`, 
+        [
+            salon.titulo,
+            salon.direccion, 
+            salon.latitud,
+            salon.longitud,
+            salon.capacidad,
+            salon.importe
+        ]
+    );
+
+    return { id: resultado.insertId, ...salon, activo: 1 };
+}

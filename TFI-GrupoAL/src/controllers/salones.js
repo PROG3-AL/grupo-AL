@@ -61,7 +61,7 @@ export async function desactivarSalon(req, res, next) {
             });
         }
 
-        // Ejecucion
+        // Ejecución
         await salonesBD.desactivarSalon(id);
         
         res.status(200).send({
@@ -71,7 +71,7 @@ export async function desactivarSalon(req, res, next) {
     } catch (err) {
         next(err);
     }
-};
+}
 
 export async function activarSalon(req, res, next) {
     if (!req.params.id) {
@@ -111,4 +111,63 @@ export async function activarSalon(req, res, next) {
     } catch (err) {
         next(err);
     }
-};
+}
+
+export async function actualizarSalon(req, res, next) {
+    if (!req.params.id || !req.body) {
+        return res.status(400).send({ 
+            estado: false, 
+            mensaje: "Faltan datos requeridos" 
+        });
+    }
+
+    try {
+        const { id } = req.params;
+        const actualizado = await salonesBD.actualizarSalon(id, req.body);
+
+        if (!actualizado) {
+            return res.status(404).send({
+                estado: false,
+                mensaje: "No se encontró el salón para actualizar"
+            });
+        }
+
+        res.send({
+            estado: true,
+            mensaje: "Salón actualizado correctamente"
+        });
+    } catch (err) {
+        next(err);
+    }
+}
+
+export async function crearSalon(req, res, next) {
+    if (!req.body || !req.body.titulo || !req.body.direccion) {
+        return res.status(400).send({
+            estado: false,
+            mensaje: "Faltan datos requeridos para crear el salón (mínimo título y dirección)"
+        });
+    }
+
+    try {
+        const nuevoSalon = {
+            titulo: req.body.titulo,
+            direccion: req.body.direccion,
+            latitud: req.body.latitud || null,
+            longitud: req.body.longitud || null,
+            capacidad: req.body.capacidad || null,
+            importe: req.body.importe || null,
+            activo: 1
+        };
+
+        const salonCreado = await salonesBD.crearSalon(nuevoSalon);
+
+        res.status(201).send({
+            estado: true,
+            mensaje: "Salón creado correctamente",
+            data: salonCreado
+        });
+    } catch (err) {
+        next(err);
+    }
+}

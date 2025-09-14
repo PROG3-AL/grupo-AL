@@ -72,9 +72,9 @@ app.listen(port, () =>
   console.log(`Express iniciado en http://localhost:${port}`)
 );
 
-// =======================
-// EJECUCION MANUAL DE getTodosLosSalones
-// =======================
+// // /* // =======================
+// // // EJECUCION MANUAL DE getTodosLosSalones
+// // // =======================
 
 // async function testDatabase() {
 //   try {
