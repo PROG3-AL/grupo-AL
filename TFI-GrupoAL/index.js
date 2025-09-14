@@ -15,6 +15,8 @@ app.use(express.json(
   {type: 'application/json'}
 ));
 
+app.use(express.urlencoded({ extended: true })); // ✅ Parsear formularios
+
 const port = process.env.PORT;
 
 // Simular __dirname en ES Modules
