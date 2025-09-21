@@ -1,13 +1,15 @@
 # Tareas a realizar (Demian)
 
 - [x] Agregar para parsear a JSON
-- [] Crear usuarios y pass para cliente, empleado, administrador
-- [] Actualizar credenciales en .env
+- [x] Actualizar credenciales en .env
 - [x] Delete soft de salones
 - [x] Activar salones 
 - [x] Crear salones
 - [x] process.loadEnvFile()
-- []
-
+- [x] Listar usuarios
+- [x] Buscar usuario por ID
+- [x] Buscar usuario por Email
+- [x] Crear usuarios
+- [x] Inicializar admin principal
 
 
