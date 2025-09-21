@@ -41,10 +41,84 @@ export async function listarSalonPorIdBody (req, res, next) {
     }
 };
 
-// Actualizar Salon 
+export async function desactivarSalon(req, res, next) {
+    if (!req.params.id) {
+        return res.status(400).send({
+            estado: false, 
+            mensaje: "Falta el ID del salón a desactivar"
+        });
+    }
+
+    try {
+        const { id } = req.params;
+        
+        // Verificar que el salón existe y está activo
+        const salonExistente = await salonesBD.buscarPorId(id);
+        if (!salonExistente) {
+            return res.status(404).send({
+                estado: false,
+                mensaje: "Salón no encontrado o ya está desactivado"
+            });
+        }
+
+        // Ejecución
+        await salonesBD.desactivarSalon(id);
+        
+        res.status(200).send({
+            estado: true,
+            mensaje: "Salón desactivado correctamente"
+        });
+    } catch (err) {
+        next(err);
+    }
+}
+
+export async function activarSalon(req, res, next) {
+    if (!req.params.id) {
+        return res.status(400).send({
+            estado: false, 
+            mensaje: "Falta el ID del salón a activar"
+        });
+    }
+
+    try {
+        const { id } = req.params;
+        
+        // Verificar que el salón existe
+        const salonExistente = await salonesBD.buscarPorId(id);
+        if (!salonExistente) {
+            return res.status(404).send({
+                estado: false,
+                mensaje: "Salón no encontrado"
+            });
+        }
+
+        // Verificar si ya está activo
+        if (salonExistente.activo === 1) {
+            return res.status(400).send({
+                estado: false,
+                mensaje: "El salón ya está activo - No es necesario reactivarlo"
+            });
+        }
+
+        // Ejecutar activación
+        await salonesBD.activarSalon(id);
+        
+        res.status(200).send({
+            estado: true,
+            mensaje: "Salón activado correctamente"
+        });
+    } catch (err) {
+        next(err);
+    }
+}
+
 export async function actualizarSalon(req, res, next) {
     if (!req.params.id || !req.body) {
-        return res.status(400).send({ Estado: false, mensaje: "Faltan datos requeridos" });
+        return res.status(400).send({ 
+            estado: false, 
+            mensaje: "Faltan datos requeridos" 
+        });
     }
 
     try {
@@ -52,11 +126,48 @@ export async function actualizarSalon(req, res, next) {
         const actualizado = await salonesBD.actualizarSalon(id, req.body);
 
         if (!actualizado) {
-            return res.status(404).send({Estado: false,mensaje: "No se encontró el salón para actualizar"});
+            return res.status(404).send({
+                estado: false,
+                mensaje: "No se encontró el salón para actualizar"
+            });
         }
 
-        res.send({Estado: true,mensaje: "Salón actualizado correctamente"});
+        res.send({
+            estado: true,
+            mensaje: "Salón actualizado correctamente"
+        });
     } catch (err) {
         next(err);
     }
-};
+}
+
+export async function crearSalon(req, res, next) {
+    if (!req.body || !req.body.titulo || !req.body.direccion) {
+        return res.status(400).send({
+            estado: false,
+            mensaje: "Faltan datos requeridos para crear el salón (mínimo título y dirección)"
+        });
+    }
+
+    try {
+        const nuevoSalon = {
+            titulo: req.body.titulo,
+            direccion: req.body.direccion,
+            latitud: req.body.latitud || null,
+            longitud: req.body.longitud || null,
+            capacidad: req.body.capacidad || null,
+            importe: req.body.importe || null,
+            activo: 1
+        };
+
+        const salonCreado = await salonesBD.crearSalon(nuevoSalon);
+
+        res.status(201).send({
+            estado: true,
+            mensaje: "Salón creado correctamente",
+            data: salonCreado
+        });
+    } catch (err) {
+        next(err);
+    }
+}

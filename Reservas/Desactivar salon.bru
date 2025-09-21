@@ -1,0 +1,15 @@
+meta {
+  name: Desactivar salon
+  type: http
+  seq: 3
+}
+
+delete {
+  url: http://localhost:3000/salones/6
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

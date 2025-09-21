@@ -3,9 +3,11 @@ import expressHandlebars from 'express-handlebars';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { inicializarAdmin } from './src/utils/inicializarAdmin.js'; 
 
 // import { getTodosLosSalones } from './database/conexion.js';
 import salonesRouter from './src/routes/salonesRouter.js';
+import usuariosRouter from './src/routes/usuariosRouter.js';
 
 dotenv.config();
 
@@ -14,6 +16,8 @@ const app = express();
 app.use(express.json(
   {type: 'application/json'}
 ));
+
+app.use(express.urlencoded({ extended: true })); // ✅ Parsear formularios
 
 const port = process.env.PORT;
 
@@ -51,6 +55,7 @@ app.use(express.static(__dirname + '/public'));
 //   res.render('contacto', { title: 'Contacto' });
 // });
 
+app.use('/usuarios', usuariosRouter)
 app.use('/salones', salonesRouter);
 
 // Página personalizada de error 404
@@ -65,6 +70,13 @@ app.use('/salones', salonesRouter);
 //   res.status(500);
 //   res.render('500');
 // });
+
+// CREACION DE ADMIN INICIAL
+inicializarAdmin().then(() => {
+  console.log("Chequeo de admin completo");
+}).catch(err => {
+  console.error("Error al chequear admin:", err);
+});
 
 app.listen(port, () =>
   console.log(`Express iniciado en http://localhost:${port}`)
