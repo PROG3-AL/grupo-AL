@@ -1,127 +1,203 @@
 {
-  "name": "TUDW-PROG3-GRUPOAL",
-  "version": "1",
-  "items": [
+  "info": {
+    "name": "TUDW-PROG3-GRUPOAL",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
     {
-      "type": "http",
-      "name": "salones/:id",
-      "filename": "salones--id.bru",
-      "seq": 2,
-      "settings": {
-        "encodeUrl": true
-      },
-      "tags": [],
+      "name": "salones/:id-PATCH",
+      "event": [],
       "request": {
-        "url": "{{apiUrl}}/salones/api/by-id",
-        "method": "POST",
-        "headers": [
+        "method": "PATCH",
+        "header": [
           {
-            "name": "Content-Type",
+            "key": "Content-Type",
             "value": "application/json",
-            "enabled": true
+            "disabled": false,
+            "type": "default"
           }
         ],
-        "params": [],
-        "body": {
-          "mode": "json",
-          "json": "{\"id\": 1}",
-          "formUrlEncoded": [],
-          "multipartForm": [],
-          "file": []
-        },
-        "script": {},
-        "vars": {},
-        "assertions": [],
-        "tests": "",
-        "docs": "",
         "auth": {
-          "mode": "inherit"
+          "type": "noauth"
+        },
+        "description": "",
+        "url": {
+          "raw": "{{apiUrl}}/salones/1",
+          "protocol": "",
+          "host": [
+            "{{apiUrl}}"
+          ],
+          "path": [
+            "salones",
+            "1"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"capacidad\": 120\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
         }
       }
     },
     {
-      "type": "http",
-      "name": "salones",
-      "filename": "salones.bru",
-      "seq": 1,
-      "settings": {
-        "encodeUrl": true
-      },
-      "tags": [],
+      "name": "salones/:id-PUT",
+      "event": [],
       "request": {
-        "url": "http://localhost:3000/salones",
-        "method": "GET",
-        "headers": [],
-        "params": [],
-        "body": {
-          "mode": "none",
-          "formUrlEncoded": [],
-          "multipartForm": [],
-          "file": []
-        },
-        "script": {},
-        "vars": {},
-        "assertions": [],
-        "tests": "",
-        "docs": "",
-        "auth": {
-          "mode": "inherit"
-        }
-      }
-    },
-    {
-      "type": "http",
-      "name": "Actualizar Salones",
-      "filename": "Actualizar Salones.bru",
-      "seq": 3,
-      "settings": {
-        "encodeUrl": true
-      },
-      "tags": [],
-      "request": {
-        "url": "f",
         "method": "PUT",
-        "headers": [],
-        "params": [],
-        "body": {
-          "mode": "none",
-          "formUrlEncoded": [],
-          "multipartForm": [],
-          "file": []
-        },
-        "script": {},
-        "vars": {},
-        "assertions": [],
-        "tests": "",
-        "docs": "",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false,
+            "type": "default"
+          }
+        ],
         "auth": {
-          "mode": "inherit"
+          "type": "noauth"
+        },
+        "description": "",
+        "url": {
+          "raw": "{{apiUrl}}/salones/2",
+          "protocol": "",
+          "host": [
+            "{{apiUrl}}"
+          ],
+          "path": [
+            "salones",
+            "2"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"titulo\": \"Secundario\",\n  \"direccion\": \"San Lorenzo 1000\",\n  \"latitud\": null,\n  \"longitud\": null,\n  \"capacidad\": 70,\n  \"importe\": 8000,\n  \"activo\": 1\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "salones/:id",
+      "event": [],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false,
+            "type": "default"
+          }
+        ],
+        "auth": {
+          "type": "noauth"
+        },
+        "description": "",
+        "url": {
+          "raw": "{{apiUrl}}/salones/api/by-id",
+          "protocol": "",
+          "host": [
+            "{{apiUrl}}"
+          ],
+          "path": [
+            "salones",
+            "api",
+            "by-id"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"id\": 2}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "salones",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "auth": {
+          "type": "noauth"
+        },
+        "description": "",
+        "url": {
+          "raw": "{{apiUrl}}/salones",
+          "protocol": "",
+          "host": [
+            "{{apiUrl}}"
+          ],
+          "path": [
+            "salones"
+          ],
+          "query": [],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "salones/:id - DELETE",
+      "event": [],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "auth": {
+          "type": "noauth"
+        },
+        "description": "",
+        "url": {
+          "raw": "{{ApiUrl}}/salones/:id",
+          "protocol": "",
+          "host": [
+            "{{ApiUrl}}"
+          ],
+          "path": [
+            "salones",
+            ":id"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "key": "id",
+              "value": ""
+            }
+          ]
         }
       }
     }
   ],
-  "activeEnvironmentUid": "QqxsTjjQ5XQxBgmAimwe7",
-  "environments": [
+  "variable": [
     {
-      "variables": [
-        {
-          "name": "apiUrl",
-          "value": "http://localhost:3000",
-          "enabled": true,
-          "secret": false,
-          "type": "text"
-        }
-      ],
-      "name": "apiUrl"
+      "key": "apiUrl",
+      "value": "",
+      "type": "default"
+    },
+    {
+      "key": "ApiUrl",
+      "value": "",
+      "type": "default"
+    },
+    {
+      "key": "apiurl",
+      "value": "",
+      "type": "default"
     }
-  ],
-  "brunoConfig": {
-    "version": "1",
-    "name": "TUDW-PROG3-GRUPOAL",
-    "type": "collection",
-    "ignore": [
-      "node_modules",
-      ".git"
-    ]
-  }
+  ]
 }
