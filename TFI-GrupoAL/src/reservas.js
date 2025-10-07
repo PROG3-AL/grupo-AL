@@ -3,11 +3,6 @@ import expressHandlebars from 'express-handlebars';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-// import { inicializarAdmin } from './utils/inicializarAdmin.js'; 
-
-// import { getTodosLosSalones } from './database/conexion.js';
-// import salonesRouter from './routes/salonesRouter.js';
-// import usuariosRouter from './routes/usuariosRouter.js';
 
 import { router as v1SalonesRutas } from './v1/routes/salonesRouter.js';
 
@@ -19,7 +14,7 @@ app.use(express.json(
   {type: 'application/json'}
 ));
 
-app.use(express.urlencoded({ extended: true })); // ✅ Parsear formularios
+app.use(express.urlencoded({ extended: true })); //  Parsear formularios
 
 const port = process.env.PORT;
 
@@ -46,56 +41,10 @@ app.set('views', __dirname + '/src/views/pages'); // le digo a Express donde est
 // Servir recursos estáticos
 app.use(express.static(__dirname + '/public'));
 
-// Rutas
-// app.get('/', (req, res) => res.render('inicio', { title: 'Inicio' }));
-
-// app.get('/institucional', (req, res) =>
-//   res.render('institucional', { title: 'Institucional' })
-// );
-
-// app.get('/contacto', (req, res) => {
-//   res.render('contacto', { title: 'Contacto' });
-// });
-
-// app.use('/usuarios', usuariosRouter)
 app.use('/api/v1/salones', v1SalonesRutas);
 
-// Página personalizada de error 404
-// app.use((req, res) => {
-//   res.status(404);
-//   res.render('404');
-// });
-
-// Página personalizada de error 500
-// app.use((err, req, res, next) => {
-//   console.error(err.message);
-//   res.status(500);
-//   res.render('500');
-// });
-
-// CREACION DE ADMIN INICIAL
-// inicializarAdmin().then(() => {
-//   console.log("Chequeo de admin completo");
-// }).catch(err => {
-//   console.error("Error al chequear admin:", err);
-// });
 
 app.listen(port, () =>
   console.log(`Express iniciado en http://localhost:${port}`)
 );
 
-// // /* // =======================
-// // // EJECUCION MANUAL DE getTodosLosSalones
-// // // =======================
-
-// async function testDatabase() {
-//   try {
-//     const salones = await getTodosLosSalones();
-//     console.log('✅ Conexión a MySQL exitosa');
-//     console.log('📊 Salones encontrados:', salones.length);
-//   } catch (error) {
-//     console.error('❌ Error de MySQL:', error.message);
-//   }
-// }
-
-// testDatabase();  // Descomentar para probar
