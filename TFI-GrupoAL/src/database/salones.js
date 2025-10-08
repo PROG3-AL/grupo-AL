@@ -4,8 +4,8 @@ export default class Salones {
 
     //Buscar todos los salones
     buscarSalones = async () => {
-        const [resultados] = await conexion.execute('SELECT * FROM salones');
-        return resultados;
+        const [resultado] = await conexion.execute('SELECT * FROM salones');
+        return resultado;
     };
 
     //Buscar salones por id
@@ -24,9 +24,9 @@ export default class Salones {
     //Desactivar salon 
     desactivarSalon = async (salonId) => {
         try {
-            const [result] = await conexion.execute(
+            const [resultado] = await conexion.execute(
                 'UPDATE salones SET activo = 0 WHERE salon_id = ?', [salonId]);
-            return result;
+            return resultado;
         } catch (err) {
             throw new Error(err);
         }
@@ -35,9 +35,9 @@ export default class Salones {
     //Activar salon
     activarSalon = async (salonId) => {
         try {
-            const [result] = await conexion.execute(
+            const [resultado] = await conexion.execute(
                 'UPDATE salones SET activo = 1 WHERE salon_id = ?', [salonId]);
-            return result;
+            return resultado;
         } catch (err) {
             throw new Error(err);
         }

@@ -4,6 +4,37 @@
   "items": [
     {
       "type": "http",
+      "name": "Crear salon",
+      "filename": "Crear salon.bru",
+      "seq": 6,
+      "settings": {
+        "encodeUrl": true
+      },
+      "tags": [],
+      "request": {
+        "url": "{{apiUrl}}/",
+        "method": "POST",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n    \"titulo\": \"Salón Diversión\",\n    \"direccion\": \"Av. Chañar 205\",\n    \"latitud\": \"-38.12345600\",\n    \"longitud\": \"-57.65432100\",\n    \"capacidad\": 400,\n    \"importe\": \"500000.00\",\n    \"activo\": 1\n}",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    },
+    {
+      "type": "http",
       "name": "salones/:id - DELETE",
       "filename": "salones--id - DELETE.bru",
       "seq": 5,
@@ -12,17 +43,10 @@
       },
       "tags": [],
       "request": {
-        "url": "{{ApiUrl}}/salones/:id",
+        "url": "{{apiUrl}}/9",
         "method": "DELETE",
         "headers": [],
-        "params": [
-          {
-            "name": "id",
-            "value": "",
-            "type": "path",
-            "enabled": true
-          }
-        ],
+        "params": [],
         "body": {
           "mode": "none",
           "formUrlEncoded": [],
@@ -49,7 +73,7 @@
       },
       "tags": [],
       "request": {
-        "url": "{{apiUrl}}/salones/1",
+        "url": "{{apiUrl}}/9/activar",
         "method": "PATCH",
         "headers": [
           {
@@ -86,7 +110,7 @@
       },
       "tags": [],
       "request": {
-        "url": "{{apiUrl}}/salones/2",
+        "url": "{{apiUrl}}/2",
         "method": "PUT",
         "headers": [
           {
@@ -123,7 +147,7 @@
       },
       "tags": [],
       "request": {
-        "url": "{{apiUrl}}/salones/api/by-id",
+        "url": "{{apiUrl}}/api/by-id",
         "method": "POST",
         "headers": [
           {
@@ -160,7 +184,7 @@
       },
       "tags": [],
       "request": {
-        "url": "{{apiUrl}}/salones",
+        "url": "{{apiUrl}}/",
         "method": "GET",
         "headers": [],
         "params": [],
@@ -179,40 +203,9 @@
           "mode": "none"
         }
       }
-    },
-    {
-      "type": "http",
-      "name": "Crear salon",
-      "filename": "Crear salon.bru",
-      "seq": 6,
-      "settings": {
-        "encodeUrl": true
-      },
-      "tags": [],
-      "request": {
-        "url": "{{apiUrl}}/",
-        "method": "POST",
-        "headers": [],
-        "params": [],
-        "body": {
-          "mode": "json",
-          "json": "{\n    \"titulo\": \"Salón Diversión\",\n    \"direccion\": \"Av. Chañar 205\",\n    \"latitud\": \"-38.12345600\",\n    \"longitud\": \"-57.65432100\",\n    \"capacidad\": 400,\n    \"importe\": \"500000.00\",\n    \"activo\": 1\n}",
-          "formUrlEncoded": [],
-          "multipartForm": [],
-          "file": []
-        },
-        "script": {},
-        "vars": {},
-        "assertions": [],
-        "tests": "",
-        "docs": "",
-        "auth": {
-          "mode": "inherit"
-        }
-      }
     }
   ],
-  "activeEnvironmentUid": "dppYcalyiAUTGpPKzn87V",
+  "activeEnvironmentUid": "SPcYz1eY0x1R9NqUFfQOA",
   "environments": [
     {
       "variables": [
@@ -239,21 +232,21 @@
             "value": "",
             "enabled": true,
             "local": false,
-            "uid": "SdrHC0alVCW04RS7uJZAT"
+            "uid": "46rslIbnvh6DAh2FcztRf"
           },
           {
             "name": "ApiUrl",
             "value": "",
             "enabled": true,
             "local": false,
-            "uid": "9BGkzbvr23zrQSfcRPS5y"
+            "uid": "L7CDbU0ac9HI9OlzCc57s"
           },
           {
             "name": "apiurl",
             "value": "",
             "enabled": true,
             "local": false,
-            "uid": "XKb413pirXUEHXFkstsc0"
+            "uid": "HoK7NzcZOlYaFk2FhMOsU"
           }
         ]
       }
@@ -269,6 +262,8 @@
     "ignore": [
       "node_modules",
       ".git"
-    ]
+    ],
+    "size": 0.00159454345703125,
+    "filesCount": 8
   }
 }
