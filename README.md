@@ -3,7 +3,7 @@
 Este repositorio ha sido creado para centralizar y organizar el material del trabajo práctico de **Programación 3** de la **Tecnicatura en Desarrollo Web**.  
 - TP 1: se implementarán diversos métodos de **arrays** en JavaScript y se encuentra en la carpeta TP-1. 
 - TP 2: FETCH API y FileSystem, localizado en la carpeta TP-2 / API - Fetch
-
+- TFI-GrupoAL: trabajo integrador.
 ---
 
 ## 📚 Detalles de la Materia
