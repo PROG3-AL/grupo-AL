@@ -9,7 +9,6 @@ router.get('/', salonesControlador.listarSalones);
 
 //Buscar salon por id
 router.get('/:id', salonesControlador.listarSalonPorId); //para buscar en el navegador
-router.post('/api/by-id', salonesControlador.listarSalonPorIdBody); //para ingresarlo en el body de Brunito ;)
 
 //Crear salon
 router.post('/', salonesControlador.crearSalon);

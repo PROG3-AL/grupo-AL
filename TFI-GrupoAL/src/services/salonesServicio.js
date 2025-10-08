@@ -6,7 +6,7 @@ export default class SalonesServicio {
     };
 
     buscarSalones = () => {
-        return this.salones.buscarSalones(); //No hace falta usar el await si ya lo usamos en salones.js
+        return this.salones.buscarSalones();
     };
 
     buscarPorId = (id) => {

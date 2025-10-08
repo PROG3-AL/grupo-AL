@@ -58,33 +58,6 @@ export default class SalonesControlador {
         }
     };
 
-    //Funcion para mostrar solo los salones con un id especifico usando el body de Brunito :D
-    listarSalonPorIdBody = async (req, res, next) => {
-
-        if (!req.body) {
-            res.status(400).send({'Estado': false, "mensaje": "Faltan los datos requeridos"})
-        };
-
-        try {
-            const {id} = req.body;
-            const salon = await this.salonesServicio.buscarPorId(id);
-            // res.send(salon);
-            res.json({
-                estado: true,
-                datos: salon
-            });
-        } catch (err) {
-
-            console.log("Error al obtener el salon por id", err);
-            res.status(500).json({
-                estado: false,
-                mensaje: "Error interno del servidor"
-            });
-
-            next();
-        }
-    };
-
     //Funcion para desactivar el salon o "eliminarlo"
     desactivarSalon = async (req, res, next) => {
 
