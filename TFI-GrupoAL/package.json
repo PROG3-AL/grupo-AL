@@ -1,0 +1,19 @@
+{
+  "name": "tfi-grupoal_v1",
+  "version": "1.0.0",
+  "description": "trabajo final integrador ",
+  "main": "src/reservas.js",
+  "type": "module",
+  "scripts": {
+    "start": "node --watch src/reservas.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "express-handlebars": "^8.0.3",
+    "mysql2": "^3.15.1"
+  }
+}
