@@ -1,12 +1,9 @@
 import express from 'express';
-import expressHandlebars from 'express-handlebars';
-import dotenv from 'dotenv';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
-
 import { router as v1SalonesRutas } from './v1/routes/salonesRouter.js';
-
-dotenv.config();
+/* import expressHandlebars from 'express-handlebars';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path'; */
+//
 
 const app = express();
 
@@ -14,9 +11,14 @@ app.use(express.json(
   {type: 'application/json'}
 ));
 
-app.use(express.urlencoded({ extended: true })); //  Parsear formularios
 
-const port = process.env.PORT;
+app.use('/api/v1/salones', v1SalonesRutas);
+
+export default app;
+
+
+/* app.use(express.urlencoded({ extended: true })); //  Parsear formularios
+
 
 // Simular __dirname en ES Modules
 const __filename = fileURLToPath(import.meta.url);
@@ -40,11 +42,5 @@ app.set('views', __dirname + '/src/views/pages'); // le digo a Express donde est
 
 // Servir recursos estáticos
 app.use(express.static(__dirname + '/public'));
-
-app.use('/api/v1/salones', v1SalonesRutas);
-
-
-app.listen(port, () =>
-  console.log(`Express iniciado en http://localhost:${port}`)
-);
+ */
 

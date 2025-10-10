@@ -43,7 +43,7 @@
       },
       "tags": [],
       "request": {
-        "url": "{{apiUrl}}/9",
+        "url": "{{apiUrl}}/7",
         "method": "DELETE",
         "headers": [],
         "params": [],
@@ -73,7 +73,7 @@
       },
       "tags": [],
       "request": {
-        "url": "{{apiUrl}}/9/activar",
+        "url": "{{apiUrl}}/8/activar",
         "method": "PATCH",
         "headers": [
           {
@@ -85,7 +85,7 @@
         "params": [],
         "body": {
           "mode": "json",
-          "json": "{\n  \"capacidad\": 120\n}",
+          "json": "",
           "formUrlEncoded": [],
           "multipartForm": [],
           "file": []
@@ -110,7 +110,7 @@
       },
       "tags": [],
       "request": {
-        "url": "{{apiUrl}}/2",
+        "url": "{{apiUrl}}/10",
         "method": "PUT",
         "headers": [
           {
@@ -123,43 +123,6 @@
         "body": {
           "mode": "json",
           "json": "{\n  \"titulo\": \"Secundario\",\n  \"direccion\": \"San Lorenzo 1000\",\n  \"latitud\": null,\n  \"longitud\": null,\n  \"capacidad\": 70,\n  \"importe\": 8000,\n  \"activo\": 1\n}",
-          "formUrlEncoded": [],
-          "multipartForm": [],
-          "file": []
-        },
-        "script": {},
-        "vars": {},
-        "assertions": [],
-        "tests": "",
-        "docs": "",
-        "auth": {
-          "mode": "none"
-        }
-      }
-    },
-    {
-      "type": "http",
-      "name": "salones/:id",
-      "filename": "salones--id.bru",
-      "seq": 3,
-      "settings": {
-        "encodeUrl": true
-      },
-      "tags": [],
-      "request": {
-        "url": "{{apiUrl}}/api/by-id",
-        "method": "POST",
-        "headers": [
-          {
-            "name": "Content-Type",
-            "value": "application/json",
-            "enabled": true
-          }
-        ],
-        "params": [],
-        "body": {
-          "mode": "json",
-          "json": "{\"id\": 2}",
           "formUrlEncoded": [],
           "multipartForm": [],
           "file": []
@@ -205,7 +168,7 @@
       }
     }
   ],
-  "activeEnvironmentUid": "SPcYz1eY0x1R9NqUFfQOA",
+  "activeEnvironmentUid": "hje6INwfpYsd0bQQVZ9Wd",
   "environments": [
     {
       "variables": [
@@ -232,21 +195,21 @@
             "value": "",
             "enabled": true,
             "local": false,
-            "uid": "46rslIbnvh6DAh2FcztRf"
+            "uid": "QrpVytSkhfhuM8A46MCdq"
           },
           {
             "name": "ApiUrl",
             "value": "",
             "enabled": true,
             "local": false,
-            "uid": "L7CDbU0ac9HI9OlzCc57s"
+            "uid": "BhaWRqDtXjdGBcFTbqHPX"
           },
           {
             "name": "apiurl",
             "value": "",
             "enabled": true,
             "local": false,
-            "uid": "HoK7NzcZOlYaFk2FhMOsU"
+            "uid": "aoroTKXYzLgmQI580u1wU"
           }
         ]
       }
