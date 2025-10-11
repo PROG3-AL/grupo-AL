@@ -2,10 +2,10 @@
   "name": "tfi-grupoal_v1",
   "version": "1.0.0",
   "description": "trabajo final integrador ",
-  "main": "src/reservas.js",
+  "main": "src/servidor.js",
   "type": "module",
   "scripts": {
-    "start": "node --watch src/reservas.js",
+    "start": "node --watch src/servidor.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

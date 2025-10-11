@@ -82,6 +82,14 @@ export default class SalonesControlador {
                 });
             }
 
+            // Verificar si ya está desactivado
+            if (salonExistente.activo === 0) {
+                return res.status(400).send({
+                    estado: false,
+                    mensaje: "El salón ya se encuentra desactivado"
+                });
+            }
+
             // Ejecución
             await this.salonesServicio.desactivarSalon(id);
             
