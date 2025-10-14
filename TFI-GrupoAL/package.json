@@ -2,7 +2,7 @@
   "name": "tfi-grupoal_v1",
   "version": "1.0.0",
   "description": "trabajo final integrador ",
-  "main": "src/servidor.js",
+  "main": "src/reservas.js",
   "type": "module",
   "scripts": {
     "start": "node --watch src/servidor.js",

@@ -8,7 +8,7 @@ const router = Router();
 router.get('/', salonesControlador.listarSalones);
 
 //Buscar salon por id
-router.get('/:id', salonesControlador.listarSalonPorId); //para buscar en el navegador
+router.get('/:id', salonesControlador.listarSalonPorId);
 
 //Crear salon
 router.post('/', salonesControlador.crearSalon);
@@ -20,6 +20,6 @@ router.delete('/:id', salonesControlador.desactivarSalon);
 router.patch('/:id/activar', salonesControlador.activarSalon); 
 
 //Actualizar salon
-router.put('/:id', salonesControlador.actualizarSalon); //para ingresarlo en el body de Brunito ;)
+router.put('/:id', salonesControlador.actualizarSalon);
 
 export { router };
