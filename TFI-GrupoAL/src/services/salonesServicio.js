@@ -21,8 +21,14 @@ export default class SalonesServicio {
         return this.salones.activarSalon(id); 
     };
 
-    actualizarSalon = (id, datos) => {
-        return this.salones.actualizarSalon(id, datos); 
+    actualizarSalon = async (id, datos) => {
+        const existe = await this.salones.buscarPorId(id);
+
+        if (!existe) {
+            return null;
+        }
+        
+        return await this.salones.actualizarSalon(id, datos);
     };
 
     crearSalon = (salon) => {
