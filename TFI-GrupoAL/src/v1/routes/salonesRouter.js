@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import SalonesControlador from '../../controllers/salonesControlador.js';
+import { validarCampos, validacionesSalon } from '../../middlewares/validarCampos.js';
 
 const salonesControlador = new SalonesControlador();
 const router = Router();
@@ -11,7 +12,13 @@ router.get('/', salonesControlador.listarSalones);
 router.get('/:id', salonesControlador.listarSalonPorId);
 
 //Crear salon
-router.post('/', salonesControlador.crearSalon);
+router.post('/', [
+  validacionesSalon.titulo,
+  validacionesSalon.direccion,
+  validacionesSalon.capacidad,
+  validacionesSalon.importe,
+  validarCampos
+], salonesControlador.crearSalon);
 
 //Eliminar salon cambiando a inactivo
 router.delete('/:id', salonesControlador.desactivarSalon);  
