@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmación de Reserva</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #0088CC 0%, #0066AA 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        h2 {
+            color: #0088CC;
+            padding: 20px 30px 10px;
+            margin: 0;
+            font-size: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 10px 30px 30px;
+            margin: 0;
+        }
+        ul li {
+            padding: 12px;
+            margin: 8px 0;
+            background-color: #f8fbff;
+            border-left: 4px solid #0088CC;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        ul li strong {
+            color: #0088CC;
+        }
+        footer {
+            background-color: #f8f9fa;
+            color: #666;
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+            border-top: 1px solid #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Se ha creado una nueva reserva 🎉</h1>
+        </header>
+        <h2>Detalles de la reserva:</h2>
+        <ul>
+            <li><strong>Fecha de reserva:</strong> {{ fecha }}</li>
+            <li><strong>Salón:</strong> {{ salon }}</li>
+            <li><strong>Turno:</strong> {{ turno }}</li>
+
+        </ul>
+        <footer>
+            &copy; Sistema de Gestión de Reservas - PROG 3 | TIF - GRUPO AL. 
+            Este es un correo automático, por favor no respondas a este mensaje.
+        </footer>
+    </div>
+</body>
+</html>

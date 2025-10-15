@@ -1,0 +1,19 @@
+meta {
+  name: salones/:id-PATCH
+  type: http
+  seq: 1
+}
+
+patch {
+  url: {{apiUrl}}/8/activar
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+settings {
+  encodeUrl: true
+}
