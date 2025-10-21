@@ -65,7 +65,7 @@ export default class SalonesControlador {
     desactivarSalon = async (req, res, next) => {
 
         if (!req.params.id) {
-            return res.status(400).send({
+            return res.status(400).json({
                 estado: false, 
                 mensaje: "Falta el ID del salón a desactivar"
             });
@@ -241,7 +241,7 @@ export default class SalonesControlador {
             });
 
             next();
-        }
+        };
     };
 
 };
