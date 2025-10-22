@@ -4,7 +4,7 @@ export default class Salones {
 
     //Buscar todos los salones
     buscarSalones = async () => {
-        const [resultado] = await conexion.execute('SELECT * FROM salones');
+        const [resultado] = await conexion.execute('SELECT * FROM salones WHERE activo= 1');
         return resultado;
     };
 
@@ -48,47 +48,55 @@ export default class Salones {
         const salonId = Number(id);
 
         try {
-            const { titulo, direccion, latitud, longitud, capacidad, importe } = datos;
+            if (!datos || Object.keys(datos).length === 0) {
+                return null;
+            }
+            const camposAActualizar = Object.keys(datos);
+            const valoresAActualizar = Object.values(datos);
+            const setValores = camposAActualizar.map(campo => `${campo} = ?`).join(', ');
 
-            // Actualizar el salón
-            await conexion.execute(
-                `UPDATE salones 
-                SET titulo = ?, direccion = ?, latitud = ?, longitud = ?, 
-                    capacidad = ?, importe = ?
-                WHERE salon_id = ?`,
-                [titulo, direccion, latitud, longitud, capacidad, importe, salonId]
-            );
+            const sql = `UPDATE salones SET ${setValores} WHERE salon_id = ?`;
 
-            // Reutilizar buscarPorId para obtener el salon modificado
+            const [resultado] = await conexion.execute(sql, [...valoresAActualizar, salonId]);
+
+            if (resultado.affectedRows === 0) {
+                return null;
+            }
+
             return await this.buscarPorId(salonId);
 
-        } catch (err) {
-            throw new Error(err);
+        } catch (error) {
+            throw new Error(`Error al actualizar el salón: ${error.message}`);
         }
     };
 
     //Crear salon
     crearSalon = async (salon) => {
-        const [resultado] = await conexion.query(
-            `INSERT INTO salones (
+        const sql = `
+            INSERT INTO salones (
                 titulo, 
                 direccion, 
                 latitud, 
                 longitud, 
                 capacidad, 
-                importe,
+                importe, 
                 activo
-            ) VALUES (?, ?, ?, ?, ?, ?, 1)`, 
-            [
-                salon.titulo,
-                salon.direccion, 
-                salon.latitud,
-                salon.longitud,
-                salon.capacidad,
-                salon.importe
-            ]
-        );
+            ) VALUES (?, ?, ?, ?, ?, ?, 1)
+        `;
 
-        return { id: resultado.insertId, ...salon, activo: 1 };
+        const [resultado] = await conexion.execute(sql, [
+            salon.titulo,
+            salon.direccion,
+            salon.latitud,
+            salon.longitud,
+            salon.capacidad,
+            salon.importe
+        ]);
+
+        if (resultado.affectedRows === 0) {
+            return null;
+        }
+
+        return this.buscarPorId(resultado.insertId);
     };
 };

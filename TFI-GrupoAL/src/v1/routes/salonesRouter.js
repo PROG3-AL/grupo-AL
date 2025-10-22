@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import SalonesControlador from '../../controllers/salonesControlador.js';
+import { validarCampos, validacionesSalon } from '../../middlewares/validarCampos.js';
 
 const salonesControlador = new SalonesControlador();
 const router = Router();
@@ -8,10 +9,16 @@ const router = Router();
 router.get('/', salonesControlador.listarSalones);
 
 //Buscar salon por id
-router.get('/:id', salonesControlador.listarSalonPorId); //para buscar en el navegador
+router.get('/:id', salonesControlador.listarSalonPorId);
 
 //Crear salon
-router.post('/', salonesControlador.crearSalon);
+router.post('/', [
+  validacionesSalon.titulo,
+  validacionesSalon.direccion,
+  validacionesSalon.capacidad,
+  validacionesSalon.importe,
+  validarCampos
+], salonesControlador.crearSalon);
 
 //Eliminar salon cambiando a inactivo
 router.delete('/:id', salonesControlador.desactivarSalon);  
@@ -20,6 +27,6 @@ router.delete('/:id', salonesControlador.desactivarSalon);
 router.patch('/:id/activar', salonesControlador.activarSalon); 
 
 //Actualizar salon
-router.put('/:id', salonesControlador.actualizarSalon); //para ingresarlo en el body de Brunito ;)
+router.put('/:id', salonesControlador.actualizarSalon);
 
 export { router };

@@ -19,7 +19,7 @@ export default class SalonesControlador {
 
         } catch (err) {
 
-            console.log("Error al obtener todos los salones", err);
+            console.log('Error en GET /salones', err);
             res.status(500).json({
                 estado: false,
                 mensaje: "Error interno del servidor"
@@ -34,21 +34,24 @@ export default class SalonesControlador {
     //Funcion para mostrar solo los salones con un id especifico
     listarSalonPorId = async (req, res, next) => {
     
-        if (!req.params) {
-            res.status(400).send({'Estado': false, "mensaje": "Faltan los parametros requeridos"})
-        };
+        if (!req.params.id) {
+            return res.status(400).json({
+                estado: false,
+                mensaje: "Falta el ID del salón"
+            });
+        }
 
         try{
             const {id} = req.params;
             const salon = await this.salonesServicio.buscarPorId(id);
-            // res.send(salon);
+        
             res.json({
                 estado: true,
                 datos: salon
             });
         } catch (err) {
 
-            console.log("Error al obtener el salon por id", err);
+            console.log("Error en GET /salones/salon_id", err);
             res.status(500).json({
                 estado: false,
                 mensaje: "Error interno del servidor"
@@ -62,7 +65,7 @@ export default class SalonesControlador {
     desactivarSalon = async (req, res, next) => {
 
         if (!req.params.id) {
-            return res.status(400).send({
+            return res.status(400).json({
                 estado: false, 
                 mensaje: "Falta el ID del salón a desactivar"
             });
@@ -79,6 +82,14 @@ export default class SalonesControlador {
                 return res.status(404).send({
                     estado: false,
                     mensaje: "Salón no encontrado o ya está desactivado"
+                });
+            }
+
+            // Verificar si ya está desactivado
+            if (salonExistente.activo === 0) {
+                return res.status(400).send({
+                    estado: false,
+                    mensaje: "El salón ya se encuentra desactivado"
                 });
             }
 
@@ -103,7 +114,6 @@ export default class SalonesControlador {
         };
     };
 
-    //Funcion para "habilitar" el salon -checkear pero es necesario??-
     activarSalon = async (req, res, next) => {
 
         if (!req.params.id) {
@@ -184,7 +194,7 @@ export default class SalonesControlador {
             });
 
         } catch (err) {
-            console.log("Error al actualizar el salón", err);
+            console.log('Error en PUT /salones/:salon_id', err);
             res.status(500).json({
                 estado: false,
                 mensaje: "Error interno del servidor"
@@ -223,7 +233,7 @@ export default class SalonesControlador {
 
         } catch (err) {
 
-            console.log("Error al crear el salon", err);
+            console.log('Error en POST /salones/', err);
 
             res.status(500).json({
                 estado: false,
@@ -231,7 +241,7 @@ export default class SalonesControlador {
             });
 
             next();
-        }
+        };
     };
 
 };
