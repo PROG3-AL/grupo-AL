@@ -1,0 +1,5 @@
+::1 - - [28/Oct/2025:14:36:33 +0000] "GET /api/v1/servicios/8 HTTP/1.1" 200 184 "-" "bruno-runtime/2.13.2"
+::1 - - [28/Oct/2025:14:36:46 +0000] "GET /api/v1/servicios/8 HTTP/1.1" 200 184 "-" "bruno-runtime/2.13.2"
+::1 - - [28/Oct/2025:14:37:26 +0000] "GET /api/v1/servicios HTTP/1.1" 200 1114 "-" "bruno-runtime/2.13.2"
+::1 - - [28/Oct/2025:14:38:39 +0000] "GET /api/v1/SALONES/2 HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+::1 - - [28/Oct/2025:14:38:45 +0000] "GET / HTTP/1.1" 404 139 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
