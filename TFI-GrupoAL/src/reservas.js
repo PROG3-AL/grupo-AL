@@ -38,8 +38,8 @@ app.get('/estado', (req, res) => {
 })
 
 let log = fs.createWriteStream('./access.log', { flags: 'a' })
-// app.use(morgan('combined')) // muestra en consola, lo comento porque es molesto
-app.use(morgan('combined', { stream: log })) // esta es la salida del archivo
+app.use(morgan('dev')) // muestra en consola, lo comento porque es molesto
+app.use(morgan('combined', { stream: log })) // esta es la salida del archivo, con todos los datos
 
 app.use(express.urlencoded({ extended: true }))
 
