@@ -1,11 +1,15 @@
-// import { Router } from "express";
-// import { listarUsuarios, listarUsuarioPorId, crearUsuario } from "../../controllers/usuarios.js";
+import { Router } from "express";
+import UsuariosControlador from "../../controllers/usuariosControlador.js";
 
-// const router = Router();
+const usuariosControlador = new UsuariosControlador()
+const router = Router();
 
-// //Listar usuarios
-// router.get('/', listarUsuarios);
-// router.get('/:id', listarUsuarioPorId);
-// router.post('/', crearUsuario);
+//Listar usuarios
+router.get('/', usuariosControlador.listarUsuarios);
+router.get('/:id', usuariosControlador.listarUsuarioPorId);
+router.post('/',  usuariosControlador.crearUsuario);
+router.delete('/', usuariosControlador.desactivarUsuario)
+router.patch('/', usuariosControlador.activarUsuario)
+router.put('/', usuariosControlador.actualizarSalon)
 
-// export default router;
+export default router;

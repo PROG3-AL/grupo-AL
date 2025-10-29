@@ -1,0 +1,14 @@
+# Tareas a realizar (Demian)
+
+- [x] Agregar para parsear a JSON
+- [x] Actualizar credenciales en .env
+- [x] Delete soft de salones
+- [x] Activar salones 
+- [x] Crear salones
+- [x] process.loadEnvFile()
+- [x] Listar usuarios
+- [x] Buscar usuario por ID
+- [x] Buscar usuario por Email
+- [x] Crear usuarios
+- [x] Inicializar admin principal
+

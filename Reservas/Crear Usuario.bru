@@ -1,0 +1,35 @@
+meta {
+  name: Crear Usuario
+  type: http
+  seq: 7
+}
+
+post {
+  url: http://localhost:3000/usuarios/
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "nombre": "laburante1",
+    "apellido": "de prueba",
+    "nombre_usuario": "laburanteprueba@gmail.com",
+    "contrasenia": 123456,
+    "tipo_usuario": 2
+  }
+  
+}
+
+tests {
+  
+  
+}
+
+settings {
+  encodeUrl: true
+}
