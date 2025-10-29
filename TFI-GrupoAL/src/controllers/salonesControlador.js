@@ -44,6 +44,13 @@ export default class SalonesControlador {
         try{
             const {id} = req.params;
             const salon = await this.salonesServicio.buscarPorId(id);
+
+        if (!salon) {
+            return res.status(404).json({
+                estado: false,
+                mensaje: "Salóm no encontrado o inactivo"
+            });
+        }
         
             res.json({
                 estado: true,
@@ -65,7 +72,7 @@ export default class SalonesControlador {
     desactivarSalon = async (req, res, next) => {
 
         if (!req.params.id) {
-            return res.status(400).send({
+            return res.status(400).json({
                 estado: false, 
                 mensaje: "Falta el ID del salón a desactivar"
             });
@@ -241,7 +248,7 @@ export default class SalonesControlador {
             });
 
             next();
-        }
+        };
     };
 
 };

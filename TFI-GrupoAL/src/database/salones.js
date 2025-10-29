@@ -13,7 +13,7 @@ export default class Salones {
         const salonId = Number(id);
 
         try {
-            const [resultado] = await conexion.execute('SELECT * FROM salones WHERE salon_id = ?', [salonId]);
+            const [resultado] = await conexion.execute('SELECT * FROM salones WHERE salon_id = ? AND activo = 1', [salonId]);
             return resultado[0] ?? null;
 
         } catch (err) {
@@ -25,7 +25,7 @@ export default class Salones {
     desactivarSalon = async (salonId) => {
         try {
             const [resultado] = await conexion.execute(
-                'UPDATE salones SET activo = 0 WHERE salon_id = ?', [salonId]);
+                'UPDATE salones SET activo = 0, modificado = NOW() WHERE salon_id = ?', [salonId]);
             return resultado;
         } catch (err) {
             throw new Error(err);
@@ -36,7 +36,7 @@ export default class Salones {
     activarSalon = async (salonId) => {
         try {
             const [resultado] = await conexion.execute(
-                'UPDATE salones SET activo = 1 WHERE salon_id = ?', [salonId]);
+                'UPDATE salones SET activo = 1, modificado = NOW() WHERE salon_id = ?', [salonId]);
             return resultado;
         } catch (err) {
             throw new Error(err);
@@ -55,7 +55,7 @@ export default class Salones {
             const valoresAActualizar = Object.values(datos);
             const setValores = camposAActualizar.map(campo => `${campo} = ?`).join(', ');
 
-            const sql = `UPDATE salones SET ${setValores} WHERE salon_id = ?`;
+            const sql = `UPDATE salones SET ${setValores}, modificado = NOW() WHERE salon_id = ?`;
 
             const [resultado] = await conexion.execute(sql, [...valoresAActualizar, salonId]);
 
