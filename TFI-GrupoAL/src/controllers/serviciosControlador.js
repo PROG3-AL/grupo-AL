@@ -49,7 +49,7 @@ export default class ServiciosControlador {
             if (!servicio) {
                 return res.status(404).json({
                     estado: false,
-                    mensaje: `El servicio con ID ${id} no existe`
+                    mensaje: `El servicio con ID ${id} no existe o está inactivo.`
                 });
             };
 

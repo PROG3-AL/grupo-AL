@@ -13,7 +13,7 @@ export default class Salones {
         const salonId = Number(id);
 
         try {
-            const [resultado] = await conexion.execute('SELECT * FROM salones WHERE salon_id = ?', [salonId]);
+            const [resultado] = await conexion.execute('SELECT * FROM salones WHERE salon_id = ? AND activo = 1', [salonId]);
             return resultado[0] ?? null;
 
         } catch (err) {

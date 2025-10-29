@@ -44,6 +44,13 @@ export default class SalonesControlador {
         try{
             const {id} = req.params;
             const salon = await this.salonesServicio.buscarPorId(id);
+
+        if (!salon) {
+            return res.status(404).json({
+                estado: false,
+                mensaje: "Salóm no encontrado o inactivo"
+            });
+        }
         
             res.json({
                 estado: true,
