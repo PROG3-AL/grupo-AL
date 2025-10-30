@@ -1,4 +1,4 @@
-// import {conexion} from './conexion.js';
+import { conexion } from './conexion.js';
 
 export default class Usuarios {
 

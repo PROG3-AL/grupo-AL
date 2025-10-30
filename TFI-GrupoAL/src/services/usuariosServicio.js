@@ -1,4 +1,6 @@
 import Usuarios from '../database/usuarios.js';
+import { generarToken } from '../utils/JWT.js';
+//import bcrypt from 'bcrypt';
 
 export default class UsuariosServicios {
     constructor () {
@@ -25,7 +27,16 @@ export default class UsuariosServicios {
         return this.usuarios.activarUsuario(id);
     }
 
-    crearUsuario = (usuario) => {
+    crearUsuario = async (usuario) => {
+        // Generamos el hash antes de crear en usuario
+        //const salt = 10;
+        //const hash = await bcrypt.hash(usuario.contrasenia, salt);
+
+        //const nuevoUsuario = {
+        //    ...usuario,
+        //    contrasenia: hash
+        //};
+        
         return this.usuarios.crearUsuario(usuario);
     }
 
@@ -38,6 +49,16 @@ export default class UsuariosServicios {
 
         return await this.usuarios.actualizarUsuario(id, datos);
     }
+
+    login = async (nombre_usuario, contrasenia) => {
+        const usuario = await this.usuarios.buscarUsuarioPorEmail(nombre_usuario);
+        if (!usuario) return null; // usuario no existe
+
+        if (usuario.contrasenia !== contrasenia) return null; // contraseña incorrecta
+
+        const token = generarToken(usuario);
+        return { usuario, token };
+    };
 
 
 }

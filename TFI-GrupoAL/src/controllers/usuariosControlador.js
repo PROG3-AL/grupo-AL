@@ -1,4 +1,4 @@
-import UsuariosServicio from "../services/usuariosServicio"
+import UsuariosServicio from "../services/usuariosServicios.js"
 
 export default class UsuariosControlador {
 
@@ -42,7 +42,7 @@ export default class UsuariosControlador {
             
             res.json({
                 estado:true,
-                datos: salon
+                datos: usuario
             });
         } catch (err) {
             console.log("Error en GET /usuarios/usuario_id", err);
@@ -140,7 +140,7 @@ export default class UsuariosControlador {
     // -- Funcion para crear un usuario -- //   
     crearUsuario = async (req, res, next) => {
 
-        if (!req.body || !req.body.nombre || !req.body.apellido || !req.body.nombre_usuario || req.body.contrasenia) {
+        if (!req.body || !req.body.nombre || !req.body.apellido || !req.body.nombre_usuario || !req.body.contrasenia) {
             return res.status(400).send ({
                 estado: false,
                 mensaje: "Faltan datos requeridos para crear el usuario (npmbre, apellido, Emal, contraseñia)"
@@ -154,12 +154,12 @@ export default class UsuariosControlador {
                 nombre_usuario: req.body.nombre_usuario,
                 contrasenia: req.body.contrasenia,
                 tipo_usuario: req.body.tipo_usuario,
-                activo: activo ?? 1 // si no mandás activo, por defecto es 1
+                activo: req.body.activo ?? 1 // si no mandás activo, por defecto es 1
             };
 
-            const usuarioCreado = await this.UsuariosServicio.crearUsuario(nuevoUsuario);
+            const usuarioCreado = await this.usuariosServicio.crearUsuario(nuevoUsuario);
 
-            res.status(201),send({
+            res.status(201).send({
                 estado: true,
                 mensaje: "Usuario creado correctamente",
                 data: usuarioCreado
@@ -176,6 +176,37 @@ export default class UsuariosControlador {
             next();
         } 
     };
+
+    // -- Funcion para actualizar un usuario -- //
+    actualizarUsuario = async (req, res, next) => {
+        
+    };
+
+    // -- Funcion para hacer login con JWS -- //
+    login = async (req, res, next) => {
+        const { nombre_usuario, contrasenia } = req.body;
+
+        if (!nombre_usuario || !contrasenia) {
+            return res.status(400).json({ estado: false, mensaje: 'Faltan credenciales' });
+        }
+
+        try {
+            const result = await this.usuariosServicio.login(nombre_usuario, contrasenia);
+            if (!result) {
+                return res.status(401).json({ estado: false, mensaje: 'Credenciales inválidas' });
+            }
+
+            res.json({
+                estado: true,
+                mensaje: 'Login exitoso',
+                token: result.token,
+                usuario: result.usuario
+            });
+        } catch (err) {
+            next(err);
+        }
+    };
+
 };
 
 
