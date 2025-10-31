@@ -1,4 +1,4 @@
-import { body, validationResult } from "express-validator";
+import { body } from "express-validator";
 
 // validaciones para usuarios
 export const validacionesUsuario = {
@@ -26,6 +26,7 @@ export const validacionesUsuario = {
     .withMessage("La contraseña debe tener al menos 6 caracteres"),
 
   tipo_usuario: body("tipo_usuario")
+    .toInt()
     .isInt({ min: 1, max: 3 })
     .withMessage("El tipo de usuario debe ser 1 (administrador), 2 (empleado) o 3 (cliente)")
 };

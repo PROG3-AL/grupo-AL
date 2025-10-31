@@ -1,5 +1,6 @@
 import express from 'express';
 import { router as v1SalonesRutas } from './v1/routes/salonesRouter.js';
+import { router as v1UsuariosRutas } from './v1/routes/usuariosRouter.js'; //importamos rutas de usuarios
 import expressHandlebars from 'express-handlebars';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path'; 
@@ -79,5 +80,6 @@ app.post("/notificacion", async (req, res) => {
 app.use(express.urlencoded({ extended: true }))
 
 app.use('/api/v1/salones', v1SalonesRutas);
+app.use('/api/v1/usuarios', v1UsuariosRutas); //Rutas para usuarios
 
 export default app;

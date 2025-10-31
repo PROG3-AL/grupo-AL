@@ -3,15 +3,16 @@ import UsuariosControlador from "../../controllers/usuariosControlador.js";
 import { autenticar } from "../../middlewares/autenticacion.js";
 import { validacionesUsuario } from "../../middlewares/validarUsuarios.js";
 import { validarCampos } from "../../middlewares/validarCampos.js";
+import { autorizar, ROLES } from "../../middlewares/autorizar.js";
 
 
 const usuariosControlador = new UsuariosControlador()
 const router = Router();
 
 //Listar usuarios
-router.get('/', autenticar, usuariosControlador.listarUsuarios);
+router.get('/', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO), usuariosControlador.listarUsuarios);
 
-router.get('/:id', autenticar, usuariosControlador.listarUsuarioPorId);
+router.get('/:id', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO), usuariosControlador.listarUsuarioPorId);
 
 router.post('/', [
     validacionesUsuario.nombre, 
@@ -24,11 +25,11 @@ router.post('/', [
 
 router.post('/login', usuariosControlador.login);
 
-router.delete('/:id', autenticar, usuariosControlador.desactivarUsuario);
+router.delete('/:id', autenticar, autorizar(ROLES.ADMINISTRADOR), usuariosControlador.desactivarUsuario);
 
-router.patch('/:id', autenticar, usuariosControlador.activarUsuario);
+router.patch('/:id', autenticar, autorizar(ROLES.ADMINISTRADOR), usuariosControlador.activarUsuario);
 
-router.put('/:id', autenticar, usuariosControlador.actualizarUsuario);
+router.put('/:id', autenticar, autorizar(ROLES.ADMINISTRADOR), usuariosControlador.actualizarUsuario);
 
 
-export default router;
+export { router }

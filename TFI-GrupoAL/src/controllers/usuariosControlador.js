@@ -1,4 +1,4 @@
-import UsuariosServicio from "../services/usuariosServicios.js"
+import UsuariosServicio from "../services/usuariosServicio.js"
 
 export default class UsuariosControlador {
 
