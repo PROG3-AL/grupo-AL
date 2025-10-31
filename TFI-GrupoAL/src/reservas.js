@@ -10,6 +10,7 @@ import { readFile } from "fs/promises";
 import handlebars from "handlebars";
 import morgan from 'morgan';
 import fs from 'fs';
+import { router as v1TurnosRutas } from "./v1/routes/turnosRouter.js";
 
 const app = express();
 
@@ -47,5 +48,6 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/api/v1/salones', v1SalonesRutas);
 app.use('/api/v1/reservas', v1ReservasRutas);
 app.use('/api/v1/servicios', v1ServiciosRutas);
+app.use("/api/v1/turnos", v1TurnosRutas);
 
 export default app;

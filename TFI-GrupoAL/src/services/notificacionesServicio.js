@@ -36,7 +36,7 @@ export default class NotificacionesService {
         const mailOptions = {
             // correo de destino, por ahora hardcodeado
             // después -> to: datosCorreo.correoElectronico,
-            to: `maildelcliente@gmail.com`,
+            to: `ponercorreoparaprobar@gmail.com`,
             // con copia para el admin, por ahora hardcodeado
             // yo (mica) lo probé con dos mails diferentes, uno para to y otro cc. funcionó ok.
             cc: `maildeladmin@hotmail.com`,
@@ -65,4 +65,4 @@ export default class NotificacionesService {
             };
         }
     }
-}
+};
