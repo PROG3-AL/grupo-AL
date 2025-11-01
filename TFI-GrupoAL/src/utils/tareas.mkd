@@ -1,0 +1,21 @@
+# Tareas a realizar (Demian)
+
+- [x] Agregar para parsear a JSON
+- [x] Actualizar credenciales en .env
+- [x] Delete soft de salones
+- [x] Activar salones 
+- [x] Crear salones
+- [x] process.loadEnvFile()
+- [x] Listar usuarios
+- [x] Buscar usuario por ID
+- [x] Buscar usuario por Email
+- [x] Crear usuarios
+- [x] Inicializar admin principal
+
+- [x] Fix de conversión de usuarios a objeto (usuarios.js, usuariosServicios.js, usuariosControlador.js, usuariosRouter.js)
+- [x] Implementación de JWT para autenticación (middleware/autenticacion.js, utils/JWT.js)
+- [x] Creación de middleware de validación de campos para usuarios (middlewares/validarUsuarios.js)
+- [x] Corrección de manejo de rutas de usuarios (usuariosRouter.js)
+- [x] Implementación de autorización por roles (middlewares/autorizar.js) en usuarios
+- [x] Ajustes de router y export en reservas.js y usuariosRouter.js
+- [x] -Implementación de autenticacion y autorización por roles en reservas, salones, servicios, turnos
