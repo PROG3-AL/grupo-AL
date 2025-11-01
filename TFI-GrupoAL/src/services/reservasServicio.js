@@ -14,6 +14,10 @@ export default class ReservasServicio {
         return this.reserva.buscarReservas();
     };
 
+    obtenerServiciosExistentes = (reserva_id) => {
+        return this.reservas_servicios.obtenerServiciosExistentes(reserva_id);
+    }
+
     buscarPorId = (id) => {
         return this.reserva.buscarPorId(id); 
     };
@@ -48,7 +52,8 @@ export default class ReservasServicio {
             tematica,
             importe_salon,
             importe_total,
-            servicios } = reserva;
+            servicios
+        } = reserva;
 
         const nuevaReserva = {
             fecha_reserva,
@@ -58,8 +63,10 @@ export default class ReservasServicio {
             foto_cumpleaniero, 
             tematica,
             importe_salon,
-            importe_total
-        }    
+            importe_total,
+            servicios
+        };
+
        // creo la reserva sola, sin servicios
         const result = await this.reserva.crearReserva(nuevaReserva);
 
