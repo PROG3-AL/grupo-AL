@@ -18,3 +18,4 @@
 - [x] Corrección de manejo de rutas de usuarios (usuariosRouter.js)
 - [x] Implementación de autorización por roles (middlewares/autorizar.js) en usuarios
 - [x] Ajustes de router y export en reservas.js y usuariosRouter.js
+- [x] -Implementación de autenticacion y autorización por roles en reservas, salones, servicios, turnos

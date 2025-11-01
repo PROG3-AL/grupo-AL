@@ -179,7 +179,26 @@ export default class UsuariosControlador {
 
     // -- Funcion para actualizar un usuario -- //
     actualizarUsuario = async (req, res, next) => {
-        
+        try {
+            const { id } = req.params;
+            const datos = req.body;
+
+            // Llamamos al servicio
+            const usuarioActualizado = await this.usuariosServicios.actualizarUsuario(id, datos);
+
+            // Si no existe el usuario
+            if (!usuarioActualizado) {
+            return res.status(404).json({ mensaje: "Usuario no encontrado o sin cambios." });
+            }
+
+            return res.status(200).json({
+            mensaje: "Usuario actualizado correctamente.",
+            usuario: usuarioActualizado
+            });
+        } catch (error) {
+            console.error("Error al actualizar usuario:", error.message);
+            next(error); 
+        }
     };
 
     // -- Funcion para hacer login con JWS -- //
