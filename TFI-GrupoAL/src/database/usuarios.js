@@ -27,7 +27,7 @@ export default class Usuarios {
              return resultados[0] ?? null; // devuelve null si no encuentra nada
            } catch (err) {
             console.error("Error al buscar usuario por email:", err);
-            throw err; // relanza el error
+            throw err; 
            }   
     };
 
