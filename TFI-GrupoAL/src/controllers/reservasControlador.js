@@ -1,9 +1,11 @@
 import ReservasServicio from "../services/reservasServicio.js";
+import Servicios from "../services/serviciosServicio.js";
 
 export default class ServiciosControlador {
 
     constructor () {
         this.reservasServicio = new ReservasServicio();
+        this.servicios = new Servicios();
     };
 
     //Funcion para mostrar todas las reservas
@@ -12,6 +14,14 @@ export default class ServiciosControlador {
         try{
 
             const reservas = await this.reservasServicio.buscarReservas();
+
+            //agregado mio
+            if (!reservas || reservas.lenght === 0) {
+                return res.status(404).json({
+                    estado: false,
+                    mensaje: "No hay reservas :("
+                });
+            }
             res.json({
                 estado: true,
                 datos: reservas
@@ -42,8 +52,13 @@ export default class ServiciosControlador {
         }
 
         try{
+            //console.log("entré al try");
             const {id} = req.params;
             const reserva = await this.reservasServicio.buscarPorId(id);
+
+        // Agregado Andy
+        const servicios = await this.reservasServicio.obtenerServiciosExistentes(id);
+        console.log(servicios);
 
         if (!reserva) {
             return res.status(404).json({
@@ -54,7 +69,9 @@ export default class ServiciosControlador {
         
             res.json({
                 estado: true,
-                datos: reserva
+                datos: reserva,
+                //agregado de andy
+                servicios: servicios // && servicios.length > 0 ? servicios : null
             });
             
         } catch (err) {
@@ -229,16 +246,20 @@ export default class ServiciosControlador {
                 foto_cumpleaniero: req.body.foto_cumpleaniero || null,
                 tematica: req.body.tematica || null,
                 importe_salon: req.body.importe_salon || null,
-                importe_total: req.body.importe_total || null,  // aquí de alguna manera debería sumarse el importe del salón + los servicios
+                importe_total: req.body.importe_total || null,  // aquí de alguna manera debería sumarse el importe del salón + los servicios -> Esto ya lo hice
                 servicios: req.body.servicios || []  // si no hay servicios creo un array vacío
             };
 
             const reservaCreada = await this.reservasServicio.crearReserva(nuevaReserva);
+            const obtenerServiciosExistentes = await this.reservasServicio.obtenerServiciosExistentes(reservaCreada.reserva_id);
 
             res.status(201).send({
                 estado: true,
                 mensaje: "Reserva creada correctamente",
-                data: reservaCreada
+                data: {
+                    reservaCreada,
+                    servicios: obtenerServiciosExistentes
+                }
             });
 
         } catch (err) {
@@ -253,5 +274,4 @@ export default class ServiciosControlador {
             next();
         }
     };
-
 };
