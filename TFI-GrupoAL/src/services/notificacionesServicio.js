@@ -10,17 +10,29 @@ export default class NotificacionesService {
         try {      
         const __filename = fileURLToPath(import.meta.url);
         const __dirname = path.dirname(__filename);
-        const plantillaPath = path.join(__dirname, "..", "views", "pages", "plantilla.handlebars");
+        const plantillaPath = path.join(__dirname, "..", "views", "pages", "reservaCreada.handlebars");
         const plantilla = fs.readFileSync(plantillaPath, 'utf-8');
 
         const template = handlebars.compile(plantilla);
 
-        // queda pendiente modificar el formato de la fecha
-        // para que llegue en un formato más amigable    
+        // Formato de fecha mas legible   
+        const fechaLegible = new Date(datosCorreo.reservaExistente.fecha).toLocaleDateString('es-ES', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        });
+
+        //Formato de hora para no incluir los segundos
+        const formatearHora = (hora) => hora.split(':').slice(0, 2).join(':');
+
         const datos = {
-            fecha: datosCorreo.fecha,  
-            salon: datosCorreo.salon,
-            turno: datosCorreo.turno
+            fecha: fechaLegible,  
+            salon: datosCorreo.reservaExistente.salon,
+            turno: datosCorreo.reservaExistente.turno,
+            hora: `${formatearHora(datosCorreo.reservaExistente.hora_desde)} - ${formatearHora(datosCorreo.reservaExistente.hora_hasta)}`,
+            servicios: datosCorreo.servicios?.map(s => ({
+                nombre_servicio: s.nombre_servicio
+            })) ?? []
             //correo: datosCorreo.correoElectronico
         };
         const correoHtml = template(datos);

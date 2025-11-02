@@ -5,6 +5,9 @@ import ReservasControlador from '../../controllers/reservasControlador.js';
 const reservasControlador = new ReservasControlador();
 const router = Router();
 
+//Crear informe en formato CSV
+router.get('/informe', reservasControlador.crearInforme); //EN ESTO VOY A TRABAJAR WUACHIN! VEAMOS COMO VAAA
+
 //Listar reservas
 router.get('/', reservasControlador.listarReservas);
 

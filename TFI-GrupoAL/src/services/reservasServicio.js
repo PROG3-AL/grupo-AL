@@ -1,6 +1,7 @@
 import Reservas from '../database/reservas.js';
 import ReservasServicios from '../database/reservas_servicios.js';
 import NotificacionesService from "./notificacionesServicio.js";
+import InformeServicio from './informeServicio.js';
 
 
 export default class ReservasServicio {
@@ -8,6 +9,7 @@ export default class ReservasServicio {
         this.reserva = new Reservas()
         this.reservas_servicios = new ReservasServicios();
         this.notificaciones_servicio = new NotificacionesService();
+        this.informes = new InformeServicio();
     };
 
     buscarReservas = () => {
@@ -78,7 +80,13 @@ export default class ReservasServicio {
         this.reservas_servicios.crear(result.reserva_id, servicios);     
 
         // obtengo los datos desde la base de datos, poara enviar la noti
-        const datosParaCorreo = await this.reserva.datosParaNotificacion(result.reserva_id);
+        const reservaExistente = await this.reserva.datosParaNotificacion(result.reserva_id);
+        const serviciosExistentes = await this.reservas_servicios.obtenerServiciosExistentes(result.reserva_id);
+        const datosParaCorreo = {
+            reservaExistente,
+            servicios: serviciosExistentes
+        }
+        console.log('DATOS PARA EL CORREO: ', datosParaCorreo);
         
         // instancio notificaciones_servicio y uso el método enviar correo pasándole como parámetro los datos obtenidos de la bd
         await this.notificaciones_servicio.enviarCorreo(datosParaCorreo);
@@ -86,5 +94,24 @@ export default class ReservasServicio {
         // queda pendiente retornar también los servicios, ahora solo retorna las reservas. debería retornar también un array de servicios.
         return this.reserva.buscarPorId(result.reserva_id);
 
+    };
+
+    crearInforme = async (formato) => {
+
+        if (formato === "pdf") {
+            const reporteConDatos = await this.reserva.buscarDatosParaReporte();
+            const pdf = await this.informes.informeReservaPdf(reporteConDatos);
+            return pdf;
+        } else if (formato === "csv") {
+            const reporteConDatos = await this.reserva.buscarDatosParaReporte();
+            const csv = await this.informes.informeReservaCsv(reporteConDatos);
+            return {
+                path: csv,
+                headers: {
+                    'Content-Type': 'text/csv',
+                    'Content-Disposition' : 'attachment; filename = "reporte.csv"'
+                }
+            };
+        }
     };
 };
