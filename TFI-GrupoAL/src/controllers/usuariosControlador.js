@@ -184,7 +184,7 @@ export default class UsuariosControlador {
             const datos = req.body;
 
             // Llamamos al servicio
-            const usuarioActualizado = await this.usuariosServicios.actualizarUsuario(id, datos);
+            const usuarioActualizado = await this.usuariosServicio.actualizarUsuario(id, datos);
 
             // Si no existe el usuario
             if (!usuarioActualizado) {

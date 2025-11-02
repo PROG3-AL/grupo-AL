@@ -32,17 +32,6 @@ export default class Salones {
         }
     };
 
-    //Activar salon
-    activarSalon = async (salonId) => {
-        try {
-            const [resultado] = await conexion.execute(
-                'UPDATE salones SET activo = 1, modificado = NOW() WHERE salon_id = ?', [salonId]);
-            return resultado;
-        } catch (err) {
-            throw new Error(err);
-        }
-    };
-
     // Actualizar Salon (los dos campos que no se modifican son activo y fecha de creación )
     actualizarSalon = async (id, datos) => {
         const salonId = Number(id);

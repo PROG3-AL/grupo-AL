@@ -31,10 +31,4 @@ export default class TurnosServicio {
       if (!existente) throw new Error("Turno no encontrado");
       await this.turnos.desactivarTurno(id);
     };
-
-    activarTurno = async (id) => {
-      const existente = await this.turnos.buscarPorId(id);
-      if (!existente) throw new Error("Turno no encontrado");
-      await this.turnos.activarTurno(id);
-    };
 }

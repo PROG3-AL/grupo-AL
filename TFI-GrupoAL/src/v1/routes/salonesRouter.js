@@ -25,9 +25,6 @@ router.post('/', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO), [
 //Eliminar salon cambiando a inactivo
 router.delete('/:id', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO), salonesControlador.desactivarSalon);  
 
-//Activar salon
-router.patch('/:id/activar', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO), salonesControlador.activarSalon); 
-
 //Actualizar salon
 router.put('/:id', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO), salonesControlador.actualizarSalon);
 
