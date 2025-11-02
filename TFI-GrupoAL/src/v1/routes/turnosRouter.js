@@ -1,16 +1,18 @@
 import { Router } from 'express';
 import TurnosControlador from '../../controllers/turnosControlador.js';
 import { validarCampos, validacionesTurno } from '../../middlewares/validarCampos.js';
+import { autenticar } from "../../middlewares/autenticacion.js";
+import { autorizar, ROLES } from "../../middlewares/autorizar.js";
 
 const turnosControlador = new TurnosControlador();
 const router = Router();
 
 // Rutas BREAD: Browse, Read, Edit, Add, Delete
-router.get('/', turnosControlador.listarTurnos);
-router.get('/:id', turnosControlador.buscarPorId);
+router.get('/', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO, ROLES.CLIENTE), turnosControlador.listarTurnos);
+router.get('/:id', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO), turnosControlador.buscarPorId);
 
 router.post(
-  '/',
+  '/',autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO),
   [
     validacionesTurno.orden,
     validacionesTurno.hora_desde,
@@ -21,7 +23,7 @@ router.post(
 );
 
 router.put(
-  '/:id',
+  '/:id', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO), 
   [
     validacionesTurno.orden,
     validacionesTurno.hora_desde,
@@ -31,7 +33,7 @@ router.put(
   turnosControlador.actualizarTurno
 );
 
-router.patch('/:id/desactivar', turnosControlador.desactivarTurno);
-router.patch('/:id/activar', turnosControlador.activarTurno);
+router.patch('/:id/desactivar', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO), turnosControlador.desactivarTurno);
+router.patch('/:id/activar', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO), turnosControlador.activarTurno);
 
 export { router };
