@@ -11,6 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "jsonwebtoken": "^9.0.2",
     "apicache": "^1.6.3",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
