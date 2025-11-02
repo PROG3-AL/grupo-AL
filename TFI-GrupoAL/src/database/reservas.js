@@ -108,6 +108,10 @@ export default class Reservas {
             let importe_salon = Number(reservaFinal.importe_salon);
             let importe_total = importe_salon + importe_servicios;
 
+            console.log('IMPORTE SALON: ', importe_salon);
+            console.log('IMPORTE SERVICIOS: ', importe_servicios);
+            console.log('IMPORTE TOTAL: ', importe_total);
+
             await conectar.execute('UPDATE reservas SET importe_total = ? WHERE reserva_id = ?', [importe_total, reservaId]);
 
             await conectar.commit();
@@ -231,6 +235,13 @@ export default class Reservas {
 
             return reserva[0];
         }
+
+    //Buscar reporte
+    buscarDatosParaReporte = async () => {
+        const sql = `SELECT reserva_id FROM reservas`;
+        const [resultado] = await conexion.execute(sql);
+        return resultado;
+    };
 };
 
 

@@ -198,6 +198,22 @@ export default class ServiciosControlador {
             });
         }
 
+        //Checkeo que el id del servicio exista en la tabla servicio, sino devuelve error
+        if (req.body.servicios && req.body.servicios.length > 0) {
+            const servicios = req.body.servicios;
+            const obtenerServiciosIds = await this.servicios.buscarServicios();
+            console.log('ObtenerServiciosIds: ', obtenerServiciosIds)
+            servicios.forEach(s_id => {
+                const existe = obtenerServiciosIds.find(s => s.servicio_id === s_id);
+                if (!existe) {
+                    return res.status(400).json({
+                        estado: false,
+                        mensaje: `El servicio con ID ${s_id} no existe`
+                    });
+                }
+            });
+        };
+
         try {
             const { id } = req.params;
 
@@ -237,6 +253,22 @@ export default class ServiciosControlador {
             });
         }
 
+        //Checkeo que el id del servicio exista en la tabla servicio, sino devuelve error
+        if (req.body.servicios && req.body.servicios.length > 0) {
+            const servicios = req.body.servicios;
+            const obtenerServiciosIds = await this.servicios.buscarServicios();
+            console.log('ObtenerServiciosIds: ', obtenerServiciosIds)
+            servicios.forEach(s_id => {
+                const existe = obtenerServiciosIds.find(s => s.servicio_id === s_id);
+                if (!existe) {
+                    return res.status(400).json({
+                        estado: false,
+                        mensaje: `El servicio con ID ${s_id} no existe`
+                    });
+                }
+            });
+        };
+
         try {
             const nuevaReserva = {
                 fecha_reserva: req.body.fecha_reserva,
@@ -274,4 +306,41 @@ export default class ServiciosControlador {
             next();
         }
     };
+
+    crearInforme = async (req, res) => {
+
+        try {
+
+            const formato = req.query.formato;
+
+            if (!formato) {
+                return res.status(400).send(
+                    {
+                        estado: false,
+                        mensaje: "El formato no es valido"
+                    }
+                )
+            };
+
+            //Genero el informe con buffer para pdf, o path y headers
+            const {path, headers} = await this.reservasServicio.crearInforme(formato);
+
+            res.set(headers);
+
+            if (formato === 'pdf') {
+                res.status(200).end(buffer);
+            } else if (formato === 'csv') {
+                res.status(200).download(path, (err) => {
+                    return res.status(500).send({
+                        estado: false,
+                        mensaje: "No se pudo generar el informe"
+                    })
+                })
+            }
+
+        } catch (err) {
+            console.error('Error en crearInforme:', err);
+            return res.status(500).json({ estado:false, mensaje:'Error interno del servidor' });
+        }
+    }
 };

@@ -7,6 +7,9 @@ import { autorizar, ROLES } from "../../middlewares/autorizar.js";
 const reservasControlador = new ReservasControlador();
 const router = Router();
 
+//Crear informe en formato CSV
+router.get('/informe', reservasControlador.crearInforme); 
+
 //Listar reservas
 router.get('/',autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO, ROLES.CLIENTE), reservasControlador.listarReservas);
 
