@@ -66,17 +66,4 @@ export default class TurnosControlador {
       next(error);
     }
   };
-
-  activarTurno = async (req, res, next) => {
-    try {
-      const { id } = req.params;
-      await this.turnosServicio.activarTurno(id);
-      res.status(200).json({
-        estado: true,
-        mensaje: "Turno activado correctamente",
-      });
-    } catch (error) {
-      next(error);
-    }
-  };
 };

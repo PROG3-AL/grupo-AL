@@ -32,9 +32,4 @@ export default class Turnos {
   desactivarTurno = async (id) => {
     await conexion.execute('UPDATE turnos SET activo = 0 WHERE turno_id = ?', [id]);
   };
-
-  // Activar turno (opcional)
-  activarTurno = async (id) => {
-    await conexion.execute('UPDATE turnos SET activo = 1 WHERE turno_id = ?', [id]);
-  };
 }

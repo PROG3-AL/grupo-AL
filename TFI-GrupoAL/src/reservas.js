@@ -12,6 +12,7 @@ import handlebars from "handlebars";
 import morgan from 'morgan';
 import fs from 'fs';
 import { router as v1TurnosRutas } from "./v1/routes/turnosRouter.js";
+import { swaggerDocs } from './swagger.js';
 
 const app = express();
 
@@ -51,5 +52,8 @@ app.use('/api/v1/usuarios', v1UsuariosRutas); //Rutas para usuarios
 app.use('/api/v1/reservas', v1ReservasRutas);
 app.use('/api/v1/servicios', v1ServiciosRutas);
 app.use("/api/v1/turnos", v1TurnosRutas);
+
+// 👉 Activar Swagger en /api-docs
+swaggerDocs(app);
 
 export default app;
