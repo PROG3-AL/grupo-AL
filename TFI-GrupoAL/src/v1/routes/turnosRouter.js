@@ -34,6 +34,5 @@ router.put(
 );
 
 router.patch('/:id/desactivar', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO), turnosControlador.desactivarTurno);
-router.patch('/:id/activar', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO), turnosControlador.activarTurno);
 
 export { router };
