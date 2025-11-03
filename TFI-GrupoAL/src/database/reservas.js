@@ -238,7 +238,7 @@ export default class Reservas {
 
     //Buscar reporte
     buscarDatosParaReporte = async () => {
-        const sql = `SELECT reserva_id FROM reservas`;
+        const sql = `SELECT rs.reserva_id, rs.fecha_reserva, u.nombre, u.apellido, t.orden, s.titulo, rs.importe_total FROM reservas rs JOIN usuarios u ON rs.usuario_id = u.usuario_id JOIN turnos t ON rs.turno_id = t.turno_id JOIN salones s ON rs.salon_id = s.salon_id`;
         const [resultado] = await conexion.execute(sql);
         return resultado;
     };

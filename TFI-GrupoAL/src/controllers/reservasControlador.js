@@ -307,13 +307,13 @@ export default class ServiciosControlador {
         }
     };
 
-    crearInforme = async (req, res) => {
+    crearInforme = async (req, res, next) => {
 
         try {
 
             const formato = req.query.formato;
 
-            if (!formato) {
+            if (formato !== 'csv' && formato !== 'pdf') {
                 return res.status(400).send(
                     {
                         estado: false,
@@ -323,18 +323,17 @@ export default class ServiciosControlador {
             };
 
             //Genero el informe con buffer para pdf, o path y headers
-            const {path, headers} = await this.reservasServicio.crearInforme(formato);
-
-            res.set(headers);
+            const {buffer, path, headers} = await this.reservasServicio.crearInforme(formato);
 
             if (formato === 'pdf') {
+                res.set(headers);
                 res.status(200).end(buffer);
             } else if (formato === 'csv') {
-                res.status(200).download(path, (err) => {
-                    return res.status(500).send({
-                        estado: false,
-                        mensaje: "No se pudo generar el informe"
-                    })
+                return res.download(path, 'reporte.csv', (err) => {
+                    if (err) {
+                        console.error('Error al enviar CSV:', err);
+                        if (!res.headersSent) return next(err);
+                    }
                 })
             }
 

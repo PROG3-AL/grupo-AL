@@ -98,13 +98,23 @@ export default class ReservasServicio {
 
     crearInforme = async (formato) => {
 
+        const reporteConDatos = await this.reserva.buscarDatosParaReporte();
+
         if (formato === "pdf") {
-            const reporteConDatos = await this.reserva.buscarDatosParaReporte();
-            const pdf = await this.informes.informeReservaPdf(reporteConDatos);
-            return pdf;
+
+            const buffer = await this.informes.informeReservaPdf(reporteConDatos);
+            return {
+                buffer,
+                headers: {
+                    'Content-Type': 'application/pdf',
+                    'Content-Disposition': 'attachment; filename="reporte.pdf"'
+                }
+            };
+
         } else if (formato === "csv") {
-            const reporteConDatos = await this.reserva.buscarDatosParaReporte();
+
             const csv = await this.informes.informeReservaCsv(reporteConDatos);
+
             return {
                 path: csv,
                 headers: {
