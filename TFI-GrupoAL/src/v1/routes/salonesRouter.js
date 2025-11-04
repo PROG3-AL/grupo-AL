@@ -1,8 +1,9 @@
 import { Router } from 'express';
 import SalonesControlador from '../../controllers/salonesControlador.js';
-import { validarCampos, validacionesSalon } from '../../middlewares/validarCampos.js';
 import { autenticar } from "../../middlewares/autenticacion.js";
 import { autorizar, ROLES } from "../../middlewares/autorizar.js";
+import { validarCampos } from '../../middlewares/validarCampos.js';
+import { validacionesSalon } from '../../middlewares/validarSalones.js';
 
 const salonesControlador = new SalonesControlador();
 const router = Router();

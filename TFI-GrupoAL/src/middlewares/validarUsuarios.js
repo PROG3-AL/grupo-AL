@@ -16,7 +16,7 @@ export const validacionesUsuario = {
 
   nombre_usuario: body("nombre_usuario")
     .trim()
-    .notEmpty().withMessage("El nombre de usuario es obligatorio")
+    .notEmpty().withMessage("El Email es obligatorio")
     .isLength({ min: 4, max: 30 })
     .withMessage("Debe tener entre 4 y 30 caracteres"),
 
@@ -27,6 +27,7 @@ export const validacionesUsuario = {
 
   tipo_usuario: body("tipo_usuario")
     .toInt()
+    .notEmpty().withMessage("El tipo de usuario es obligatorio")
     .isInt({ min: 1, max: 3 })
     .withMessage("El tipo de usuario debe ser 1 (administrador), 2 (empleado) o 3 (cliente)")
 };

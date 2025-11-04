@@ -2,7 +2,8 @@ import { Router } from 'express';
 import ReservasControlador from '../../controllers/reservasControlador.js';
 import { autenticar } from "../../middlewares/autenticacion.js";
 import { autorizar, ROLES } from "../../middlewares/autorizar.js";
-// import { validarCampos, validacionesSalon } from '../../middlewares/validarCampos.js';
+import { validarCampos } from '../../middlewares/validarCampos.js';
+import { validacionesReservas } from '../../middlewares/validarReservas.js'
 
 const reservasControlador = new ReservasControlador();
 const router = Router();
@@ -17,7 +18,13 @@ router.get('/',autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO, ROLES.
 router.get('/:id',autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO), reservasControlador.listarReservaPorId);
 
 //Crear reserva
-router.post('/',autenticar, autorizar(ROLES.ADMINISTRADOR,ROLES.CLIENTE), reservasControlador.crearReserva);
+router.post('/', autenticar, autorizar(ROLES.ADMINISTRADOR,ROLES.CLIENTE),[
+    validacionesReservas.fecha_reserva,
+    validacionesReservas.salon_id,
+    validacionesReservas.usuario_id,
+    validacionesReservas.turno_id,
+    validarCampos
+], reservasControlador.crearReserva);
 
 //Eliminar reserva
 router.delete('/:id',autenticar, autorizar(ROLES.ADMINISTRADOR), reservasControlador.desactivarReserva);  
