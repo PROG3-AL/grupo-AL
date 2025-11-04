@@ -4,7 +4,7 @@ export default class Usuarios {
 
     // Buscar todos los usuarios
     buscarUsuarios = async () => {
-        const [resultados] = await conexion.query('SELECT * FROM usuarios'); //conexion.query cuando no hay paramtros que pasar(mas eficiente)
+        const [resultados] = await conexion.query('SELECT * FROM usuarios WHERE activo = 1'); //conexion.query cuando no hay paramtros que pasar(mas eficiente)
         return resultados; 
     };
 

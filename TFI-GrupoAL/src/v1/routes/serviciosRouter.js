@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import ServiciosControlador from '../../controllers/ServiciosControlador.js';
-import { validarServicio } from '../../middlewares/validarServices.js';
 import { autenticar } from "../../middlewares/autenticacion.js";
 import { autorizar, ROLES } from "../../middlewares/autorizar.js";
+import { validarServicio } from '../../middlewares/validarServices.js';
 
 const serviciosControlador = new ServiciosControlador();
 const router = Router();

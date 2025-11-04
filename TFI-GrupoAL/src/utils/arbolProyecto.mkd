@@ -1,0 +1,70 @@
+TFI-GrupoAl/
+│
+├── src/
+│   ├── servidor.js //Config express
+│   ├── reservas.js //Entrada app
+│   ├── swagger.js //Setup Swagger
+│   │
+│   ├── database/
+│   │   ├── conexion.js //Conexion db
+│   │   └── reservas.js //Consultas reservas
+│   │   └── reservas_servicios.js //Consultas servicios relacionados 
+│   │   └── salones.js //Consultas salones
+│   │   └── servicios.js //Consultas servicios
+│   │   └── turnos.js //Consultas turnos
+│   │   └── usuarios.js //Consultas usuarios
+│   │
+│   ├── controllers/ //Gestionan la lógica entre rutas y servicios
+│   │   ├── usuariosControlador.js
+│   │   ├── reservasControlador.js
+│   │   ├── salonesControlador.js
+│   │   ├── serviciosControlador.js
+│   │   └── turnosControlador.js
+│   │
+│   ├── services/ //Cada modelo contiene las consultas SQL
+│   │   ├── informeServicio.js 
+│   │   ├── notificacionesServicio.js
+│   │   ├── usuariosServicio.js 
+│   │   ├── reservasServicio.js
+│   │   ├── salonesServicio.js
+│   │   ├── serviciosServicio.js
+│   │   └── turnosServicio.js
+│   │
+│   ├── middlewares/
+│   │   ├── autenticacion.js //jwt
+│   │   ├── autorizar.js //auth por rol de usuario
+│   │   ├── validarCampos.js //check validatorExpress
+│   │   ├── validarUsuarios.js //Validar inputs
+│   │   ├── validarTurnos.js //Validar inputs
+│   │   └── validarServices.js //Validar inputs
+│   │
+│   ├── v1/
+│   │   └── routes/
+│   │       ├── usuariosRouter.js //Rutas peticiones
+│   │       ├── reservasRouter.js //Rutas peticiones
+│   │       ├── salonesRouter.js //Rutas peticiones
+│   │       ├── serviciosRouter.js //Rutas peticiones
+│   │       └── turnosRouter.js //Rutas peticiones
+│   │
+│   ├── views/
+│   │   ├── layouts/
+│   │   │   └── main.handlebars
+│   │   └── pages/
+│   │       ├── informePDF.handlebars
+│   │       └── reservaCreada.handlebars
+│   │
+│   └── utils/
+│       ├── JWT.js // Funcion implementacion jwt
+│       └── reservas.csv
+│ 
+├── public/
+│   ├── css/
+│   │   └── style.css
+│   ├── js/
+│   ├── img/
+│   └── uploads/
+│
+├── .env
+├── .gitignore
+├── package.json
+└── package-lock.json
