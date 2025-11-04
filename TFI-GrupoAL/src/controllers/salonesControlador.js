@@ -48,7 +48,7 @@ export default class SalonesControlador {
         if (!salon) {
             return res.status(404).json({
                 estado: false,
-                mensaje: "Salóm no encontrado o inactivo"
+                mensaje: "Salón no encontrado o inactivo"
             });
         }
         

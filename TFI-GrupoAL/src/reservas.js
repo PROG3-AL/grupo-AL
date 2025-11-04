@@ -53,7 +53,7 @@ app.use('/api/v1/reservas', v1ReservasRutas);
 app.use('/api/v1/servicios', v1ServiciosRutas);
 app.use("/api/v1/turnos", v1TurnosRutas);
 
-// 👉 Activar Swagger en /api-docs
+// Activa Swagger
 swaggerDocs(app);
 
 export default app;

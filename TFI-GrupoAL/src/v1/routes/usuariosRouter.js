@@ -9,6 +9,9 @@ import { autorizar, ROLES } from "../../middlewares/autorizar.js";
 const usuariosControlador = new UsuariosControlador()
 const router = Router();
 
+//Login
+router.post('/login', usuariosControlador.login);
+
 //Listar usuarios
 router.get('/', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO), usuariosControlador.listarUsuarios);
 
@@ -22,8 +25,6 @@ router.post('/', [
     validacionesUsuario.tipo_usuario, 
     validarCampos
 ] ,usuariosControlador.crearUsuario);
-
-router.post('/login', usuariosControlador.login);
 
 router.delete('/:id', autenticar, autorizar(ROLES.ADMINISTRADOR), usuariosControlador.desactivarUsuario);
 

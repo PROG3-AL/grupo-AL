@@ -1,4 +1,5 @@
-import UsuariosServicio from "../services/usuariosServicio.js"
+import UsuariosServicio from "../services/usuariosServicio.js";
+import { ROLES } from "../middlewares/autorizar.js";
 
 export default class UsuariosControlador {
 
@@ -10,16 +11,23 @@ export default class UsuariosControlador {
     listarUsuarios = async (req, res, next) => {
 
         try{
-            const usuarios = await this.usuariosServicio.buscarUsuarios();
+
+            let usuarios = await this.usuariosServicio.buscarUsuarios();
+
+            if (req.usuario.tipo_usuario === ROLES.EMPLEADO) {
+                usuarios = usuarios.filter(u => u.tipo_usuario === 3);
+            }
+
             res.json({
                 estado: true,
                 datos: usuarios
             });
+
         } catch (err) {
             console.log('Error en GET /usuarios', err);
             res.status (500).json({
                 estado: false,
-                mensaje: "Error interno del servidor"
+                mensaje: "Error al listar usuarios"
             });
             
             next()
@@ -39,11 +47,28 @@ export default class UsuariosControlador {
         try{
             const{id} = req.params;
             const usuario = await this.usuariosServicio.buscarPorId(id);
+
+            if (!usuario) {
+                return res.status(404).json({
+                    estado: false,
+                    mensaje: "Usuario no encontrado"
+                });
+            }
+
+            const rolSolicitante = req.usuario.tipo_usuario;
+
+            if (rolSolicitante === ROLES.EMPLEADO && usuario.tipo_usuario !== 3) {
+                return res.status(403).json({
+                    estado: false,
+                    mensaje: "Solo se pueden consultar usuarios de tipo cliente"
+                });
+            }
             
             res.json({
                 estado:true,
                 datos: usuario
             });
+
         } catch (err) {
             console.log("Error en GET /usuarios/usuario_id", err);
             res.status(500).json({
@@ -206,26 +231,42 @@ export default class UsuariosControlador {
         const { nombre_usuario, contrasenia } = req.body;
 
         if (!nombre_usuario || !contrasenia) {
-            return res.status(400).json({ estado: false, mensaje: 'Faltan credenciales' });
+            return res.status(400).json({
+                estado: false,
+                mensaje: "Debe ingresar nombre de usuario y contraseña"
+            });
         }
 
         try {
-            const result = await this.usuariosServicio.login(nombre_usuario, contrasenia);
-            if (!result) {
-                return res.status(401).json({ estado: false, mensaje: 'Credenciales inválidas' });
+            const resultado = await this.usuariosServicio.login(nombre_usuario, contrasenia);
+
+            if (!resultado) {
+                return res.status(401).json({
+                    estado: false,
+                    mensaje: "Usuario o contraseña incorrectos"
+                });
             }
 
-            res.json({
+            const { usuario, token } = resultado;
+
+            return res.status(200).json({
                 estado: true,
-                mensaje: 'Login exitoso',
-                token: result.token,
-                usuario: result.usuario
+                mensaje: "Inicio de sesión exitoso",
+                datos: {
+                    usuario_id: usuario.usuario_id,
+                    nombre_usuario: usuario.nombre_usuario,
+                    tipo_usuario: usuario.tipo_usuario,
+                    token
+                }
             });
-        } catch (err) {
-            next(err);
+        } catch (error) {
+            console.error("Error en login:", error);
+            return res.status(500).json({
+                estado: false,
+                mensaje: "Error interno al iniciar sesión"
+            });
         }
     };
-
 };
 
 

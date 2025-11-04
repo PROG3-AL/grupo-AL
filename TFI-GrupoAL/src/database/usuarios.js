@@ -4,7 +4,7 @@ export default class Usuarios {
 
     // Buscar todos los usuarios
     buscarUsuarios = async () => {
-        const [resultados] = await conexion.query('SELECT * FROM usuarios'); //conexion.quiery cuando no hay paramoetros que pasar(mas eficiente)
+        const [resultados] = await conexion.query('SELECT * FROM usuarios'); //conexion.query cuando no hay paramtros que pasar(mas eficiente)
         return resultados; 
     };
 
@@ -34,33 +34,35 @@ export default class Usuarios {
     //Crea un usuario
     crearUsuario = async (usuario) => {
         const sql = `
-            INSERT INTO usuarios (    
+            INSERT INTO usuarios (
                 nombre,
                 apellido,
                 nombre_usuario,
                 contrasenia,
                 tipo_usuario,
                 activo
-            ) VALUES (?, ?, ?, ?, ?, 1)
+            )
+            VALUES (?, ?, ?, SHA2(?, 256), ?, 1)
         `;
 
         try {
-        const [resultado] = await conexion.execute(sql, [
-            usuario.nombre,
-            usuario.apellido,
-            usuario.nombre_usuario,
-            usuario.contrasenia,
-            usuario.tipo_usuario
-        ]);
+            const [resultado] = await conexion.execute(sql, [
+                usuario.nombre,
+                usuario.apellido,
+                usuario.nombre_usuario,
+                usuario.contrasenia,
+                usuario.tipo_usuario
+            ]);
 
-        if (resultado.affectedRows === 0) {
-            return null;
-        };
+            if (resultado.affectedRows === 0) {
+                return null;
+            }
 
-        return await this.buscarPorId(resultado.insertId)
-    } catch (err) {
-        console.error('Error al crear el usuario:', err.message);
-        throw err
+            return await this.buscarPorId(resultado.insertId);
+
+        } catch (err) {
+            console.error('Error al crear el usuario:', err.message);
+            throw err;
         }
     };
 
@@ -89,36 +91,60 @@ export default class Usuarios {
 
     };
 
+    buscarUsuarioLogin = async (nombre_usuario, contrasenia) => {
+        const sql = `
+            SELECT * 
+            FROM usuarios 
+            WHERE nombre_usuario = ? 
+            AND contrasenia = SHA2(?, 256) 
+            AND activo = 1
+        `;
+        const [resultado] = await conexion.execute(sql, [nombre_usuario, contrasenia]);
+        return resultado[0] ?? null;
+    };
+
     //Actualizar Usuario
-    actualizarUsuario = async (id, datos) => {
-        const usuarioId = Number(id);
-        if (isNaN(usuarioId)) throw new Error('ID de usuario inválido');
-      
-        try {
-          if (!datos || Object.keys(datos).length === 0) return null;
-      
-          // Filtrar campos que no se modifican
-          const camposAActualizar = Object.keys(datos).filter(
-            campo => !['usuario_id', 'activo', 'fecha_creacion'].includes(campo)
-          );
-      
-          if (camposAActualizar.length === 0) return null;
-      
-          const valoresAActualizar = camposAActualizar.map(campo => datos[campo]);
-      
-          const setValores = camposAActualizar.map(campo => `${campo} = ?`).join(', ');
-          const sql = `UPDATE usuarios SET ${setValores} WHERE usuario_id = ?`;
-      
-          const [resultado] = await conexion.execute(sql, [...valoresAActualizar, usuarioId]);
-      
-          if (resultado.affectedRows === 0) return null;
-      
-          return await this.buscarPorId(usuarioId);
-      
-        } catch (error) {
-          throw new Error(`Error al actualizar el usuario: ${error.message}`);
+     actualizarUsuario = async (id, datos) => {
+    const usuarioId = Number(id);
+    if (isNaN(usuarioId)) throw new Error('ID de usuario inválido');
+
+    try {
+      if (!datos || Object.keys(datos).length === 0) return null;
+
+
+      if (datos.contrasenia) {
+        datos.contrasenia = { __sha2__: true, value: datos.contrasenia };
+      }
+
+      const camposAActualizar = Object.keys(datos);
+      const valoresAActualizar = [];
+      const setPartes = [];
+
+      for (const campo of camposAActualizar) {
+        const v = datos[campo];
+        if (typeof v === 'object' && v?.__sha2__ === true) {
+            setPartes.push(`${campo} = SHA2(?, 256)`);
+            valoresAActualizar.push(v.value);
+        } else {
+            setPartes.push(`${campo} = ?`);
+            valoresAActualizar.push(v);
         }
-      };
-      
+      }
+
+      const setValores = setPartes.join(', ');
+      const sql = `UPDATE usuarios SET ${setValores}, modificado = NOW() WHERE usuario_id = ?`;
+
+      const [resultado] = await conexion.execute(sql, [...valoresAActualizar, usuarioId]);
+
+      if (resultado.affectedRows === 0) {
+        return null;
+      }
+
+      return await this.buscarPorId(usuarioId);
+    } catch (error) {
+        console.error('Error al actualizar usuario:', error.message);
+        throw error;
+    }
+  };
 
 }
