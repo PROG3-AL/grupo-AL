@@ -41,14 +41,12 @@ export default class UsuariosServicios {
     }
 
     login = async (nombre_usuario, contrasenia) => {
-        const usuario = await this.usuarios.buscarUsuarioPorEmail(nombre_usuario);
-        if (!usuario) return null; // usuario no existe
-
-        if (usuario.contrasenia !== contrasenia) return null; // contraseña incorrecta
+        const usuario = await this.usuarios.buscarUsuarioLogin(nombre_usuario, contrasenia);
+        if (!usuario) return null;
 
         const token = generarToken(usuario);
+
         return { usuario, token };
     };
-
 
 }

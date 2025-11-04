@@ -1,8 +1,9 @@
 import { Router } from 'express';
 import TurnosControlador from '../../controllers/turnosControlador.js';
-import { validarCampos, validacionesTurno } from '../../middlewares/validarCampos.js';
-import { autenticar } from "../../middlewares/autenticacion.js";
-import { autorizar, ROLES } from "../../middlewares/autorizar.js";
+import { validarCampos } from '../../middlewares/validarCampos.js';
+import { validacionesTurno } from '../../middlewares/validarTurnos.js';
+import { autenticar } from '../../middlewares/autenticacion.js';
+import { autorizar, ROLES } from '../../middlewares/autorizar.js';
 
 const turnosControlador = new TurnosControlador();
 const router = Router();

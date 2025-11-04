@@ -77,7 +77,7 @@ export default class ReservasServicio {
         }
 
         // relaciono las tablas 
-        this.reservas_servicios.crear(result.reserva_id, servicios);     
+        await this.reservas_servicios.crear(result.reserva_id, servicios);     
 
         // obtengo los datos desde la base de datos, poara enviar la noti
         const reservaExistente = await this.reserva.datosParaNotificacion(result.reserva_id);
