@@ -4,11 +4,10 @@ import swaggerUi from "swagger-ui-express";
 const swaggerDefinition = {
   openapi: "3.0.0",
   info: {
-    title: "API - Gestión de Reservas de Casas de Cumpleaños PROGIII ",
+    title: "API GRUPO AL- PROGIII ",
     version: "1.0.0",
-    description: `API de gestión de reservas de Casas de Cumpleaños para la empresa PROGIII. 
-    Incluye endpoints para salones, reservas, servicios, turnos y usuarios.
-    `,
+    description: `Gestión de reservas de Casas de Cumpleaños para la empresa PROGIII. 
+    Incluye endpoints para Usuarios, Reservas, Salones, Servicios y Turnos`,
   },
   servers: [
     { 
@@ -17,11 +16,11 @@ const swaggerDefinition = {
     },
   ],
   tags: [
-    { name: "Salones", description: "Gestión de salones" },
+    { name: "Usuarios", description: "Administración y autenticación de usuarios (1- Administrador / 2- Empleado / 3- Cliente)" },
     { name: "Reservas", description: "Gestión de reservas y generación de informes" },
+    { name: "Salones", description: "Gestión de salones" },
     { name: "Servicios", description: "Administración de servicios adicionales" },
-    { name: "Turnos", description: "Gestión de turnos y horarios" },
-    { name: "Usuarios", description: "Administración y autenticación de usuarios" },
+    { name: "Turnos", description: "Gestión de turnos" },
   ],
   components: {
     securitySchemes: {
@@ -29,6 +28,439 @@ const swaggerDefinition = {
     },
   },
   paths: {
+    // ---------- USUARIOS ----------
+    
+    // LOGIN USUARIO
+    "/usuarios/login": {
+      post: {
+        tags: ["Usuarios"],
+        summary: "Login de usuario",
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              example: {
+                nombre_usuario: "ezequielsanchez@gmail.com",
+                contrasenia: "123456"
+              },
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: "Login exitoso",
+            content: {
+              "application/json": {
+                example: {
+                  estado: true,
+                  mensaje: "Inicio de sesión exitoso",
+                  datos: { 
+                    usuario_id: 10, 
+                    nombre_usuario: "ezequielsanchez@gmail.com", 
+                    tipo_usuario: 1,
+                    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  }
+                },
+              },
+            },
+          },
+          400: {
+            description: "Faltan usuario y contraseña",
+            content: {
+              "application/json": {
+                    example: { 
+                      estado: false,
+                      mensaje: "Debe ingresar nombre de usuario y contraseña" 
+                    },     
+              },
+            },
+          },
+        },
+      },
+    },
+    "/usuarios": {
+      // CREAR USUARIO
+      post: {
+        tags: ["Usuarios"],
+        summary: "Crear un nuevo usuario",
+        requestBody: {
+          content: {
+            "application/json": {
+              example: {
+                nombre: "Ezequiel",
+                apellido: "Sanchez",
+                nombre_usuario: "ezequielsanchez@gmail.com",
+                contrasenia: "123456",
+                tipo_usuario: 1
+              },
+            },
+          },
+        },
+        responses: {
+          201: {
+            description: "Usuario creado correctamente",
+            content: {
+              "application/json": {
+                example: {
+                  estado: true,
+                  mensaje: "Usuario creado correctamente",
+                  data: {
+                    usuario_id: 22,
+                    nombre: "Ezequiel",
+                    apellido: "Sanchez",
+                    nombre_usuario: "ezequielsanchez@gmail.com",
+                    contrasenia: "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+                    tipo_usuario: 1,
+                    celular: null,
+                    foto: null,
+                    activo: 1,
+                    creado: "2025-11-04T02:32:35.000Z",
+                    modificado: "2025-11-04T02:32:35.000Z"
+                  },
+                },
+              },
+            },
+          },
+          400: {
+            description: "Faltan datos requeridos",
+            content: {
+              "application/json": {
+                example: {
+                  estado: false,
+                  mensaje: {
+                    apellido:{
+                      "type": "field",
+                      "value": "",
+                      "msg": "El apellido es obligatorio",
+                      "path": "apellido",
+                      "location": "body"
+                    }
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+
+      // LISTAR TODOS LOS USUARIOS
+      get: {
+        tags: ["Usuarios"],
+        summary: "Listar todos los usuarios",
+        security: [{ bearerAuth: [] }],
+        responses: {
+          200: {
+            description: "Lista de usuarios",
+            content: {
+              "application/json": {
+                example: {
+                  estado: true,
+                  datos: [
+                    { usuario_id: 1,
+                      nombre: "Alberto",
+                      apellido: "López",
+                      nombre_usuario: "alblop@correo.com",
+                      contrasenia: "cf584badd07d42dcb8506f8bae32aa96",
+                      tipo_usuario: 3,
+                      celular: null,
+                      foto: null,
+                      activo: 1,
+                      creado: "2025-08-19T21:37:51.000Z",
+                      modificado: "2025-08-19T21:37:51.000Z"
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+
+    // LISTAR USUARIOS POR ID
+    "/usuarios/{id}": {
+      get: {
+        tags: ["Usuarios"],
+        summary: "Obtener usuario por ID",
+        security: [{ bearerAuth: [] }],
+        parameters: [
+          {
+            name: "id",
+            in: "path",
+            description: "ID numérico del usuario a consultar",
+            required: true,
+            schema: { type: "integer", example: 1 }
+          }
+        ],
+        responses: {
+          200: {
+            description: "Usuario encontrado",
+            content: {
+              "application/json": {
+                example: {
+                  estado: true,
+                  datos: [
+                    { usuario_id: 1,
+                      nombre: "Alberto",
+                      apellido: "López",
+                      nombre_usuario: "alblop@correo.com",
+                      contrasenia: "cf584badd07d42dcb8506f8bae32aa96",
+                      tipo_usuario: 3,
+                      celular: null,
+                      foto: null,
+                      activo: 1,
+                      creado: "2025-08-19T21:37:51.000Z",
+                      modificado: "2025-08-19T21:37:51.000Z"
+                    },
+                  ],
+                },
+              },
+            },
+          },
+          404: {
+            description: "Usuario no encontrado",
+            content: {
+              "application/json": {
+                example: { 
+                  estado: false, 
+                  mensaje: "Usuario no encontrado" 
+                },
+              },
+            },
+          },
+        },
+      },
+
+      // ACTUALIZAR USUARIO
+      put: {
+        tags: ["Usuarios"],
+        summary: "Actualizar usuario existente",
+        security: [{ bearerAuth: [] }],
+        parameters: [
+          {
+            name: "id",
+            in: "path",
+            description: "ID numérico del usuario a consultar",
+            required: true,
+            schema: { type: "integer", example: 1 }
+          }
+        ],
+        requestBody: {
+          content: {
+            "application/json": {
+              example: 
+              { nombre: "Ezequiel", 
+                apellido: "Lopez", 
+                tipo_usuario: 3 },
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: "Usuario actualizado correctamente",
+            content: {
+              "application/json": {
+                example: {
+                  mensaje: "Usuario actualizado correctamente.",
+                  usuario: { 
+                    "usuario_id": 1,
+                    "nombre": "Ezequiel",
+                    "apellido": "Lopez",
+                    "nombre_usuario": "alblop@correo.com",
+                    "contrasenia": "cf584badd07d42dcb8506f8bae32aa96",
+                    "tipo_usuario": 3,
+                    "celular": null,
+                    "foto": null,
+                    "activo": 1,
+                    "creado": "2025-08-19T21:37:51.000Z",
+                    "modificado": "2025-11-04T02:50:27.000Z"
+                  },
+                },
+              },
+            },
+          },
+          404: {
+            description: "Usuario no encontrado",
+            content: {
+              "application/json": {
+                example: { 
+                  "mensaje": "Usuario no encontrado o sin cambios" 
+                },
+              },
+            },
+          },
+        },
+      },
+
+      // ELIMINAR USUARIO
+      delete: {
+        tags: ["Usuarios"],
+        summary: "Desactivar usuario",
+        security: [{ bearerAuth: [] }],
+        parameters: [
+          {
+            name: "id",
+            in: "path",
+            description: "ID numérico del usuario a consultar",
+            required: true,
+            schema: { type: "integer", example: 1 }
+          }
+        ],
+        responses: {
+          200: {
+            description: "Usuario desactivado correctamente",
+            content: {
+              "application/json": {
+                example: { 
+                  estado: true, 
+                  mensaje: "Usuario desactivado correctamente" 
+                },
+              },
+            },
+          },
+          404: {
+            description: "Usuario no encontrado",
+            content: {
+              "application/json": {
+                example: { 
+                  estado: false,
+                  mensaje: "Usuario no encontrado o ya está desactivado" 
+                },
+              },
+            },
+          },
+        },
+      },
+
+      // ACTIVAR USUARIOS POR ID
+      patch: {
+        tags: ["Usuarios"],
+        summary: "Activar usuario desactivado",
+        security: [{ bearerAuth: [] }],
+        parameters: [
+          {
+            name: "id",
+            in: "path",
+            description: "ID numérico del usuario a consultar",
+            required: true,
+            schema: { type: "integer", example: 1 }
+          }
+        ],
+        responses: {
+          200: {
+            description: "Usuario activado correctamente",
+            content: {
+              "application/json": {
+                example: { 
+                  estado: true, 
+                  mensaje: "Usuario activado correctamente" 
+                },
+              },
+            },
+          },
+          404: {
+            description: "Usuario no encontrado",
+            content: {
+              "application/json": {
+                example: { 
+                  estado: false,
+                  mensaje: "Usuario no encontrado o ya está activado" 
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+
+
+    // ---------- RESERVAS ----------
+    "/reservas": {
+      get: {
+        tags: ["Reservas"],
+        summary: "Listar todas las reservas",
+        security: [{ bearerAuth: [] }],
+        responses: {
+          200: {
+            description: "Lista de reservas",
+            content: {
+              "application/json": {
+                example: {
+                  estado: true,
+                  datos: [
+                    {
+                      reserva_id: 1,
+                      fecha_reserva: "2025-11-20",
+                      salon_id: 2,
+                      usuario_id: 3,
+                      turno_id: 1,
+                      tematica: "Fiesta infantil",
+                      importe_total: 30000,
+                      activo: 1,
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      },
+      post: {
+        tags: ["Reservas"],
+        summary: "Crear una nueva reserva",
+        security: [{ bearerAuth: [] }],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              example: {
+                fecha_reserva: "2025-12-01",
+                salon_id: 1,
+                usuario_id: 2,
+                turno_id: 1,
+                tematica: "Cumpleaños infantil",
+                importe_salon: 25000,
+                importe_total: 30000,
+                servicios: [1, 2],
+              },
+            },
+          },
+        },
+        responses: {
+          201: {
+            description: "Reserva creada correctamente",
+            content: {
+              "application/json": {
+                example: {
+                  estado: true,
+                  mensaje: "Reserva creada correctamente",
+                  datos: {
+                    reserva_id: 8,
+                    fecha_reserva: "2025-12-01",
+                    salon_id: 1,
+                    usuario_id: 2,
+                    turno_id: 1,
+                    importe_total: 30000,
+                    activo: 1,
+                  },
+                },
+              },
+            },
+          },
+          400: {
+            description: "Datos faltantes",
+            content: {
+              "application/json": {
+                example: {
+                  estado: false,
+                  mensaje: "Faltan datos requeridos para crear la reserva",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
     // ---------- SALONES ----------
     "/salones": {
       get: {
@@ -263,95 +695,7 @@ const swaggerDefinition = {
         },
       },
     },
-
-    // ---------- RESERVAS ----------
-    "/reservas": {
-      get: {
-        tags: ["Reservas"],
-        summary: "Listar todas las reservas",
-        security: [{ bearerAuth: [] }],
-        responses: {
-          200: {
-            description: "Lista de reservas",
-            content: {
-              "application/json": {
-                example: {
-                  estado: true,
-                  datos: [
-                    {
-                      reserva_id: 1,
-                      fecha_reserva: "2025-11-20",
-                      salon_id: 2,
-                      usuario_id: 3,
-                      turno_id: 1,
-                      tematica: "Fiesta infantil",
-                      importe_total: 30000,
-                      activo: 1,
-                    },
-                  ],
-                },
-              },
-            },
-          },
-        },
-      },
-      post: {
-        tags: ["Reservas"],
-        summary: "Crear una nueva reserva",
-        security: [{ bearerAuth: [] }],
-        requestBody: {
-          required: true,
-          content: {
-            "application/json": {
-              example: {
-                fecha_reserva: "2025-12-01",
-                salon_id: 1,
-                usuario_id: 2,
-                turno_id: 1,
-                tematica: "Cumpleaños infantil",
-                importe_salon: 25000,
-                importe_total: 30000,
-                servicios: [1, 2],
-              },
-            },
-          },
-        },
-        responses: {
-          201: {
-            description: "Reserva creada correctamente",
-            content: {
-              "application/json": {
-                example: {
-                  estado: true,
-                  mensaje: "Reserva creada correctamente",
-                  datos: {
-                    reserva_id: 8,
-                    fecha_reserva: "2025-12-01",
-                    salon_id: 1,
-                    usuario_id: 2,
-                    turno_id: 1,
-                    importe_total: 30000,
-                    activo: 1,
-                  },
-                },
-              },
-            },
-          },
-          400: {
-            description: "Datos faltantes",
-            content: {
-              "application/json": {
-                example: {
-                  estado: false,
-                  mensaje: "Faltan datos requeridos para crear la reserva",
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-       // ---------- SERVICIOS ----------
+    // ---------- SERVICIOS ----------
     "/servicios": {
       get: {
         tags: ["Servicios"],
@@ -567,7 +911,6 @@ const swaggerDefinition = {
         },
       },
     },
-
     // ---------- TURNOS ----------
     "/turnos": {
       get: {
@@ -691,263 +1034,7 @@ const swaggerDefinition = {
         },
       },
     },
-
-    // ---------- USUARIOS ----------
-    "/usuarios": {
-      get: {
-        tags: ["Usuarios"],
-        summary: "Listar todos los usuarios",
-        security: [{ bearerAuth: [] }],
-        responses: {
-          200: {
-            description: "Lista de usuarios",
-            content: {
-              "application/json": {
-                example: {
-                  estado: true,
-                  datos: [
-                    { usuario_id: 1,
-                      nombre: "Juan",
-                      apellido: "Pérez",
-                      tipo_usuario: 1,
-                      activo: 1 },
-                  ],
-                },
-              },
-            },
-          },
-        },
-      },
-      post: {
-        tags: ["Usuarios"],
-        summary: "Crear un nuevo usuario",
-        requestBody: {
-          content: {
-            "application/json": {
-              example: {
-                nombre: "Lucía",
-                apellido: "Gómez",
-                nombre_usuario: "lgomez",
-                contrasenia: "123456",
-                tipo_usuario: 3,
-                celular: "1156789012",
-              },
-            },
-          },
-        },
-        responses: {
-          201: {
-            description: "Usuario creado correctamente",
-            content: {
-              "application/json": {
-                example: {
-                  estado: true,
-                  mensaje: "Usuario creado correctamente",
-                  datos: {
-                    usuario_id: 10,
-                    nombre: "Lucía",
-                    apellido: "Gómez",
-                    tipo_usuario: 3,
-                    activo: 1,
-                  },
-                },
-              },
-            },
-          },
-          400: {
-            description: "Faltan datos requeridos",
-            content: {
-              "application/json": {
-                example: {
-                  estado: false,
-                  mensaje: "Faltan datos requeridos para crear el usuario",
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-    "/usuarios/login": {
-      post: {
-        tags: ["Usuarios"],
-        summary: "Login de usuario",
-        requestBody: {
-          required: true,
-          content: {
-            "application/json": {
-              example: {
-                nombre_usuario: "admin@test.com",
-                contrasenia: "abc123"
-              },
-            },
-          },
-        },
-        responses: {
-          200: {
-            description: "Login exitoso",
-            content: {
-              "application/json": {
-                example: {
-                  estado: true,
-                  mensaje: "Login exitoso",
-                  token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-                  usuario: { 
-                    usuario_id: 11, 
-                    nombre: "Ezequiel", 
-                    tipo_usuario: 1 },
-                },
-              },
-            },
-          },
-          400: {
-            description: "Faltan credenciales",
-            content: {
-              "application/json": {
-                example: { 
-                  estado: false, 
-                  mensaje: "Faltan credenciales" 
-                },
-              },
-            },
-          },
-          404: {
-            description: "Credenciales inválidas",
-            content: {
-              "application/json": {
-                example: { 
-                  estado: false,
-                   mensaje: "Credenciales inválidas" 
-                  },
-              },
-            },
-          },
-        },
-      },
-    },
-    "/usuarios/{id}": {
-      get: {
-        tags: ["Usuarios"],
-        summary: "Obtener usuario por ID",
-        security: [{ bearerAuth: [] }],
-        parameters: [
-          {
-            name: "id",
-            in: "path",
-            description: "ID numérico del usuario a consultar",
-            required: true,
-            schema: { type: "integer", example: 12 }
-          }
-        ],
-        responses: {
-          200: {
-            description: "Usuario encontrado",
-            content: {
-              "application/json": {
-                example: {
-                  estado: true,
-                  datos: { 
-                    usuario_id: 10,
-                    nombre: "Lucía", 
-                    apellido: "Gómez", 
-                    tipo_usuario: 3, 
-                    activo: 1 },
-                },
-              },
-            },
-          },
-          404: {
-            description: "Usuario no encontrado",
-            content: {
-              "application/json": {
-                example: { estado: false, mensaje: "Usuario no encontrado" },
-              },
-            },
-          },
-        },
-      },
-      put: {
-        tags: ["Usuarios"],
-        summary: "Actualizar usuario existente",
-        security: [{ bearerAuth: [] }],
-        requestBody: {
-          content: {
-            "application/json": {
-              example: { nombre: "Lucía", apellido: "Gómez", tipo_usuario: 3 },
-            },
-          },
-        },
-        responses: {
-          200: {
-            description: "Usuario actualizado correctamente",
-            content: {
-              "application/json": {
-                example: {
-                  estado: true,
-                  mensaje: "Usuario actualizado correctamente",
-                  usuario: { usuario_id: 2, nombre: "Lucía", apellido: "Gómez" },
-                },
-              },
-            },
-          },
-          404: {
-            description: "Usuario no encontrado",
-            content: {
-              "application/json": {
-                example: { estado: false, mensaje: "Usuario no encontrado o sin cambios" },
-              },
-            },
-          },
-        },
-      },
-      delete: {
-        tags: ["Usuarios"],
-        summary: "Desactivar usuario",
-        security: [{ bearerAuth: [] }],
-        responses: {
-          200: {
-            description: "Usuario desactivado correctamente",
-            content: {
-              "application/json": {
-                example: { estado: true, mensaje: "Usuario desactivado correctamente" },
-              },
-            },
-          },
-          404: {
-            description: "Usuario no encontrado",
-            content: {
-              "application/json": {
-                example: { estado: false, mensaje: "Usuario no encontrado o ya está desactivado" },
-              },
-            },
-          },
-        },
-      },
-      patch: {
-        tags: ["Usuarios"],
-        summary: "Activar usuario desactivado",
-        security: [{ bearerAuth: [] }],
-        responses: {
-          200: {
-            description: "Usuario activado correctamente",
-            content: {
-              "application/json": {
-                example: { estado: true, mensaje: "Usuario activado correctamente" },
-              },
-            },
-          },
-          404: {
-            description: "Usuario no encontrado",
-            content: {
-              "application/json": {
-                example: { estado: false, mensaje: "Usuario no encontrado o ya está activo" },
-              },
-            },
-          },
-        },
-      },
-    },
-  },
+  }, // <-- cierre de paths
 };
 
 const options = { swaggerDefinition, apis: [] };
