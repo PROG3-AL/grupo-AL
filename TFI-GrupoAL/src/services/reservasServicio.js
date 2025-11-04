@@ -124,4 +124,8 @@ export default class ReservasServicio {
             };
         }
     };
+
+    buscarReservasPorUsuario = (usuario_id) => {
+        return this.reserva.buscarReservasPorUsuario(usuario_id);
+    };
 };
