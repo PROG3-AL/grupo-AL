@@ -1,9 +1,9 @@
 import { Router } from "express";
 import UsuariosControlador from "../../controllers/usuariosControlador.js";
 import { autenticar } from "../../middlewares/autenticacion.js";
-import { validacionesUsuario } from "../../middlewares/validarUsuarios.js";
-import { validarCampos } from "../../middlewares/validarCampos.js";
 import { autorizar, ROLES } from "../../middlewares/autorizar.js";
+import { validarCampos } from "../../middlewares/validarCampos.js";
+import { validacionesUsuario } from "../../middlewares/validarUsuarios.js";
 
 
 const usuariosControlador = new UsuariosControlador()
