@@ -4,12 +4,14 @@ import { autenticar } from '../../middlewares/autenticacion.js';
 import { autorizar, ROLES } from '../../middlewares/autorizar.js';
 import { validarCampos } from '../../middlewares/validarCampos.js';
 import { validacionesTurno } from '../../middlewares/validarTurnos.js';
+import apicache from 'apicache';
 
 const turnosControlador = new TurnosControlador();
 const router = Router();
+const cache = apicache.middleware;
 
 // Rutas BREAD: Browse, Read, Edit, Add, Delete
-router.get('/', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO, ROLES.CLIENTE), turnosControlador.listarTurnos);
+router.get('/', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO, ROLES.CLIENTE), cache('5 minutes'), turnosControlador.listarTurnos);
 router.get('/:id', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO), turnosControlador.buscarPorId);
 
 router.post(
