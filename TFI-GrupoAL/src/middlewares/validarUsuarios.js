@@ -17,8 +17,10 @@ export const validacionesUsuario = {
   nombre_usuario: body("nombre_usuario")
     .trim()
     .notEmpty().withMessage("El Email es obligatorio")
-    .isLength({ min: 4, max: 30 })
-    .withMessage("Debe tener entre 4 y 30 caracteres"),
+    .isEmail().withMessage("Debe ser un email válido")
+    .normalizeEmail()  
+    .isLength({ max: 50 })
+    .withMessage("El email no puede exceder 50 caracteres"),
 
   contrasenia: body("contrasenia")
     .notEmpty().withMessage("La contraseña es obligatoria")

@@ -1,2 +1,9 @@
 #Dependencias
 node_modules/
+
+# Logs
+access.log
+*.log
+
+# Reportes de reservas
+src/utils/reservas.csv
