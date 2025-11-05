@@ -1,1 +1,8 @@
 ::1 - - [05/Nov/2025:13:54:00 +0000] "POST /api/v1/usuarios HTTP/1.1" 400 154 "-" "bruno-runtime/2.13.2"
+::1 - - [05/Nov/2025:14:03:34 +0000] "POST /api/v1/usuarios/login HTTP/1.1" 200 385 "-" "bruno-runtime/2.13.2"
+::1 - - [05/Nov/2025:14:03:43 +0000] "GET /api/v1/estadisticas/servicios-mas-solicitados HTTP/1.1" 403 40 "-" "bruno-runtime/2.13.2"
+::1 - - [05/Nov/2025:14:03:47 +0000] "GET /api/v1/estadisticas/servicios-mas-solicitados HTTP/1.1" 200 439 "-" "bruno-runtime/2.13.2"
+::1 - - [05/Nov/2025:14:03:52 +0000] "GET /api/v1/estadisticas/salones-mas-reservados HTTP/1.1" 200 604 "-" "bruno-runtime/2.13.2"
+::1 - - [05/Nov/2025:14:03:57 +0000] "GET /api/v1/estadisticas/turnos-mas-reservados HTTP/1.1" 200 282 "-" "bruno-runtime/2.13.2"
+::1 - - [05/Nov/2025:14:06:41 +0000] "POST /api/v1/usuarios/login HTTP/1.1" 200 352 "-" "bruno-runtime/2.13.2"
+::1 - - [05/Nov/2025:14:06:53 +0000] "GET /api/v1/estadisticas/servicios-mas-solicitados HTTP/1.1" 403 58 "-" "bruno-runtime/2.13.2"
