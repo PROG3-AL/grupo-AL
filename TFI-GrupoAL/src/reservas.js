@@ -3,6 +3,7 @@ import { router as v1SalonesRutas } from './v1/routes/salonesRouter.js';
 import { router as v1UsuariosRutas } from './v1/routes/usuariosRouter.js'; //importamos rutas de usuarios
 import { router as v1ReservasRutas } from './v1/routes/reservasRouter.js';
 import { router as v1ServiciosRutas } from './v1/routes/serviciosRouter.js';
+import { router as v1EstadisticasRutas } from './v1/routes/estadisticasRouter.js';
 import morgan from 'morgan';
 import fs from 'fs';
 import { router as v1TurnosRutas } from "./v1/routes/turnosRouter.js";
@@ -30,6 +31,7 @@ app.use('/api/v1/usuarios', v1UsuariosRutas); //Rutas para usuarios
 app.use('/api/v1/reservas', v1ReservasRutas);
 app.use('/api/v1/servicios', v1ServiciosRutas);
 app.use("/api/v1/turnos", v1TurnosRutas);
+app.use("/api/v1/estadisticas", v1EstadisticasRutas);
 
 // Activa Swagger
 swaggerDocs(app);
