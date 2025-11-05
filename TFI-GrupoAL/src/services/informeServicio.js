@@ -29,12 +29,12 @@ export default class InformeServicio {
             const csvWriter = createObjectCsvWriter({
                 path: ruta,
                 header: [
-                    {id: 'reserva_id', title: 'Reserva id'},
+                    {id: 'reserva_id', title: 'Numero de reserva'},
                     {id: 'fecha_reserva', title: 'Fecha de reserva'},
-                    {id: 'nombre', title: 'Nombre'},
-                    {id: 'apellido', title: 'Apellido'},
+                    {id: 'cliente', title: 'Cliente'},
                     {id: 'orden', title: 'Orden'},
                     {id: 'titulo', title: 'Titulo'},
+                    {id: 'servicios', title: 'Servicios'},
                     {id: 'importe_total', title: 'Importe total'}
                 ]
             });

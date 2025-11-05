@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import ServiciosControlador from '../../controllers/ServiciosControlador.js';
+import ServiciosControlador from '../../controllers/serviciosControlador.js';
 import { autenticar } from "../../middlewares/autenticacion.js";
 import { autorizar, ROLES } from "../../middlewares/autorizar.js";
 import { validarServicio } from '../../middlewares/validarServices.js';

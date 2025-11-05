@@ -15,7 +15,7 @@
   <table>
     <thead>
       <tr>
-        <th>ID</th><th>Fecha</th><th>Nombre</th><th>Apellido</th><th>Turno</th><th>Salón</th><th>Total</th>
+        <th>ID</th><th>Fecha</th><th>Cliente</th><th>Turno</th><th>Salon</th><th>Servicios</th><th>Total</th>
       </tr>
     </thead>
     <tbody>
@@ -23,10 +23,10 @@
         <tr>
           <td>{{this.reserva_id}}</td>
           <td>{{this.fecha_reserva}}</td>
-          <td>{{this.nombre}}</td>
-          <td>{{this.apellido}}</td>
+          <td>{{this.cliente}}</td>
           <td>{{this.orden}}</td>
           <td>{{this.titulo}}</td>
+          <td>{{this.servicios}}</td>
           <td>{{this.importe_total}}</td>
         </tr>
       {{/each}}

@@ -712,7 +712,7 @@ const swaggerDefinition = {
                     {
                       servicio_id: 1,
                       descripcion: "Decoración temática",
-                      importe: 5000,
+                      importe: "5000",
                       activo: 1,
                     },
                   ],
@@ -732,7 +732,7 @@ const swaggerDefinition = {
             "application/json": {
               example: {
                 descripcion: "Catering completo",
-                importe: 15000,
+                importe: "15000",
               },
             },
           },
@@ -748,7 +748,7 @@ const swaggerDefinition = {
                   datos: {
                     servicio_id: 5,
                     descripcion: "Catering completo",
-                    importe: 15000,
+                    importe: "15000",
                     activo: 1,
                   },
                 },
@@ -756,7 +756,18 @@ const swaggerDefinition = {
             },
           },
           400: {
-            description: "Datos faltantes o duplicado",
+            description: "Datos faltantes",
+            content: {
+              "application/json": {
+                example: {
+                  estado: false,
+                  mensaje: "El nombre del servicio ya existe",
+                },
+              },
+            },
+          },
+          409: {
+            description: "El servicio ya existe con el mismo nombre",
             content: {
               "application/json": {
                 example: {
@@ -774,7 +785,7 @@ const swaggerDefinition = {
         tags: ["Servicios"],
         summary: "Obtener un servicio por ID",
         security: [{ bearerAuth: [] }],
-        parameters: [{ name: "id", in: "path", schema: { type: "integer" }, required: true }],
+        parameters: [{ name: "id", in: "path", schema: { type: "integer" }}],
         responses: {
           200: {
             description: "Servicio encontrado",
@@ -792,8 +803,19 @@ const swaggerDefinition = {
               },
             },
           },
+          400: {
+            description: "Falta ingresar el id del servicio",
+            content: {
+              "application/json": {
+                example: {
+                  estado: false,
+                  mensaje: "Falta el ID del servicio.",
+                },
+              },
+            },
+          },
           404: {
-            description: "Servicio no encontrado",
+            description: "Servicio no encontrado.",
             content: {
               "application/json": {
                 example: {
@@ -809,12 +831,13 @@ const swaggerDefinition = {
         tags: ["Servicios"],
         summary: "Actualizar un servicio existente",
         security: [{ bearerAuth: [] }],
+        parameters: [{ name: "id", in: "path", schema: { type: "integer" }}],
         requestBody: {
           content: {
             "application/json": {
               example: {
                 descripcion: "Catering premium",
-                importe: 20000,
+                importe: "20000",
               },
             },
           },
@@ -833,6 +856,17 @@ const swaggerDefinition = {
                     importe: 20000,
                     activo: 1,
                   },
+                },
+              },
+            },
+          },
+          400: {
+            description: "Faltan datos requeridos",
+            content: {
+              "application/json": {
+                example: {
+                  estado: false,
+                  mensaje: "Faltan los datos requeridos.",
                 },
               },
             },
@@ -866,13 +900,35 @@ const swaggerDefinition = {
               },
             },
           },
+          400: {
+            description: "El ID no se ha otorgado",
+            content: {
+              "application/json": {
+                example: {
+                  estado: false,
+                  mensaje: "Falta el id del servicio a eliminar",
+                },
+              },
+            },
+          },
           404: {
             description: "Servicio no encontrado",
             content: {
               "application/json": {
                 example: {
                   estado: false,
-                  mensaje: "El servicio no fue encontrado o ya está desactivado",
+                  mensaje: "El servicio no fue encontrado",
+                },
+              },
+            },
+          },
+          409: {
+            description: "Servicio ya esta desactivado",
+            content: {
+              "application/json": {
+                example: {
+                  estado: false,
+                  mensaje: "El servicio ya está desactivado",
                 },
               },
             },
@@ -897,6 +953,17 @@ const swaggerDefinition = {
               },
             },
           },
+          400: {
+            description: "El cliente no ha proporcionado el id a activar",
+            content: {
+              "application/json": {
+                example: {
+                  estado: false,
+                  mensaje: "Falta el id del servicio a activar",
+                },
+              },
+            },
+          },
           404: {
             description: "Servicio no encontrado",
             content: {
@@ -904,6 +971,17 @@ const swaggerDefinition = {
                 example: {
                   estado: false,
                   mensaje: "El servicio con el ID proporcionado no existe",
+                },
+              },
+            },
+          },
+          409: {
+            description: "El servicio ya esta activado",
+            content: {
+              "application/json": {
+                example: {
+                  estado: false,
+                  mensaje: "El servicio con el id proporcionado ya esta activado",
                 },
               },
             },

@@ -222,10 +222,12 @@ export default class Reservas {
                 s.titulo as salon, 
                 t.orden as turno,
                 t.hora_desde,
-                t.hora_hasta
+                t.hora_hasta,
+                u.usuario_id
             FROM reservas as r
             INNER JOIN salones as s on s.salon_id = r.salon_id 
             INNER JOIN turnos as t on t.turno_id = r.turno_id
+            INNER JOIN usuarios as u ON r.usuario_id = u.usuario_id
             WHERE r.activo = 1 and r.reserva_id = ?`;
 
             const [reserva] = await conexion.execute(sql, [reserva_id]);
@@ -238,7 +240,25 @@ export default class Reservas {
 
     //Buscar reporte
     buscarDatosParaReporte = async () => {
-        const sql = `SELECT rs.reserva_id, rs.fecha_reserva, u.nombre, u.apellido, t.orden, s.titulo, rs.importe_total FROM reservas rs JOIN usuarios u ON rs.usuario_id = u.usuario_id JOIN turnos t ON rs.turno_id = t.turno_id JOIN salones s ON rs.salon_id = s.salon_id`;
+        const sql = `
+            SELECT
+            rs.reserva_id,
+            rs.fecha_reserva,
+            CONCAT(u.nombre, ' ', u.apellido) AS cliente,
+            t.orden,
+            s.titulo,
+            GROUP_CONCAT(DISTINCT serv.descripcion ORDER BY serv.descripcion SEPARATOR ', ') AS servicios,
+            rs.importe_total
+            FROM reservas rs
+            JOIN usuarios u           ON rs.usuario_id = u.usuario_id
+            JOIN turnos t             ON rs.turno_id  = t.turno_id
+            JOIN salones s            ON rs.salon_id  = s.salon_id
+            JOIN reservas_servicios r ON rs.reserva_id = r.reserva_id
+            JOIN servicios serv       ON r.servicio_id = serv.servicio_id
+            GROUP BY
+            rs.reserva_id, rs.fecha_reserva, cliente,
+            t.orden, s.titulo, rs.importe_total;
+        `;
         const [resultado] = await conexion.execute(sql);
         return resultado;
     };
