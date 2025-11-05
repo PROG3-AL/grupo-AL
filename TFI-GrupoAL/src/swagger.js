@@ -379,14 +379,15 @@ const swaggerDefinition = {
 
 
     // ---------- RESERVAS ----------
+    // LISTAR RESERVAS
     "/reservas": {
       get: {
         tags: ["Reservas"],
-        summary: "Listar todas las reservas",
+        summary: "Listar reservas",
         security: [{ bearerAuth: [] }],
         responses: {
           200: {
-            description: "Lista de reservas",
+            description: "Lista de reservas obtenida correctamente",
             content: {
               "application/json": {
                 example: {
@@ -394,21 +395,48 @@ const swaggerDefinition = {
                   datos: [
                     {
                       reserva_id: 1,
-                      fecha_reserva: "2025-11-20",
-                      salon_id: 2,
-                      usuario_id: 3,
-                      turno_id: 1,
-                      tematica: "Fiesta infantil",
-                      importe_total: 30000,
+                      fecha_reserva: "2025-12-01",
+                      salon_id: 3,
+                      usuario_id: 4,
+                      turno_id: 2,
+                      foto_cumpleaniero: "foto.jpg",
+                      tematica: "Cumpleaños infantil",
+                      importe_salon: 25000,
+                      importe_total: 31000,
                       activo: 1,
+                      servicios: [
+                        { nombre_servicio: "Catering completo", importe: 5000 },
+                        { nombre_servicio: "Decoración temática", importe: 1000 }
+                      ]
                     },
                   ],
                 },
               },
             },
           },
+          404: {
+            description: "No hay reservas registradas",
+            content: {
+              "application/json": {
+                example: { 
+                  estado: false, 
+                  mensaje: "No hay reservas registradas :(" },
+              },
+            },
+          },
+          500: {
+            description: "Error interno del servidor",
+            content: {
+              "application/json": {
+                example: { 
+                  estado: false,
+                  mensaje: "Error interno del servidor" },
+              },
+            },
+          },
         },
       },
+      // CREAR UNA RESERVA
       post: {
         tags: ["Reservas"],
         summary: "Crear una nueva reserva",
@@ -418,14 +446,15 @@ const swaggerDefinition = {
           content: {
             "application/json": {
               example: {
-                fecha_reserva: "2025-12-01",
+                fecha_reserva: "2025-12-10",
                 salon_id: 1,
                 usuario_id: 2,
-                turno_id: 1,
-                tematica: "Cumpleaños infantil",
-                importe_salon: 25000,
-                importe_total: 30000,
-                servicios: [1, 2],
+                turno_id: 3,
+                foto_cumpleaniero: "imagen.jpg",
+                tematica: "Fiesta de disfraces",
+                importe_salon: 30000,
+                importe_total: 35000,
+                servicios: [1, 2, 3]
               },
             },
           },
@@ -438,27 +467,255 @@ const swaggerDefinition = {
                 example: {
                   estado: true,
                   mensaje: "Reserva creada correctamente",
-                  datos: {
-                    reserva_id: 8,
-                    fecha_reserva: "2025-12-01",
-                    salon_id: 1,
-                    usuario_id: 2,
-                    turno_id: 1,
-                    importe_total: 30000,
-                    activo: 1,
-                  },
+                  data: {
+                    reservaCreada: {
+                      reserva_id: 10,
+                      fecha_reserva: "2025-12-10",
+                      salon_id: 1,
+                      usuario_id: 2,
+                      turno_id: 3,
+                      tematica: "Fiesta de disfraces",
+                      importe_salon: 30000,
+                      importe_total: 35000,
+                      activo: 1
+                    },
+                    servicios: [
+                      { nombre_servicio: "Catering completo", importe: 5000 },
+                      { nombre_servicio: "Fotografía profesional", importe: 2000 }
+                    ]
+                  }
                 },
               },
             },
           },
           400: {
-            description: "Datos faltantes",
+            description: "Faltan datos requeridos o servicios inválidos",
             content: {
               "application/json": {
                 example: {
                   estado: false,
-                  mensaje: "Faltan datos requeridos para crear la reserva",
+                  mensaje: "Faltan datos requeridos para crear la reserva (fecha de reserva, salón_id, turno_id)"
                 },
+              },
+            },
+          },
+          500: {
+            description: "Error interno del servidor",
+            content: {
+              "application/json": {
+                example: { estado: false, mensaje: "Error interno del servidor" },
+              },
+            },
+          },
+        },
+      },
+    },
+    // BUSCAR RESERVA POR ID
+    "/reservas/{id}": {
+      get: {
+        tags: ["Reservas"],
+        summary: "Obtener una reserva por ID",
+        security: [{ bearerAuth: [] }],
+        parameters: [
+          {
+            name: "id",
+            in: "path",
+            required: true,
+            description: "ID de la reserva a consultar",
+            schema: { type: "integer", example: 2 },
+          },
+        ],
+        responses: {
+          200: {
+            description: "Reserva encontrada",
+            content: {
+              "application/json": {
+                example: {
+                  estado: true,
+                  datos: {
+                    reserva_id: 2,
+                    fecha_reserva: "2025-12-01",
+                    salon_id: 1,
+                    usuario_id: 3,
+                    turno_id: 2,
+                    tematica: "Cumple de 15",
+                    importe_salon: 40000,
+                    importe_total: 45000,
+                    activo: 1,
+                  },
+                  servicios: [
+                    { nombre_servicio: "Decoración premium", importe: 3000 },
+                    { nombre_servicio: "DJ", importe: 2000 }
+                  ]
+                },
+              },
+            },
+          },
+          404: {
+            description: "Reserva no encontrada",
+            content: {
+              "application/json": {
+                example: { 
+                  estado: false,
+                  mensaje: "Reserva no encontrada o inactiva" },
+              },
+            },
+          },
+          500: {
+            description: "Error interno del servidor",
+            content: {
+              "application/json": {
+                example: { 
+                  estado: false, 
+                  mensaje: "Error interno del servidor" },
+              },
+            },
+          },
+        },
+      },
+      // ACTUALIZAR RESERVA
+      put: {
+        tags: ["Reservas"],
+        summary: "Actualizar una reserva existente",
+        security: [{ bearerAuth: [] }],
+        parameters: [
+          {
+            name: "id",
+            in: "path",
+            required: true,
+            description: "ID de la reserva a actualizar",
+            schema: { type: "integer", example: 3 },
+          },
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              example: {
+                tematica: "Cumpleaños temática Marvel",
+                importe_salon: 30000,
+                servicios: [1, 2]
+              },
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: "Reserva actualizada correctamente",
+            content: {
+              "application/json": {
+                example: {
+                  estado: true,
+                  mensaje: "Reserva actualizada correctamente",
+                  datos: {
+                    reservas: {
+                      reserva_id: 3,
+                      tematica: "Cumpleaños temática Marvel",
+                      importe_total: 34000,
+                    },
+                    servicios: [
+                      { nombre_servicio: "Catering completo", importe: 4000 },
+                      { nombre_servicio: "Fotografía", importe: 2000 }
+                    ]
+                  }
+                },
+              },
+            },
+          },
+          404: {
+            description: "Reserva no encontrada",
+            content: {
+              "application/json": {
+                example: { 
+                  estado: false, 
+                  mensaje: "No se encontró la reserva a actualizar" },
+              },
+            },
+          },
+        },
+      },
+      // ELIMINAR RESERVA
+      delete: {
+        tags: ["Reservas"],
+        summary: "Desactivar una reserva",
+        security: [{ bearerAuth: [] }],
+        parameters: [
+          {
+            name: "id",
+            in: "path",
+            required: true,
+            description: "ID de la reserva a desactivar",
+            schema: { type: "integer", example: 1 },
+          },
+        ],
+        responses: {
+          200: {
+            description: "Reserva desactivada correctamente",
+            content: {
+              "application/json": {
+                example: { 
+                  estado: true, 
+                  mensaje: "Reserva desactivada correctamente" },
+              },
+            },
+          },
+          404: {
+            description: "Reserva no encontrada",
+            content: {
+              "application/json": {
+                example: { 
+                  estado: false, 
+                  mensaje: "Reserva no encontrada o ya está desactivada" },
+              },
+            },
+          },
+        },
+      },
+    },
+
+    // INFORME RESERVAS
+    "/reservas/informe": {
+      get: {
+        tags: ["Reservas"],
+        summary: "Generar informe de reservas en formato CSV o PDF",
+        security: [{ bearerAuth: [] }],
+        parameters: [
+          {
+            name: "formato",
+            in: "query",
+            description: "Formato de exportación (csv o pdf)",
+            required: true,
+            schema: { type: "string", enum: ["csv", "pdf"], example: "csv" },
+          },
+        ],
+        responses: {
+          200: {
+            description: "Informe generado correctamente",
+            content: {
+              "application/json": {
+                example: {
+                  estado: true,
+                  mensaje: "Informe generado correctamente (descarga disponible)",
+                },
+              },
+            },
+          },
+          400: {
+            description: "Formato inválido",
+            content: {
+              "application/json": {
+                example: {
+                  estado: false,
+                  mensaje: "El formato no es valido (solo se permite csv o pdf)"
+                },
+              },
+            },
+          },
+          500: {
+            description: "Error interno del servidor",
+            content: {
+              "application/json": {
+                example: { estado: false, mensaje: "Error interno del servidor" },
               },
             },
           },
@@ -466,6 +723,7 @@ const swaggerDefinition = {
       },
     },
     // ---------- SALONES ----------
+    // Listar Salones activos
     "/salones": {
       get: {
         tags: ["Salones"],
@@ -483,6 +741,8 @@ const swaggerDefinition = {
                       salon_id: 1,
                       titulo: "Salón Dorado",
                       direccion: "Av. Libertad 123",
+                      latitud: -34.602,
+                      longitud: -58.381,
                       capacidad: 120,
                       importe: 25000,
                       activo: 1,
@@ -492,8 +752,20 @@ const swaggerDefinition = {
               },
             },
           },
+          500: {
+            description: "Error interno del servidor",
+            content: {
+              "application/json": {
+                example: {
+                  estado: false,
+                  mensaje: "Error interno del servidor"
+                },
+              },
+            },
+          },
         },
       },
+      // Crear Salon
       post: {
         tags: ["Salones"],
         summary: "Crear un nuevo salón",
@@ -505,10 +777,10 @@ const swaggerDefinition = {
               example: {
                 titulo: "Salón Imperial",
                 direccion: "Calle Belgrano 999",
-                capacidad: 150,
-                importe: 32000,
                 latitud: -34.602,
                 longitud: -58.381,
+                capacidad: 150,
+                importe: 32000,
               },
             },
           },
@@ -521,10 +793,12 @@ const swaggerDefinition = {
                 example: {
                   estado: true,
                   mensaje: "Salón creado correctamente",
-                  datos: {
+                  data: {
                     salon_id: 5,
                     titulo: "Salón Imperial",
                     direccion: "Calle Belgrano 999",
+                    latitud: -34.602,
+                    longitud: -58.381,
                     capacidad: 150,
                     importe: 32000,
                     activo: 1,
@@ -534,12 +808,23 @@ const swaggerDefinition = {
             },
           },
           400: {
-            description: "Datos faltantes",
+            description: "Faltan datos requeridos",
             content: {
               "application/json": {
                 example: {
                   estado: false,
-                  mensaje: "Faltan datos requeridos para crear el salón",
+                  mensaje: "Faltan datos requeridos para crear el salón (mínimo título y dirección)",
+                },
+              },
+            },
+          },
+          500: {
+            description: "Error interno del servidor",
+            content: {
+              "application/json": {
+                example: {
+                  estado: false,
+                  mensaje: "Error interno del servidor"
                 },
               },
             },
@@ -547,12 +832,21 @@ const swaggerDefinition = {
         },
       },
     },
+    // Buscar salon por ID
     "/salones/{id}": {
       get: {
         tags: ["Salones"],
-        summary: "Obtener un salón por ID",
+        summary: "Buscar salón por ID",
         security: [{ bearerAuth: [] }],
-        parameters: [{ name: "id", in: "path", required: true, schema: { type: "integer" } }],
+        parameters: [
+          {
+            name: "id",
+            in: "path",
+            required: true,
+            description: "ID numérico del salón",
+            schema: { type: "integer", example: 2 },
+          },
+        ],
         responses: {
           200: {
             description: "Salón encontrado",
@@ -564,6 +858,8 @@ const swaggerDefinition = {
                     salon_id: 2,
                     titulo: "Salón de Plata",
                     direccion: "Calle San Martín 500",
+                    latitud: -34.603,
+                    longitud: -58.382,
                     capacidad: 80,
                     importe: 18000,
                     activo: 1,
@@ -583,19 +879,39 @@ const swaggerDefinition = {
               },
             },
           },
+          500: {
+            description: "Error interno del servidor",
+            content: {
+              "application/json": {
+                example: {
+                  estado: false,
+                  mensaje: "Error interno del servidor"
+                },
+              },
+            },
+          },
         },
       },
+      // Actualizar Salón
       put: {
         tags: ["Salones"],
         summary: "Actualizar un salón existente",
         security: [{ bearerAuth: [] }],
-        parameters: [{ name: "id", in: "path", required: true, schema: { type: "integer" } }],
+        parameters: [
+          {
+            name: "id",
+            in: "path",
+            required: true,
+            description: "ID del salón a actualizar",
+            schema: { type: "integer", example: 1 },
+          },
+        ],
         requestBody: {
           required: true,
           content: {
             "application/json": {
               example: {
-                titulo: "Salón Dorado Actualizado",
+                titulo: "Salón Dorado Renovado",
                 direccion: "Av. Libertad 123",
                 capacidad: 130,
                 importe: 28000,
@@ -613,7 +929,7 @@ const swaggerDefinition = {
                   mensaje: "Salón actualizado correctamente",
                   datos: {
                     salon_id: 1,
-                    titulo: "Salón Dorado Actualizado",
+                    titulo: "Salón Dorado Renovado",
                     direccion: "Av. Libertad 123",
                     capacidad: 130,
                     importe: 28000,
@@ -634,13 +950,33 @@ const swaggerDefinition = {
               },
             },
           },
+          500: {
+            description: "Error interno del servidor",
+            content: {
+              "application/json": {
+                example: {
+                  estado: false,
+                  mensaje: "Error interno del servidor"
+                },
+              },
+            },
+          },
         },
       },
+      // Eliminar Salón
       delete: {
         tags: ["Salones"],
         summary: "Desactivar un salón",
         security: [{ bearerAuth: [] }],
-        parameters: [{ name: "id", in: "path", required: true, schema: { type: "integer" } }],
+        parameters: [
+          {
+            name: "id",
+            in: "path",
+            required: true,
+            description: "ID del salón a desactivar",
+            schema: { type: "integer", example: 3 },
+          },
+        ],
         responses: {
           200: {
             description: "Salón desactivado correctamente",
@@ -664,34 +1000,13 @@ const swaggerDefinition = {
               },
             },
           },
-        },
-      },
-    },
-    "/salones/{id}/activar": {
-      patch: {
-        tags: ["Salones"],
-        summary: "Activar un salón desactivado",
-        security: [{ bearerAuth: [] }],
-        parameters: [{ name: "id", in: "path", required: true, schema: { type: "integer" } }],
-        responses: {
-          200: {
-            description: "Salón activado correctamente",
-            content: {
-              "application/json": {
-                example: {
-                  estado: true,
-                  mensaje: "Salón activado correctamente",
-                },
-              },
-            },
-          },
-          404: {
-            description: "Salón no encontrado",
+          500: {
+            description: "Error interno del servidor",
             content: {
               "application/json": {
                 example: {
                   estado: false,
-                  mensaje: "Salón no encontrado o ya está activo",
+                  mensaje: "Error interno del servidor"
                 },
               },
             },
@@ -892,6 +1207,15 @@ const swaggerDefinition = {
         tags: ["Servicios"],
         summary: "Desactivar un servicio",
         security: [{ bearerAuth: [] }],
+        parameters: [
+          {
+            name: "id",
+            in: "path",
+            required: true,
+            description: "ID del turno que se desea desactivar",
+            schema: { type: "integer", example: 1 }
+          }
+        ],
         responses: {
           200: {
             description: "Servicio desactivado correctamente",
@@ -945,6 +1269,7 @@ const swaggerDefinition = {
         tags: ["Servicios"],
         summary: "Activar un servicio desactivado",
         security: [{ bearerAuth: [] }],
+        parameters: [{ name: "id", in: "path", schema: { type: "integer" }, required: true }],
         responses: {
           200: {
             description: "Servicio activado correctamente",

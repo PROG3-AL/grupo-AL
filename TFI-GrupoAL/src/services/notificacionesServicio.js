@@ -60,7 +60,7 @@ export default class NotificacionesService {
         
         const mailOptions = {
             // from: `Reservas <${process.env.EMAIL_USER}>`,
-            from: `reservas-no-reply@grupoal.com>`,
+            from: `reservas-no-reply@grupoal.com`,
             to: correoElectronico,
             cc: listaCorreosCC,
             subject: "Se creó una reserva nueva",

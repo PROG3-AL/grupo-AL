@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import { router as v1SalonesRutas } from './v1/routes/salonesRouter.js';
 import { router as v1UsuariosRutas } from './v1/routes/usuariosRouter.js'; //importamos rutas de usuarios
 import { router as v1ReservasRutas } from './v1/routes/reservasRouter.js';
@@ -10,6 +11,12 @@ import { router as v1TurnosRutas } from "./v1/routes/turnosRouter.js";
 import { swaggerDocs } from './swagger.js';
 
 const app = express();
+
+app.use(cors({
+  origin: "http://localhost:3000",
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 
 app.use(express.json(
   {type: 'application/json'}
