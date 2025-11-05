@@ -69,7 +69,7 @@ export default class ReservasServicio {
             servicios
         };
 
-       // creo la reserva sola, sin servicios
+       // creo la reserva con los servicios
         const result = await this.reserva.crearReserva(nuevaReserva);
 
         if (!result) {
@@ -86,7 +86,6 @@ export default class ReservasServicio {
             reservaExistente,
             servicios: serviciosExistentes
         }
-        console.log('DATOS PARA EL CORREO: ', datosParaCorreo);
         
         // instancio notificaciones_servicio y uso el método enviar correo pasándole como parámetro los datos obtenidos de la bd
         await this.notificaciones_servicio.enviarCorreo(datosParaCorreo);

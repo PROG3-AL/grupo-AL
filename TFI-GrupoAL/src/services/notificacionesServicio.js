@@ -3,8 +3,13 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import handlebars from 'handlebars';
+import UsuariosServicios from './usuariosServicio.js';
 
 export default class NotificacionesService {
+
+    constructor () {
+        this.usuariosServicios = new UsuariosServicios();
+    }
 
     enviarCorreo = async (datosCorreo) => {  
         try {      
@@ -25,6 +30,15 @@ export default class NotificacionesService {
         //Formato de hora para no incluir los segundos
         const formatearHora = (hora) => hora.split(':').slice(0, 2).join(':');
 
+        //Buscar correo del usuario
+        const usuario = await this.usuariosServicios.buscarPorId(datosCorreo.reservaExistente.usuario_id);
+        const correoElectronico = usuario.nombre_usuario;
+
+        //Buscar los correos de los administradores
+        const admins = await this.usuariosServicios.buscarCorreoAdministradores();
+        const correoAministradores = admins.map(correo => correo.nombre_usuario);
+        const listaCorreosCC = correoAministradores.join(",");
+
         const datos = {
             fecha: fechaLegible,  
             salon: datosCorreo.reservaExistente.salon,
@@ -33,7 +47,6 @@ export default class NotificacionesService {
             servicios: datosCorreo.servicios?.map(s => ({
                 nombre_servicio: s.nombre_servicio
             })) ?? []
-            //correo: datosCorreo.correoElectronico
         };
         const correoHtml = template(datos);
         
@@ -46,12 +59,10 @@ export default class NotificacionesService {
         });
         
         const mailOptions = {
-            // correo de destino, por ahora hardcodeado
-            // después -> to: datosCorreo.correoElectronico,
-            to: `cargarmail@gmail.com`,
-            // con copia para el admin, por ahora hardcodeado
-            // yo (mica) lo probé con dos mails diferentes, uno para to y otro cc. funcionó ok.
-            cc: `maildeladmin@hotmail.com`,
+            // from: `Reservas <${process.env.EMAIL_USER}>`,
+            from: `reservas-no-reply@grupoal.com>`,
+            to: correoElectronico,
+            cc: listaCorreosCC,
             subject: "Se creó una reserva nueva",
             html: correoHtml
         };

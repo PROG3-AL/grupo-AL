@@ -49,4 +49,8 @@ export default class UsuariosServicios {
         return { usuario, token };
     };
 
+    buscarCorreoAdministradores = async () => {
+        return this.usuarios.buscarCorreoAdministradores();
+    }
+
 }

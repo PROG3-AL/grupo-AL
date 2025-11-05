@@ -147,4 +147,9 @@ export default class Usuarios {
     }
   };
 
+  buscarCorreoAdministradores = async () => {
+        const [resultados] = await conexion.query('SELECT nombre_usuario FROM usuarios WHERE tipo_usuario = 1'); //conexion.query cuando no hay paramtros que pasar(mas eficiente)
+        return resultados; 
+  }
+
 }
