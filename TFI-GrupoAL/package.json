@@ -5,7 +5,7 @@
   "main": "src/reservas.js",
   "type": "module",
   "scripts": {
-    "start": "node --watch src/servidor.js",
+    "dev": "node --watch src/servidor.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -22,6 +22,9 @@
     "morgan": "^1.10.1",
     "mysql2": "^3.15.3",
     "nodemailer": "^7.0.10",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0",
     "puppeteer": "^24.28.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
