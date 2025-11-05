@@ -1,0 +1,4 @@
+Numero de reserva,Fecha de reserva,Cliente,Orden,Titulo,Servicios,Importe total
+1,08/10/2025,Alberto López,1,Principal,"Mesa dulce, Mozos, Sonido, Tarjetas de invitación",200000.00
+2,08/10/2025,Alberto López,1,Secundario,"Mesa dulce, Sonido",100000.00
+3,08/10/2025,Pamela Gómez,1,Secundario,"Mesa dulce, Mozos, Sonido, Tarjetas de invitación",500000.00

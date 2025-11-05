@@ -44,6 +44,13 @@ export default class SalonesControlador {
         try{
             const {id} = req.params;
             const salon = await this.salonesServicio.buscarPorId(id);
+
+        if (!salon) {
+            return res.status(404).json({
+                estado: false,
+                mensaje: "Salón no encontrado o inactivo"
+            });
+        }
         
             res.json({
                 estado: true,
@@ -65,7 +72,7 @@ export default class SalonesControlador {
     desactivarSalon = async (req, res, next) => {
 
         if (!req.params.id) {
-            return res.status(400).send({
+            return res.status(400).json({
                 estado: false, 
                 mensaje: "Falta el ID del salón a desactivar"
             });
@@ -104,57 +111,6 @@ export default class SalonesControlador {
         } catch (err) {
 
             console.log("Error al 'eliminar' el salon", err);
-
-            res.status(500).json({
-                estado: false,
-                mensaje: "Error interno del servidor"
-            });
-
-            next();
-        };
-    };
-
-    activarSalon = async (req, res, next) => {
-
-        if (!req.params.id) {
-            return res.status(400).send({
-                estado: false, 
-                mensaje: "Falta el ID del salón a activar"
-            });
-        };
-
-        try {
-            const { id } = req.params;
-            
-            // Verificar que el salón existe
-            const salonExistente = await this.salonesServicio.buscarPorId(id);
-
-            if (!salonExistente) {
-                return res.status(404).send({
-                    estado: false,
-                    mensaje: "Salón no encontrado"
-                });
-            };
-
-            // Verificar si ya está activo
-            if (salonExistente.activo === 1) {
-                return res.status(400).send({
-                    estado: false,
-                    mensaje: "El salón ya está activo - No es necesario reactivarlo"
-                });
-            };
-
-            // Ejecutar activación
-            await this.salonesServicio.activarSalon(id);
-            
-            res.status(200).json({
-                estado: true,
-                mensaje: "Salón activado correctamente"
-            });
-
-        } catch (err) {
-
-            console.log("Error al 'activar' el salon", err);
 
             res.status(500).json({
                 estado: false,
@@ -241,7 +197,7 @@ export default class SalonesControlador {
             });
 
             next();
-        }
+        };
     };
 
 };

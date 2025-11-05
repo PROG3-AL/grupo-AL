@@ -73,6 +73,18 @@
             <li><strong>Fecha de reserva:</strong> {{ fecha }}</li>
             <li><strong>Salón:</strong> {{ salon }}</li>
             <li><strong>Turno:</strong> {{ turno }}</li>
+            <li><strong>Horario:</strong> {{ hora }}</li>
+            <li><strong>Servicios:</strong> 
+                {{#if servicios.length}}
+                <ul>
+                {{#each servicios}}
+                    <li>{{nombre_servicio}}</li>
+                {{/each}}
+                </ul>
+                {{else}}
+                <p>No incluiste servicios en tu reserva</p>
+                {{/if}}
+            </li>
 
         </ul>
         <footer>
