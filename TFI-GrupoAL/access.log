@@ -1,0 +1,1 @@
+::1 - - [05/Nov/2025:13:54:00 +0000] "POST /api/v1/usuarios HTTP/1.1" 400 154 "-" "bruno-runtime/2.13.2"
