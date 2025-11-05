@@ -18,13 +18,13 @@ router.get('/', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO), usua
 router.get('/:id', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO), usuariosControlador.listarUsuarioPorId);
 
 router.post('/', [
-    validacionesUsuario.nombre, 
-    validacionesUsuario.apellido, 
-    validacionesUsuario.nombre_usuario, 
-    validacionesUsuario.contrasenia, 
-    validacionesUsuario.tipo_usuario, 
+    validacionesUsuario.nombre,
+    validacionesUsuario.apellido,
+    validacionesUsuario.nombre_usuario,
+    validacionesUsuario.contrasenia,
+    validacionesUsuario.tipo_usuario,
     validarCampos
-] ,usuariosControlador.crearUsuario);
+], usuariosControlador.crearUsuario);
 
 router.delete('/:id', autenticar, autorizar(ROLES.ADMINISTRADOR), usuariosControlador.desactivarUsuario);
 

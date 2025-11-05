@@ -12,7 +12,6 @@
   "license": "ISC",
   "dependencies": {
     "apicache": "^1.6.3",
-    "bcrypt": "^6.0.0",
     "csv-writer": "^1.6.0",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",

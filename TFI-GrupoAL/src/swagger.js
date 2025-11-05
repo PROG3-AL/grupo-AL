@@ -10,9 +10,9 @@ const swaggerDefinition = {
     Incluye endpoints para Usuarios, Reservas, Salones, Servicios y Turnos`,
   },
   servers: [
-    { 
-      url: "http://localhost:3000/api/v1", 
-      description: "Servidor local" 
+    {
+      url: "http://localhost:3000/api/v1",
+      description: "Servidor local"
     },
   ],
   tags: [
@@ -29,7 +29,7 @@ const swaggerDefinition = {
   },
   paths: {
     // ---------- USUARIOS ----------
-    
+
     // LOGIN USUARIO
     "/usuarios/login": {
       post: {
@@ -54,9 +54,9 @@ const swaggerDefinition = {
                 example: {
                   estado: true,
                   mensaje: "Inicio de sesión exitoso",
-                  datos: { 
-                    usuario_id: 10, 
-                    nombre_usuario: "ezequielsanchez@gmail.com", 
+                  usuarios: {
+                    usuario_id: 10,
+                    nombre_usuario: "ezequielsanchez@gmail.com",
                     tipo_usuario: 1,
                     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
                   }
@@ -68,10 +68,10 @@ const swaggerDefinition = {
             description: "Faltan usuario y contraseña",
             content: {
               "application/json": {
-                    example: { 
-                      estado: false,
-                      mensaje: "Debe ingresar nombre de usuario y contraseña" 
-                    },     
+                example: {
+                  estado: false,
+                  mensaje: "Debe ingresar nombre de usuario y contraseña"
+                },
               },
             },
           },
@@ -128,7 +128,7 @@ const swaggerDefinition = {
                 example: {
                   estado: false,
                   mensaje: {
-                    apellido:{
+                    apellido: {
                       "type": "field",
                       "value": "",
                       "msg": "El apellido es obligatorio",
@@ -155,8 +155,9 @@ const swaggerDefinition = {
               "application/json": {
                 example: {
                   estado: true,
-                  datos: [
-                    { usuario_id: 1,
+                  usuarios: [
+                    {
+                      usuario_id: 1,
                       nombre: "Alberto",
                       apellido: "López",
                       nombre_usuario: "alblop@correo.com",
@@ -199,8 +200,9 @@ const swaggerDefinition = {
               "application/json": {
                 example: {
                   estado: true,
-                  datos: [
-                    { usuario_id: 1,
+                  usuarios: [
+                    {
+                      usuario_id: 1,
                       nombre: "Alberto",
                       apellido: "López",
                       nombre_usuario: "alblop@correo.com",
@@ -221,9 +223,9 @@ const swaggerDefinition = {
             description: "Usuario no encontrado",
             content: {
               "application/json": {
-                example: { 
-                  estado: false, 
-                  mensaje: "Usuario no encontrado" 
+                example: {
+                  estado: false,
+                  mensaje: "Usuario no encontrado"
                 },
               },
             },
@@ -248,10 +250,12 @@ const swaggerDefinition = {
         requestBody: {
           content: {
             "application/json": {
-              example: 
-              { nombre: "Ezequiel", 
-                apellido: "Lopez", 
-                tipo_usuario: 3 },
+              example:
+              {
+                nombre: "Ezequiel",
+                apellido: "Lopez",
+                tipo_usuario: 3
+              },
             },
           },
         },
@@ -262,7 +266,7 @@ const swaggerDefinition = {
               "application/json": {
                 example: {
                   mensaje: "Usuario actualizado correctamente.",
-                  usuario: { 
+                  usuario: {
                     "usuario_id": 1,
                     "nombre": "Ezequiel",
                     "apellido": "Lopez",
@@ -283,8 +287,8 @@ const swaggerDefinition = {
             description: "Usuario no encontrado",
             content: {
               "application/json": {
-                example: { 
-                  "mensaje": "Usuario no encontrado o sin cambios" 
+                example: {
+                  "mensaje": "Usuario no encontrado o sin cambios"
                 },
               },
             },
@@ -311,9 +315,9 @@ const swaggerDefinition = {
             description: "Usuario desactivado correctamente",
             content: {
               "application/json": {
-                example: { 
-                  estado: true, 
-                  mensaje: "Usuario desactivado correctamente" 
+                example: {
+                  estado: true,
+                  mensaje: "Usuario desactivado correctamente"
                 },
               },
             },
@@ -322,9 +326,9 @@ const swaggerDefinition = {
             description: "Usuario no encontrado",
             content: {
               "application/json": {
-                example: { 
+                example: {
                   estado: false,
-                  mensaje: "Usuario no encontrado o ya está desactivado" 
+                  mensaje: "Usuario no encontrado o ya está desactivado"
                 },
               },
             },
@@ -351,9 +355,9 @@ const swaggerDefinition = {
             description: "Usuario activado correctamente",
             content: {
               "application/json": {
-                example: { 
-                  estado: true, 
-                  mensaje: "Usuario activado correctamente" 
+                example: {
+                  estado: true,
+                  mensaje: "Usuario activado correctamente"
                 },
               },
             },
@@ -362,9 +366,9 @@ const swaggerDefinition = {
             description: "Usuario no encontrado",
             content: {
               "application/json": {
-                example: { 
+                example: {
                   estado: false,
-                  mensaje: "Usuario no encontrado o ya está activado" 
+                  mensaje: "Usuario no encontrado o ya está activado"
                 },
               },
             },
@@ -785,7 +789,7 @@ const swaggerDefinition = {
         tags: ["Servicios"],
         summary: "Obtener un servicio por ID",
         security: [{ bearerAuth: [] }],
-        parameters: [{ name: "id", in: "path", schema: { type: "integer" }}],
+        parameters: [{ name: "id", in: "path", schema: { type: "integer" } }],
         responses: {
           200: {
             description: "Servicio encontrado",
@@ -831,7 +835,7 @@ const swaggerDefinition = {
         tags: ["Servicios"],
         summary: "Actualizar un servicio existente",
         security: [{ bearerAuth: [] }],
-        parameters: [{ name: "id", in: "path", schema: { type: "integer" }}],
+        parameters: [{ name: "id", in: "path", schema: { type: "integer" } }],
         requestBody: {
           content: {
             "application/json": {
@@ -1004,7 +1008,8 @@ const swaggerDefinition = {
                 example: {
                   estado: true,
                   turnos: [
-                    { "turno_id": 1,
+                    {
+                      "turno_id": 1,
                       "orden": 1,
                       "hora_desde": "12:00:00",
                       "hora_hasta": "14:00:00",
@@ -1027,10 +1032,10 @@ const swaggerDefinition = {
         requestBody: {
           content: {
             "application/json": {
-              example: { 
+              example: {
                 orden: 2,
                 hora_desde: "12:00",
-                hora_hasta: "17:00" 
+                hora_hasta: "17:00"
               },
             },
           },
@@ -1044,11 +1049,11 @@ const swaggerDefinition = {
                   estado: true,
                   mensaje: "Turno creado correctamente",
                   turno: {
-                        turno_id: 8,
-                        orden: 4,
-                        hora_desde: "12:00",
-                        hora_hasta: "17:00",
-                        activo: 1,
+                    turno_id: 8,
+                    orden: 4,
+                    hora_desde: "12:00",
+                    hora_hasta: "17:00",
+                    activo: 1,
                   },
                 },
               },
@@ -1107,7 +1112,7 @@ const swaggerDefinition = {
             description: "Turno no encontrado",
             content: {
               "application/json": {
-                example: { 
+                example: {
                   estado: false,
                   mensaje: "Turno no encontrado"
                 },
@@ -1125,10 +1130,10 @@ const swaggerDefinition = {
         requestBody: {
           content: {
             "application/json": {
-              example: { 
+              example: {
                 orden: 1,
                 hora_desde: "17:00",
-                hora_hasta: "22:00" 
+                hora_hasta: "22:00"
               },
             },
           },
@@ -1155,9 +1160,10 @@ const swaggerDefinition = {
             description: "Turno no encontrado",
             content: {
               "application/json": {
-                example: { 
-                  estado: false, 
-                  mensaje: "Turno no encontrado para actualizar" },
+                example: {
+                  estado: false,
+                  mensaje: "Turno no encontrado para actualizar"
+                },
               },
             },
           },
@@ -1216,7 +1222,7 @@ const swaggerDefinition = {
       }
     }
 
-  }, 
+  },
 };
 
 const options = { swaggerDefinition, apis: [] };
@@ -1224,5 +1230,5 @@ const swaggerSpec = swaggerJSDoc(options);
 
 export function swaggerDocs(app) {
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-  console.log("Swagger disponible en: http://localhost:3000/api-docs");
+  console.log("Documentación de API Swagger: http://localhost:3000/api-docs");
 }

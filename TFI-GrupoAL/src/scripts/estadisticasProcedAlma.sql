@@ -1,4 +1,3 @@
---------- comienzo salones mas reservados ---------
 DELIMITER $$
 CREATE PROCEDURE sp_salones_mas_reservados()
 BEGIN
@@ -14,7 +13,6 @@ BEGIN
     ORDER BY cantidad_reservas DESC;
 END$$
 
---------- comienzo servicios mas solicitados ---------
 CREATE PROCEDURE sp_servicios_mas_solicitados()
 BEGIN
     SELECT 
@@ -29,7 +27,6 @@ BEGIN
     ORDER BY veces_solicitado DESC;
 END$$
 
---------- cominezo turnos más reservados ---------
 CREATE PROCEDURE sp_turnos_mas_reservados()
 BEGIN
     SELECT 

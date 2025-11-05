@@ -3,14 +3,14 @@ import { ROLES } from "../middlewares/autorizar.js";
 
 export default class UsuariosControlador {
 
-    constructor () {
+    constructor() {
         this.usuariosServicio = new UsuariosServicio();
     };
 
     // -- Funcion para listar todos los usuarios -- //
     listarUsuarios = async (req, res, next) => {
 
-        try{
+        try {
 
             let usuarios = await this.usuariosServicio.buscarUsuarios();
 
@@ -20,20 +20,20 @@ export default class UsuariosControlador {
 
             res.json({
                 estado: true,
-                datos: usuarios
+                usuarios: usuarios
             });
 
         } catch (err) {
             console.log('Error en GET /usuarios', err);
-            res.status (500).json({
+            res.status(500).json({
                 estado: false,
                 mensaje: "Error al listar usuarios"
             });
-            
+
             next()
         };
     };
-    
+
     // -- Funcion para mostrar un usuario por su id -- //
     listarUsuarioPorId = async (req, res, next) => {
 
@@ -44,8 +44,8 @@ export default class UsuariosControlador {
             });
         }
 
-        try{
-            const{id} = req.params;
+        try {
+            const { id } = req.params;
             const usuario = await this.usuariosServicio.buscarPorId(id);
 
             if (!usuario) {
@@ -63,10 +63,10 @@ export default class UsuariosControlador {
                     mensaje: "Solo se pueden consultar usuarios de tipo cliente"
                 });
             }
-            
+
             res.json({
-                estado:true,
-                datos: usuario
+                estado: true,
+                usuarios: usuario
             });
 
         } catch (err) {
@@ -82,35 +82,47 @@ export default class UsuariosControlador {
 
     // -- Funcion para desactivar un usuario -- //
     desactivarUsuario = async (req, res, next) => {
-
         if (!req.params.id) {
             return res.status(400).json({
                 estado: false,
                 mensaje: "Falta el ID del usuario"
             });
-        };
+        }
 
         try {
-            const {id} = req.params;
-            const salonExiste = await this.usuariosServicio.buscarPorId(id);
+            const { id } = req.params;
+            const usuario = await this.usuariosServicio.buscarPorId(id);
 
-            if (!salonExiste) {
-                return res.status(404).send({
+            if (!usuario) {
+                return res.status(404).json({
                     estado: false,
-                    mensaje: "Usuario no encontrado o ya esta desactivado"
+                    mensaje: "Usuario no encontrado"
                 });
             }
 
-            await this.usuariosServicio.desactivarUsuario(id);
+            if (usuario.activo === 0) {
+                return res.status(400).json({
+                    estado: false,
+                    mensaje: "El usuario ya está inactivo"
+                });
+            }
 
-            res.status(200).json({
+            const resultado = await this.usuariosServicio.desactivarUsuario(id);
+
+            if (!resultado || resultado.affectedRows === 0) {
+                return res.status(500).json({
+                    estado: false,
+                    mensaje: "No se pudo desactivar el usuario. Intente nuevamente."
+                });
+            }
+
+            return res.status(200).json({
                 estado: true,
-                mensaje: "usuario desactivado correctamente"
+                mensaje: "Usuario desactivado correctamente"
             });
 
         } catch (err) {
-
-            console.log("Error al 'eliminar' el usuario", err);
+            console.log("Error al desactivar el usuario", err);
 
             res.status(500).json({
                 estado: false,
@@ -129,28 +141,40 @@ export default class UsuariosControlador {
                 estado: false,
                 mensaje: "Falta el ID del usuario"
             });
-        };
+        }
 
         try {
-            const {id} = req.params;
-            const salonExiste = await this.usuariosServicio.buscarPorId(id);
+            const { id } = req.params;
+            const usuario = await this.usuariosServicio.buscarPorId(id);
 
-            if (!salonExiste) {
+            if (!usuario) {
                 return res.status(404).send({
                     estado: false,
-                    mensaje: "Usuario no encontrado o ya esta activado"
+                    mensaje: "Usuario no encontrado"
                 });
             }
 
-            await this.usuariosServicio.activarUsuario(id);
+            if (usuario.activo === 1) {
+                return res.status(400).json({
+                    estado: false,
+                    mensaje: "El usuario ya está activo"
+                });
+            }
+
+            const resultado = await this.usuariosServicio.activarUsuario(id);
+            if (!resultado || resultado.affectedRows === 0) {
+                return res.status(500).json({
+                    estado: false,
+                    mensaje: "No se pudo activar el usuario. Intente nuevamente."
+                });
+            }
 
             res.status(200).json({
                 estado: true,
-                mensaje: "usuario activado correctamente"
+                mensaje: "Usuario activado correctamente"
             });
 
         } catch (err) {
-
             console.log("Error al activar al usuario", err);
 
             res.status(500).json({
@@ -162,13 +186,14 @@ export default class UsuariosControlador {
         }
     };
 
+
     // -- Funcion para crear un usuario -- //   
     crearUsuario = async (req, res, next) => {
 
         if (!req.body || !req.body.nombre || !req.body.apellido || !req.body.nombre_usuario || !req.body.contrasenia) {
-            return res.status(400).send ({
+            return res.status(400).send({
                 estado: false,
-                mensaje: "Faltan datos requeridos para crear el usuario (npmbre, apellido, Emal, contraseñia)"
+                mensaje: "Faltan datos requeridos para crear el usuario (nombre, apellido, Emal, contraseñia)"
             });
         }
 
@@ -189,7 +214,7 @@ export default class UsuariosControlador {
                 mensaje: "Usuario creado correctamente",
                 data: usuarioCreado
             });
-        
+
         } catch (err) {
             console.log('Error en POST /usuarios/', err);
 
@@ -199,7 +224,7 @@ export default class UsuariosControlador {
             });
 
             next();
-        } 
+        }
     };
 
     // -- Funcion para actualizar un usuario -- //
@@ -213,16 +238,16 @@ export default class UsuariosControlador {
 
             // Si no existe el usuario
             if (!usuarioActualizado) {
-            return res.status(404).json({ mensaje: "Usuario no encontrado o sin cambios." });
+                return res.status(404).json({ mensaje: "Usuario no encontrado o sin cambios." });
             }
 
             return res.status(200).json({
-            mensaje: "Usuario actualizado correctamente.",
-            usuario: usuarioActualizado
+                mensaje: "Usuario actualizado correctamente.",
+                usuario: usuarioActualizado
             });
         } catch (error) {
             console.error("Error al actualizar usuario:", error.message);
-            next(error); 
+            next(error);
         }
     };
 
@@ -252,7 +277,7 @@ export default class UsuariosControlador {
             return res.status(200).json({
                 estado: true,
                 mensaje: "Inicio de sesión exitoso",
-                datos: {
+                usuarios: {
                     usuario_id: usuario.usuario_id,
                     nombre_usuario: usuario.nombre_usuario,
                     tipo_usuario: usuario.tipo_usuario,

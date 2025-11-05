@@ -2,7 +2,7 @@ import Usuarios from '../database/usuarios.js';
 import { generarToken } from '../utils/JWT.js';
 
 export default class UsuariosServicios {
-    constructor () {
+    constructor() {
         this.usuarios = new Usuarios()
     };
 

@@ -9,7 +9,7 @@ export default class Turnos {
 
   // Buscar turno por ID
   buscarPorId = async (id) => {
-    const [resultado] = await conexion.execute('SELECT * FROM turnos WHERE turno_id = ?',[id]);
+    const [resultado] = await conexion.execute('SELECT * FROM turnos WHERE turno_id = ?', [id]);
     return resultado[0];
   };
 
@@ -17,7 +17,7 @@ export default class Turnos {
   crearTurno = async (turno) => {
     const { orden, hora_desde, hora_hasta } = turno;
     const [resultado] = await conexion.execute('INSERT INTO turnos (orden, hora_desde, hora_hasta, activo) VALUES (?, ?, ?, 1)',
-    [orden, hora_desde, hora_hasta]);
+      [orden, hora_desde, hora_hasta]);
     return { turno_id: resultado.insertId, ...turno, activo: 1 };
   };
 
@@ -25,7 +25,7 @@ export default class Turnos {
   actualizarTurno = async (id, datos) => {
     const { orden, hora_desde, hora_hasta } = datos;
     await conexion.execute('UPDATE turnos SET orden = ?, hora_desde = ?, hora_hasta = ? WHERE turno_id = ?',
-    [orden, hora_desde, hora_hasta, id]);
+      [orden, hora_desde, hora_hasta, id]);
   };
 
   // Desactivar turno (borrado lógico)
