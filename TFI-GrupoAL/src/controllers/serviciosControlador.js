@@ -12,7 +12,7 @@ export default class ServiciosControlador {
         try {
 
             const servicios = await this.serviciosServicio.buscarServicios();
-            res.json({
+            res.status(200).json({
                 estado: true,
                 datos: servicios
             });
@@ -53,7 +53,7 @@ export default class ServiciosControlador {
                 });
             };
 
-            res.json({
+            res.status(200).json({
                 estado: true,
                 datos: servicio
             });
@@ -95,7 +95,7 @@ export default class ServiciosControlador {
             };
 
             if (servicioExistente.activo === 0) {
-                return res.status(400).json({
+                return res.status(409).json({
                     estado: false,
                     mensaje: "El servicio esta desactivado"
                 });
@@ -147,7 +147,7 @@ export default class ServiciosControlador {
             };
 
             if (servicioExistente.activo === 1) {
-                return res.status(400).json({
+                return res.status(409).json({
                     estado: false,
                     mensaje: "El servicio con el id proporcionado ya esta activado"
                 });
@@ -239,7 +239,7 @@ export default class ServiciosControlador {
             const servicioExiste = await this.serviciosServicio.buscarServicioPorNombre(nuevoServicio.descripcion);
 
             if (servicioExiste) {
-                return res.status(400).json({
+                return res.status(409).json({
                     estado: false,
                     mensaje: "El nombre del servicio ya existe"
                 });
@@ -247,7 +247,7 @@ export default class ServiciosControlador {
 
             const servicioCreado = await this.serviciosServicio.crearServicio(nuevoServicio);
 
-            res.status(200).json({
+            res.status(201).json({
                 estado: true,
                 mensaje: "Servicio creado exitosamente",
                 datos: servicioCreado
