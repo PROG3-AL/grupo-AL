@@ -242,6 +242,27 @@ export default class Reservas {
         const [resultado] = await conexion.execute(sql);
         return resultado;
     };
+
+    // Buscar reservas por usuario
+
+    buscarReservasPorUsuario = async (usuario_id) => {
+        const [reservas] = await conexion.execute(
+            'SELECT * FROM reservas WHERE activo = 1 AND usuario_id = ?',
+            [usuario_id]
+        );
+
+        const reservasConServicios = await Promise.all(
+            reservas.map(async (reserva) => {
+                const servicios = await this.reservas_servicios.obtenerServiciosExistentes(reserva.reserva_id);
+                return {
+                        ...reserva,
+                        servicios: servicios.length > 0 ? servicios : null
+                };
+            })
+        );
+
+        return reservasConServicios;
+    };
 };
 
 

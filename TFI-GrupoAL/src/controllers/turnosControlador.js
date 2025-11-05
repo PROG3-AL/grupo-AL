@@ -1,4 +1,8 @@
 import TurnosServicio from '../services/turnosServicio.js';
+import apicache from 'apicache';
+
+
+const apicacheInstance = apicache.newInstance();
 
 export default class TurnosControlador {
   constructor() {
@@ -8,9 +12,25 @@ export default class TurnosControlador {
   listarTurnos = async (req, res, next) => {
     try {
       const turnos = await this.turnosServicio.buscarTurnos();
-      res.status(200).json({ estado: true, turnos });
+
+      // Si no hay turnos
+      if (!turnos || turnos.length === 0) {
+        return res.status(404).json({
+          estado: false,
+          mensaje: "No tiene turnos registrados",
+        });
+      }
+
+      res.status(200).json({
+        estado: true,
+        turnos,
+      });
     } catch (error) {
-      next(error);
+      console.error("Error en GET /turnos:", error.message);
+      res.status(500).json({
+        estado: false,
+        mensaje: "Error interno del servidor",
+      });
     }
   };
 
@@ -18,15 +38,32 @@ export default class TurnosControlador {
     try {
       const { id } = req.params;
       const turno = await this.turnosServicio.buscarPorId(id);
-      res.status(200).json({ estado: true, turno });
+
+      if (!turno) {
+        return res.status(404).json({
+          estado: false,
+          mensaje: "Turno no encontrado"
+        });
+      }
+
+      res.status(200).json({
+        estado: true,
+        turno
+      });
+
     } catch (error) {
-      next(error);
+      console.error("Error en buscarPorId:", error.message);
+      res.status(404).json({
+        estado: false,
+        mensaje: "Turno no encontrado"
+      });
     }
-  };
+};
 
   crearTurno = async (req, res, next) => {
     try {
       const nuevoTurno = await this.turnosServicio.crearTurno(req.body);
+      apicacheInstance.clear();
       res.status(201).json({
         estado: true,
         mensaje: "Turno creado correctamente",
@@ -40,30 +77,73 @@ export default class TurnosControlador {
   actualizarTurno = async (req, res, next) => {
     try {
       const { id } = req.params;
-      const turnoActualizado = await this.turnosServicio.actualizarTurno(
-        id,
-        req.body
-      );
+
+      const turnoActualizado = await this.turnosServicio.actualizarTurno(id, req.body);
+
+      if (!turnoActualizado) {
+        return res.status(404).json({
+          estado: false,
+          mensaje: "Turno no encontrado"
+        });
+      }
+
       res.status(200).json({
         estado: true,
         mensaje: "Turno actualizado correctamente",
         turno: turnoActualizado,
       });
+
     } catch (error) {
-      next(error);
+      console.error("Error en PUT /turnos/:id ->", error.message);
+
+      if (error.message === "Turno no encontrado") {
+        return res.status(404).json({
+          estado: false,
+          mensaje: "Turno no encontrado"
+        });
+      }
+
+      res.status(500).json({
+        estado: false,
+        mensaje: "Error interno del servidor"
+      });
     }
   };
 
   desactivarTurno = async (req, res, next) => {
     try {
       const { id } = req.params;
+      const existente = await this.turnosServicio.turnos.buscarPorId(id);
+
+      if (!existente) {
+        return res.status(404).json({
+          estado: false,
+          mensaje: "Turno no encontrado",
+        });
+      }
+
       await this.turnosServicio.desactivarTurno(id);
+
+      apicacheInstance.clear();
+
       res.status(200).json({
         estado: true,
         mensaje: "Turno desactivado correctamente",
       });
     } catch (error) {
-      next(error);
+      console.error("Error en PATCH /turnos/:id/desactivar ->", error.message);
+
+      if (error.message === "Turno no encontrado") {
+        return res.status(404).json({
+          estado: false,
+          mensaje: "Turno no encontrado",
+        });
+      }
+
+      res.status(500).json({
+        estado: false,
+        mensaje: "Error interno del servidor",
+      });
     }
   };
-};
+}

@@ -913,6 +913,7 @@ const swaggerDefinition = {
     },
     // ---------- TURNOS ----------
     "/turnos": {
+      // LISTAR TODOS LOS TURNOS ACTIVOS
       get: {
         tags: ["Turnos"],
         summary: "Listar todos los turnos activos",
@@ -925,7 +926,14 @@ const swaggerDefinition = {
                 example: {
                   estado: true,
                   turnos: [
-                    { turno_id: 1, orden: 1, hora_desde: "18:00", hora_hasta: "23:00", activo: 1 },
+                    { "turno_id": 1,
+                      "orden": 1,
+                      "hora_desde": "12:00:00",
+                      "hora_hasta": "14:00:00",
+                      "activo": 1,
+                      "creado": "2025-08-19T21:44:19.000Z",
+                      "modificado": "2025-08-19T21:44:19.000Z"
+                    },
                   ],
                 },
               },
@@ -933,6 +941,7 @@ const swaggerDefinition = {
           },
         },
       },
+      // CREAR TURNOS
       post: {
         tags: ["Turnos"],
         summary: "Crear un nuevo turno",
@@ -940,7 +949,11 @@ const swaggerDefinition = {
         requestBody: {
           content: {
             "application/json": {
-              example: { orden: 2, hora_desde: "12:00", hora_hasta: "17:00" },
+              example: { 
+                orden: 2,
+                hora_desde: "12:00",
+                hora_hasta: "17:00" 
+              },
             },
           },
         },
@@ -952,7 +965,13 @@ const swaggerDefinition = {
                 example: {
                   estado: true,
                   mensaje: "Turno creado correctamente",
-                  turno: { turno_id: 2, orden: 2, hora_desde: "12:00", hora_hasta: "17:00", activo: 1 },
+                  turno: {
+                        turno_id: 8,
+                        orden: 4,
+                        hora_desde: "12:00",
+                        hora_hasta: "17:00",
+                        activo: 1,
+                  },
                 },
               },
             },
@@ -962,8 +981,16 @@ const swaggerDefinition = {
             content: {
               "application/json": {
                 example: {
-                  estado: false,
-                  mensaje: "Faltan datos requeridos para crear el turno",
+                  "estado": "fallo",
+                  "mensaje": {
+                    "hora_desde": {
+                      "type": "field",
+                      "value": "",
+                      "msg": "La hora de inicio es obligatoria",
+                      "path": "hora_desde",
+                      "location": "body"
+                    }
+                  }
                 },
               },
             },
@@ -971,6 +998,7 @@ const swaggerDefinition = {
         },
       },
     },
+    // BUSCAR TURNOS POR ID
     "/turnos/{id}": {
       get: {
         tags: ["Turnos"],
@@ -983,8 +1011,16 @@ const swaggerDefinition = {
             content: {
               "application/json": {
                 example: {
-                  estado: true,
-                  turno: { turno_id: 1, orden: 1, hora_desde: "18:00", hora_hasta: "23:00", activo: 1 },
+                  "estado": true,
+                  "turno": {
+                    "turno_id": 3,
+                    "orden": 3,
+                    "hora_desde": "18:00:00",
+                    "hora_hasta": "20:00:00",
+                    "activo": 1,
+                    "creado": "2025-08-19T21:46:08.000Z",
+                    "modificado": "2025-08-19T21:46:08.000Z"
+                  },
                 },
               },
             },
@@ -993,20 +1029,29 @@ const swaggerDefinition = {
             description: "Turno no encontrado",
             content: {
               "application/json": {
-                example: { estado: false, mensaje: "Turno no encontrado o inactivo" },
+                example: { 
+                  estado: false,
+                  mensaje: "Turno no encontrado"
+                },
               },
             },
           },
         },
       },
+      // ACTUALIZAR TURNOS
       put: {
         tags: ["Turnos"],
         summary: "Actualizar un turno",
         security: [{ bearerAuth: [] }],
+        parameters: [{ name: "id", in: "path", schema: { type: "integer" }, required: true }],
         requestBody: {
           content: {
             "application/json": {
-              example: { orden: 1, hora_desde: "17:00", hora_hasta: "22:00" },
+              example: { 
+                orden: 1,
+                hora_desde: "17:00",
+                hora_hasta: "22:00" 
+              },
             },
           },
         },
@@ -1016,9 +1061,14 @@ const swaggerDefinition = {
             content: {
               "application/json": {
                 example: {
-                  estado: true,
-                  mensaje: "Turno actualizado correctamente",
-                  turno: { turno_id: 1, orden: 1, hora_desde: "17:00", hora_hasta: "22:00", activo: 1 },
+                  "estado": true,
+                  "mensaje": "Turno actualizado correctamente",
+                  "turno": {
+                    "id": "2",
+                    "orden": 3,
+                    "hora_desde": "17:00",
+                    "hora_hasta": "22:00"
+                  }
                 },
               },
             },
@@ -1027,14 +1077,68 @@ const swaggerDefinition = {
             description: "Turno no encontrado",
             content: {
               "application/json": {
-                example: { estado: false, mensaje: "Turno no encontrado para actualizar" },
+                example: { 
+                  estado: false, 
+                  mensaje: "Turno no encontrado para actualizar" },
               },
             },
           },
         },
       },
     },
-  }, // <-- cierre de paths
+    "/turnos/{id}/desactivar": {
+      patch: {
+        tags: ["Turnos"],
+        summary: "Desactivar un turno",
+        security: [{ bearerAuth: [] }],
+        parameters: [
+          {
+            name: "id",
+            in: "path",
+            required: true,
+            description: "ID del turno que se desea desactivar",
+            schema: { type: "integer", example: 1 }
+          }
+        ],
+        responses: {
+          200: {
+            description: "Turno desactivado correctamente",
+            content: {
+              "application/json": {
+                example: {
+                  estado: true,
+                  mensaje: "Turno desactivado correctamente"
+                }
+              }
+            }
+          },
+          404: {
+            description: "Turno no encontrado",
+            content: {
+              "application/json": {
+                example: {
+                  estado: false,
+                  mensaje: "Turno no encontrado"
+                }
+              }
+            }
+          },
+          500: {
+            description: "Error interno del servidor",
+            content: {
+              "application/json": {
+                example: {
+                  estado: false,
+                  mensaje: "Error interno del servidor"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+  }, 
 };
 
 const options = { swaggerDefinition, apis: [] };
