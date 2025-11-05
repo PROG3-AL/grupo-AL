@@ -15,7 +15,7 @@ router.get('/', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO, ROLES
 router.get('/:id', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO), turnosControlador.buscarPorId);
 
 router.post(
-  '/',autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO),
+  '/', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO),
   [
     validacionesTurno.orden,
     validacionesTurno.hora_desde,
@@ -26,7 +26,7 @@ router.post(
 );
 
 router.put(
-  '/:id', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO), 
+  '/:id', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO),
   [
     validacionesTurno.orden,
     validacionesTurno.hora_desde,

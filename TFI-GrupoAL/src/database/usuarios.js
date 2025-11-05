@@ -5,7 +5,7 @@ export default class Usuarios {
     // Buscar todos los usuarios
     buscarUsuarios = async () => {
         const [resultados] = await conexion.query('SELECT * FROM usuarios WHERE activo = 1'); //conexion.query cuando no hay paramtros que pasar(mas eficiente)
-        return resultados; 
+        return resultados;
     };
 
     //Buscar Usuarios por Id
@@ -13,22 +13,22 @@ export default class Usuarios {
         const usuarioId = Number(id);
 
         try {
-             const [resultados] = await conexion.execute('SELECT * FROM usuarios WHERE usuario_id = ?', [usuarioId]);
-             return resultados[0] ?? null;
-         } catch (err) {
-             throw new Error(err);
-            }
+            const [resultados] = await conexion.execute('SELECT * FROM usuarios WHERE usuario_id = ?', [usuarioId]);
+            return resultados[0] ?? null;
+        } catch (err) {
+            throw new Error(err);
+        }
     };
 
     //Buscar usuario por Email
     buscarUsuarioPorEmail = async (nombre_usuario) => {
         try {
-             const [resultados] = await conexion.execute('SELECT * FROM usuarios WHERE nombre_usuario = ?', [nombre_usuario]);
-             return resultados[0] ?? null; // devuelve null si no encuentra nada
-           } catch (err) {
+            const [resultados] = await conexion.execute('SELECT * FROM usuarios WHERE nombre_usuario = ?', [nombre_usuario]);
+            return resultados[0] ?? null; // devuelve null si no encuentra nada
+        } catch (err) {
             console.error("Error al buscar usuario por email:", err);
-            throw err; 
-           }   
+            throw err;
+        }
     };
 
     //Crea un usuario
@@ -67,11 +67,13 @@ export default class Usuarios {
     };
 
     //desactivar Usuario
-    desactivarUsuario = async (usuarioId) =>  {
-        try  {
+    desactivarUsuario = async (usuarioId) => {
+        try {
             const [resultado] = await conexion.execute(
-                'UPDATE usuarios SET activo = 0 WHERE usuario_id = ?', [usuarioId]);
-                return resultado;
+                'UPDATE usuarios SET activo = 0, modificado = NOW() WHERE usuario_id = ? AND activo = 1',
+                [usuarioId]
+            );
+            return resultado;
         } catch (err) {
             console.error('Error al desactivar Usuario:', err.message);
             throw err;
@@ -80,10 +82,12 @@ export default class Usuarios {
 
     //Activar Usuario
     activarUsuario = async (usuarioId) => {
-        try  {
+        try {
             const [resultado] = await conexion.execute(
-                'UPDATE usuarios SET activo = 1 WHERE usuario_id = ?', [usuarioId]);
-                return resultado;
+                'UPDATE usuarios SET activo = 1, modificado = NOW() WHERE usuario_id = ? AND activo = 0',
+                [usuarioId]
+            );
+            return resultado;
         } catch (err) {
             console.error('Error al activar Usuario:', err.message);
             throw err;
@@ -104,52 +108,52 @@ export default class Usuarios {
     };
 
     //Actualizar Usuario
-     actualizarUsuario = async (id, datos) => {
-    const usuarioId = Number(id);
-    if (isNaN(usuarioId)) throw new Error('ID de usuario inválido');
+    actualizarUsuario = async (id, datos) => {
+        const usuarioId = Number(id);
+        if (isNaN(usuarioId)) throw new Error('ID de usuario inválido');
 
-    try {
-      if (!datos || Object.keys(datos).length === 0) return null;
+        try {
+            if (!datos || Object.keys(datos).length === 0) return null;
 
 
-      if (datos.contrasenia) {
-        datos.contrasenia = { __sha2__: true, value: datos.contrasenia };
-      }
+            if (datos.contrasenia) {
+                datos.contrasenia = { __sha2__: true, value: datos.contrasenia };
+            };
 
-      const camposAActualizar = Object.keys(datos);
-      const valoresAActualizar = [];
-      const setPartes = [];
+            const camposAActualizar = Object.keys(datos);
+            const valoresAActualizar = [];
+            const setPartes = [];
 
-      for (const campo of camposAActualizar) {
-        const v = datos[campo];
-        if (typeof v === 'object' && v?.__sha2__ === true) {
-            setPartes.push(`${campo} = SHA2(?, 256)`);
-            valoresAActualizar.push(v.value);
-        } else {
-            setPartes.push(`${campo} = ?`);
-            valoresAActualizar.push(v);
+            for (const campo of camposAActualizar) {
+                const v = datos[campo];
+                if (typeof v === 'object' && v?.__sha2__ === true) {
+                    setPartes.push(`${campo} = SHA2(?, 256)`);
+                    valoresAActualizar.push(v.value);
+                } else {
+                    setPartes.push(`${campo} = ?`);
+                    valoresAActualizar.push(v);
+                }
+            };
+
+            const setValores = setPartes.join(', ');
+            const sql = `UPDATE usuarios SET ${setValores}, modificado = NOW() WHERE usuario_id = ?`;
+
+            const [resultado] = await conexion.execute(sql, [...valoresAActualizar, usuarioId]);
+
+            if (resultado.affectedRows === 0) {
+                return null;
+            }
+
+            return await this.buscarPorId(usuarioId);
+        } catch (error) {
+            console.error('Error al actualizar usuario:', error.message);
+            throw error;
         }
-      }
+    };
 
-      const setValores = setPartes.join(', ');
-      const sql = `UPDATE usuarios SET ${setValores}, modificado = NOW() WHERE usuario_id = ?`;
-
-      const [resultado] = await conexion.execute(sql, [...valoresAActualizar, usuarioId]);
-
-      if (resultado.affectedRows === 0) {
-        return null;
-      }
-
-      return await this.buscarPorId(usuarioId);
-    } catch (error) {
-        console.error('Error al actualizar usuario:', error.message);
-        throw error;
-    }
-  };
-
-  buscarCorreoAdministradores = async () => {
+    buscarCorreoAdministradores = async () => {
         const [resultados] = await conexion.query('SELECT nombre_usuario FROM usuarios WHERE tipo_usuario = 1'); //conexion.query cuando no hay paramtros que pasar(mas eficiente)
-        return resultados; 
-  }
+        return resultados;
+    };
 
-}
+};

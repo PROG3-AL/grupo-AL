@@ -58,7 +58,7 @@ export default class TurnosControlador {
         mensaje: "Turno no encontrado"
       });
     }
-};
+  };
 
   crearTurno = async (req, res, next) => {
     try {
