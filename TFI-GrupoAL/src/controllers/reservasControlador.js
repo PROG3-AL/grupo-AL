@@ -13,13 +13,20 @@ export default class ServiciosControlador {
 
         try{
 
-            const reservas = await this.reservasServicio.buscarReservas();
+            console.log("Usuario autenticado:", req.usuario);
 
-            //agregado mio
-            if (!reservas || reservas.lenght === 0) {
+            let reservas;
+
+            if (req.usuario && req.usuario.tipo_usuario === 3){
+                reservas = await this.reservasServicio.buscarReservasPorUsuario(req.usuario.id);
+            } else {
+                reservas = await this.reservasServicio.buscarReservas();
+            }
+            
+            if (!reservas || reservas.length === 0) {
                 return res.status(404).json({
                     estado: false,
-                    mensaje: "No hay reservas :("
+                    mensaje: "No hay reservas registradas :("
                 });
             }
             res.json({
