@@ -13,30 +13,28 @@ import passport from "./middlewares/passport.js";
 
 const app = express();
 
-app.use(cors({
-  origin: "http://localhost:3000",
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"]
-}));
+app.use(cors());
 
 app.use(express.json(
   {type: 'application/json'}
 ));
 
+app.use(express.urlencoded({ extended: true }))
+
 app.use(express.static("public"));
+
+app.use(passport.initialize());
 
 
 app.get('/estado', (req, res) => {
   res.json({'ok':true})
 })
 
-app.use(passport.initialize());
-
 let log = fs.createWriteStream('./access.log', { flags: 'a' })
 app.use(morgan('dev')) 
 app.use(morgan('combined', { stream: log })) 
 
-app.use(express.urlencoded({ extended: true }))
+
 
 app.use('/api/v1/salones', v1SalonesRutas);
 app.use('/api/v1/usuarios', v1UsuariosRutas); 

@@ -21,6 +21,7 @@ const swaggerDefinition = {
     { name: "Salones", description: "Gestión de salones" },
     { name: "Servicios", description: "Administración de servicios adicionales" },
     { name: "Turnos", description: "Gestión de turnos" },
+    { name: "Estadísticas", description: "Consultas analíticas sobre reservas, salones, servicios y turnos (requiere token)" },
   ],
   components: {
     securitySchemes: {
@@ -408,9 +409,10 @@ const swaggerDefinition = {
             description: "No hay reservas registradas",
             content: {
               "application/json": {
-                example: { 
-                  estado: false, 
-                  mensaje: "No hay reservas registradas :(" },
+                example: {
+                  estado: false,
+                  mensaje: "No hay reservas registradas :("
+                },
               },
             },
           },
@@ -418,9 +420,10 @@ const swaggerDefinition = {
             description: "Error interno del servidor",
             content: {
               "application/json": {
-                example: { 
+                example: {
                   estado: false,
-                  mensaje: "Error interno del servidor" },
+                  mensaje: "Error interno del servidor"
+                },
               },
             },
           },
@@ -545,9 +548,10 @@ const swaggerDefinition = {
             description: "Reserva no encontrada",
             content: {
               "application/json": {
-                example: { 
+                example: {
                   estado: false,
-                  mensaje: "Reserva no encontrada o inactiva" },
+                  mensaje: "Reserva no encontrada o inactiva"
+                },
               },
             },
           },
@@ -555,9 +559,10 @@ const swaggerDefinition = {
             description: "Error interno del servidor",
             content: {
               "application/json": {
-                example: { 
-                  estado: false, 
-                  mensaje: "Error interno del servidor" },
+                example: {
+                  estado: false,
+                  mensaje: "Error interno del servidor"
+                },
               },
             },
           },
@@ -616,9 +621,10 @@ const swaggerDefinition = {
             description: "Reserva no encontrada",
             content: {
               "application/json": {
-                example: { 
-                  estado: false, 
-                  mensaje: "No se encontró la reserva a actualizar" },
+                example: {
+                  estado: false,
+                  mensaje: "No se encontró la reserva a actualizar"
+                },
               },
             },
           },
@@ -643,9 +649,10 @@ const swaggerDefinition = {
             description: "Reserva desactivada correctamente",
             content: {
               "application/json": {
-                example: { 
-                  estado: true, 
-                  mensaje: "Reserva desactivada correctamente" },
+                example: {
+                  estado: true,
+                  mensaje: "Reserva desactivada correctamente"
+                },
               },
             },
           },
@@ -653,9 +660,10 @@ const swaggerDefinition = {
             description: "Reserva no encontrada",
             content: {
               "application/json": {
-                example: { 
-                  estado: false, 
-                  mensaje: "Reserva no encontrada o ya está desactivada" },
+                example: {
+                  estado: false,
+                  mensaje: "Reserva no encontrada o ya está desactivada"
+                },
               },
             },
           },
@@ -1478,8 +1486,153 @@ const swaggerDefinition = {
           }
         }
       }
-    }
+    },
+    "/estadisticas/salones-mas-reservados": {
+      get: {
+        tags: ["Estadísticas"],
+        summary: "Obtener los salones más reservados",
+        security: [{ bearerAuth: [] }],
+        responses: {
+          200: {
+            description: "Salones más reservados obtenidos correctamente",
+            content: {
+              "application/json": {
+                example: {
+                  "estado": true,
+                  "datos": [
+                    {
+                      "salon_id": 1,
+                      "titulo": "Principal",
+                      "cantidad_reservas": 7,
+                      "ingresos_totales": "770000.00"
+                    },
+                    {
+                      "salon_id": 2,
+                      "titulo": "Secundario",
+                      "cantidad_reservas": 2,
+                      "ingresos_totales": "600000.00"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          500: {
+            description: "Error interno del servidor",
+            content: {
+              "application/json": {
+                example: {
+                  "estado": false,
+                  "mensaje": "Error interno del servidor"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
 
+    "/estadisticas/servicios-mas-solicitados": {
+      get: {
+        tags: ["Estadísticas"],
+        summary: "Obtener los servicios más solicitados",
+        security: [{ bearerAuth: [] }],
+        responses: {
+          200: {
+            description: "Servicios más solicitados obtenidos correctamente",
+            content: {
+              "application/json": {
+                example: {
+                  "estado": true,
+                  "datos": [
+                    {
+                      "servicio_id": 1,
+                      "descripcion": "Sonido",
+                      "veces_solicitado": 11,
+                      "ingresos_generados": "320000.00"
+                    },
+                    {
+                      "servicio_id": 2,
+                      "descripcion": "Mesa dulce",
+                      "veces_solicitado": 10,
+                      "ingresos_generados": "375000.00"
+                    },
+                    {
+                      "servicio_id": 3,
+                      "descripcion": "Tarjetas de invitación",
+                      "veces_solicitado": 7,
+                      "ingresos_generados": "175000.00"
+                    },
+                    {
+                      "servicio_id": 4,
+                      "descripcion": "Mozos",
+                      "veces_solicitado": 3,
+                      "ingresos_generados": "265000.00"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          500: {
+            description: "Error interno del servidor",
+            content: {
+              "application/json": {
+                example: {
+                  "estado": false,
+                  "mensaje": "Error interno del servidor"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/estadisticas/turnos-mas-reservados": {
+      get: {
+        tags: ["Estadísticas"],
+        summary: "Obtener los turnos más reservados",
+        security: [{ bearerAuth: [] }],
+        responses: {
+          200: {
+            description: "Turnos más reservados obtenidos correctamente",
+            content: {
+              "application/json": {
+                example: {
+                  "estado": true,
+                  "datos": [
+                    {
+                      "turno_id": 1,
+                      "hora_desde": "12:00:00",
+                      "hora_hasta": "14:00:00",
+                      "cantidad_reservas": 4
+                    },
+                    {
+                      "turno_id": 2,
+                      "hora_desde": "17:00:00",
+                      "hora_hasta": "22:00:00",
+                      "cantidad_reservas": 2
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          500: {
+            description: "Error interno del servidor",
+            content: {
+              "application/json": {
+                example: {
+                  "estado": false,
+                  "mensaje": "Error interno del servidor"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
   },
 };
 
