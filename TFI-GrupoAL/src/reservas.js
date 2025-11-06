@@ -23,6 +23,8 @@ app.use(express.json(
   {type: 'application/json'}
 ));
 
+app.use(express.static("public"));
+
 
 app.get('/estado', (req, res) => {
   res.json({'ok':true})
