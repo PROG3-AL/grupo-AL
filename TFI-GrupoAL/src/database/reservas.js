@@ -5,31 +5,26 @@ import Servicios from './servicios.js';
 export default class Reservas {
 
     constructor() {
-        //para acceder a obtenerServiciosExistentes
         this.reservas_servicios = new ReservasServicios()
         this.servicios = new Servicios()
     }
 
-    //Buscar todas las reservas
     buscarReservas = async () => {
+
             const [reservas] = await conexion.execute('SELECT * FROM reservas WHERE activo = 1');
-            //agregado mio
-            //esperar a que todas las promesas dentro del map se resuelvan
             const reservasConServicios = await Promise.all(
-            reservas.map(async (reserva) => {
-                // mapeao las reservas y obtengo los servicios
-            const servicios = await this.reservas_servicios.obtenerServiciosExistentes(reserva.reserva_id);
-                return {
-                    //con el array devuelto creo un objeto nuevo
-                    ...reserva,
-                    servicios: servicios.length > 0 ? servicios : null
-                };
-            })
-        );
+                reservas.map(async (reserva) => {
+        
+                const servicios = await this.reservas_servicios.obtenerServiciosExistentes(reserva.reserva_id);
+                    return {
+                        ...reserva,
+                        servicios: servicios.length > 0 ? servicios : null
+                    };
+                })
+            );
         return reservasConServicios;
     };
 
-    //Buscar reserva por id
     buscarPorId = async (id) => {
         const reservaId = Number(id);
 
@@ -42,7 +37,6 @@ export default class Reservas {
         }
     };
 
-    //Desactivar reserva
     desactivarReserva = async (reservaId) => {
         try {
             const [resultado] = await conexion.execute(
@@ -53,7 +47,6 @@ export default class Reservas {
         }
     };
 
-    //Activar reserva
     activarReserva = async (reservaId) => {
         try {
             const [resultado] = await conexion.execute(
@@ -64,7 +57,6 @@ export default class Reservas {
         }
     };
 
-    // Actualizar Reserva (los dos campos que no se modifican son activo y fecha de creación )
     actualizarReserva = async (id, datos) => {
 
         const reservaId = Number(id);
@@ -133,7 +125,6 @@ export default class Reservas {
         }
     };
 
-    //Crear reserva
         crearReserva = async (reserva) => {
 
         const conectarTransaccion = await conexion.getConnection();
@@ -142,7 +133,6 @@ export default class Reservas {
 
             await conectarTransaccion.beginTransaction();
 
-            //comienzo transaccion con reservas
             const sql = `
                 INSERT INTO reservas (
                     fecha_reserva, 
@@ -167,19 +157,17 @@ export default class Reservas {
                 reserva.importe_total
             ]);
 
-            //obtengo el id de la reserva
             const idReserva = resultado.insertId;
             if (!idReserva) throw new Error('No se pudo crear la reserva');
 
             let totalServicios = 0;
 
-            //Si hay servicios, comienzo la transaccion de servicios!
             if (reserva.servicios !== null && reserva.servicios.length > 0) {
 
                 const insertarSql = `INSERT INTO reservas_servicios (reserva_id, servicio_id, importe) VALUES (?, ?, ?)`;
                     
                 for (const servicio_id of reserva.servicios) {
-                    //antes de comenzar con servicios, me aseguro de que existan
+
                     const existe = await this.servicios.buscarPorId(servicio_id, conectarTransaccion);
                     if(!existe) {
                         throw new Error(`El servicio no existe con el id ${servicio_id}`);
@@ -191,8 +179,6 @@ export default class Reservas {
                     await conectarTransaccion.execute(insertarSql, [idReserva, servicio_id, importe]);
                 }
             };
-
-            //Creo una funcion para agregar el total salon + servicio y lo llevo a reservas
 
             const total = Number(reserva.importe_salon) + Number(totalServicios);
             await conectarTransaccion.execute(`UPDATE reservas SET importe_total = ? WHERE reserva_id = ?`, [total, idReserva]);
@@ -209,14 +195,8 @@ export default class Reservas {
         };
     };
 
-    // con esta sentencia obtengo los datos desde la bd para la notificación, los renombro porque en la plantilla handlebars
-    // usamos los campos como fecha, salon y turno.
     datosParaNotificacion = async(reserva_id) => {
-            // const sql = `SELECT r.fecha_reserva as fecha, s.titulo as salon, t.orden as turno
-            //     FROM reservas as r
-            //     INNER JOIN  salones as s on s.salon_id = r.salon_id 
-            //     INNER JOIN  turnos as t on t.turno_id = r.turno_id
-            //     WHERE r.activo = 1 and r.reserva_id = ?`;
+
             const sql = `SELECT 
                 r.fecha_reserva as fecha, 
                 s.titulo as salon, 
@@ -238,7 +218,6 @@ export default class Reservas {
             return reserva[0];
         }
 
-    //Buscar reporte
     buscarDatosParaReporte = async () => {
         const sql = `
             SELECT
@@ -263,8 +242,6 @@ export default class Reservas {
         return resultado;
     };
 
-    // Buscar reservas por usuario
-
     buscarReservasPorUsuario = async (usuario_id) => {
         const [reservas] = await conexion.execute(
             'SELECT * FROM reservas WHERE activo = 1 AND usuario_id = ?',
@@ -284,6 +261,3 @@ export default class Reservas {
         return reservasConServicios;
     };
 };
-
-
-

@@ -1,6 +1,5 @@
 import { body } from 'express-validator'
 
-// salones
 export const validacionesSalon = {
   titulo: body("titulo")  
     .trim()

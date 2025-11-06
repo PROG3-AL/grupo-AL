@@ -2,13 +2,11 @@ import { conexion } from './conexion.js';
 
 export default class Salones {
 
-    //Buscar todos los salones
     buscarSalones = async () => {
         const [resultado] = await conexion.execute('SELECT * FROM salones WHERE activo= 1');
         return resultado;
     };
 
-    //Buscar salones por id
     buscarPorId = async (id) => {
         const salonId = Number(id);
 
@@ -21,7 +19,6 @@ export default class Salones {
         }
     };
 
-    //Desactivar salon 
     desactivarSalon = async (salonId) => {
         try {
             const [resultado] = await conexion.execute(
@@ -32,7 +29,6 @@ export default class Salones {
         }
     };
 
-    // Actualizar Salon (los dos campos que no se modifican son activo y fecha de creación )
     actualizarSalon = async (id, datos) => {
         const salonId = Number(id);
 
@@ -59,7 +55,6 @@ export default class Salones {
         }
     };
 
-    //Crear salon
     crearSalon = async (salon) => {
         const sql = `
             INSERT INTO salones (

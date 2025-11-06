@@ -1,6 +1,5 @@
 import { body } from "express-validator";
 
-// validaciones para usuarios
 export const validacionesUsuario = {
   nombre: body("nombre")
     .trim()

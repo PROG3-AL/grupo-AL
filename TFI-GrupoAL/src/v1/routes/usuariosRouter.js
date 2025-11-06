@@ -9,10 +9,8 @@ import { validacionesUsuario } from "../../middlewares/validarUsuarios.js";
 const usuariosControlador = new UsuariosControlador()
 const router = Router();
 
-//Login
 router.post('/login', usuariosControlador.login);
 
-//Listar usuarios
 router.get('/', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO), usuariosControlador.listarUsuarios);
 
 router.get('/:id', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO), usuariosControlador.listarUsuarioPorId);

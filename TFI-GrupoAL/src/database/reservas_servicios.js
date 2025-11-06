@@ -2,7 +2,6 @@ import { conexion } from "./conexion.js";
 
 export default class ReservasServicios {
     
-    // recibe id de la reserva ya creada y los servicios
     crear = async(reserva_id, servicios, connection = null) => {
 
         const conectar = connection || await conexion.getConnection();
@@ -10,20 +9,18 @@ export default class ReservasServicios {
         try{
             await conectar.beginTransaction();
 
-            // recorro todos los servicios y los guardo en la base
             for (const servicio of servicios){
                 const sql = `INSERT INTO reservas_servicios (reserva_id, servicio_id, importe) 
                     VALUES (?,?,?);`;
                 await conectar.execute(sql, [reserva_id, servicio.servicio_id, servicio.importe]);
             }
 
-            // commiteo la transacción
             await conectar.commit();
 
             return true;
 
         }catch(error){
-            // revierto la transacción si algo salió mal
+            
             await conectar.rollback();
             console.log(`error ${error}`);
             return false;

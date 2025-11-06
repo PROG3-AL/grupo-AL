@@ -6,7 +6,6 @@ export default class ServiciosControlador {
         this.serviciosServicio = new ServiciosServicio();
     };
 
-    //Funcion para mostrar todos los servicios
     listarServicios = async (req, res, next) => {
 
         try {
@@ -31,7 +30,6 @@ export default class ServiciosControlador {
 
     };
 
-    //Funcion para mostrar solo el servicio con un id especifico
     listarServicioPorId = async (req, res, next) => {
 
         if (!req.params.id) {
@@ -71,7 +69,6 @@ export default class ServiciosControlador {
 
     };
 
-    //Se desactiva el servicio con un "soft delete"
     desactivarServicio = async (req, res, next) => {
 
         if (!req.params.id) {
@@ -121,7 +118,6 @@ export default class ServiciosControlador {
         };
     };
 
-    //Se activa el servicio 
     activarServicio = async (req, res, next) => {
 
         if (!req.params.id) {
@@ -175,7 +171,6 @@ export default class ServiciosControlador {
 
     };
 
-    //Se actualiza el servicio
     actualizarServicio = async (req, res, next) => {
 
         if (!req.params.id || !req.body) {
@@ -217,7 +212,6 @@ export default class ServiciosControlador {
         };
     };
 
-    //Se crea el servicio
     crearServicio = async (req, res, next) => {
 
         if (!req.body) {
@@ -235,7 +229,6 @@ export default class ServiciosControlador {
                 activo: 1
             };
 
-            //Si el servicio tiene el mismo nombre, no se crea para evitar duplicados - Opcional pero creo que importante
             const servicioExiste = await this.serviciosServicio.buscarServicioPorNombre(nuevoServicio.descripcion);
 
             if (servicioExiste) {

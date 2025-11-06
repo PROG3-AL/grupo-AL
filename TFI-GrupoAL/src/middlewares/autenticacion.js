@@ -8,8 +8,6 @@ export const autenticar = (req, res, next) => {
         mensaje: "Token requerido o inválido",
       });
     }
-
-    // Passport deja el usuario en "user"; lo movemos a "req.usuario"
     req.usuario = user;
     next();
   })(req, res, next);

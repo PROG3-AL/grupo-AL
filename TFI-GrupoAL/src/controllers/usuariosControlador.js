@@ -7,7 +7,6 @@ export default class UsuariosControlador {
         this.usuariosServicio = new UsuariosServicio();
     };
 
-    // -- Funcion para listar todos los usuarios -- //
     listarUsuarios = async (req, res, next) => {
 
         try {
@@ -34,7 +33,6 @@ export default class UsuariosControlador {
         };
     };
 
-    // -- Funcion para mostrar un usuario por su id -- //
     listarUsuarioPorId = async (req, res, next) => {
 
         if (!req.params.id) {
@@ -80,7 +78,6 @@ export default class UsuariosControlador {
         }
     }
 
-    // -- Funcion para desactivar un usuario -- //
     desactivarUsuario = async (req, res, next) => {
         if (!req.params.id) {
             return res.status(400).json({
@@ -133,7 +130,6 @@ export default class UsuariosControlador {
         }
     };
 
-    // -- Funcion para activar un usuario -- //
     activarUsuario = async (req, res, next) => {
 
         if (!req.params.id) {
@@ -186,8 +182,6 @@ export default class UsuariosControlador {
         }
     };
 
-
-    // -- Funcion para crear un usuario -- //   
     crearUsuario = async (req, res, next) => {
 
         if (!req.body || !req.body.nombre || !req.body.apellido || !req.body.nombre_usuario || !req.body.contrasenia) {
@@ -204,7 +198,7 @@ export default class UsuariosControlador {
                 nombre_usuario: req.body.nombre_usuario,
                 contrasenia: req.body.contrasenia,
                 tipo_usuario: req.body.tipo_usuario,
-                activo: req.body.activo ?? 1 // si no mandás activo, por defecto es 1
+                activo: req.body.activo ?? 1 
             };
 
             const usuarioCreado = await this.usuariosServicio.crearUsuario(nuevoUsuario);
@@ -227,16 +221,13 @@ export default class UsuariosControlador {
         }
     };
 
-    // -- Funcion para actualizar un usuario -- //
     actualizarUsuario = async (req, res, next) => {
         try {
             const { id } = req.params;
             const datos = req.body;
 
-            // Llamamos al servicio
             const usuarioActualizado = await this.usuariosServicio.actualizarUsuario(id, datos);
 
-            // Si no existe el usuario
             if (!usuarioActualizado) {
                 return res.status(404).json({ mensaje: "Usuario no encontrado o sin cambios." });
             }
@@ -251,7 +242,6 @@ export default class UsuariosControlador {
         }
     };
 
-    // -- Funcion para hacer login con JWS -- //
     login = async (req, res, next) => {
         const { nombre_usuario, contrasenia } = req.body;
 

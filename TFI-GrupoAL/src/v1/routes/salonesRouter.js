@@ -8,13 +8,10 @@ import { validacionesSalon } from '../../middlewares/validarSalones.js';
 const salonesControlador = new SalonesControlador();
 const router = Router();
 
-//Listar salones
 router.get('/', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO, ROLES.CLIENTE) ,salonesControlador.listarSalones);
 
-//Buscar salon por id
 router.get('/:id', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO), salonesControlador.listarSalonPorId);
 
-//Crear salon
 router.post('/', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO), [
   validacionesSalon.titulo,
   validacionesSalon.direccion,
@@ -23,10 +20,8 @@ router.post('/', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO), [
   validarCampos
 ], salonesControlador.crearSalon);
 
-//Eliminar salon cambiando a inactivo
 router.delete('/:id', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO), salonesControlador.desactivarSalon);  
 
-//Actualizar salon
 router.put('/:id', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO), salonesControlador.actualizarSalon);
 
 export { router };

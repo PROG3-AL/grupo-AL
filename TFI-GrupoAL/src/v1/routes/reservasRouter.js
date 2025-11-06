@@ -8,16 +8,12 @@ import { validacionesReservas } from '../../middlewares/validarReservas.js'
 const reservasControlador = new ReservasControlador();
 const router = Router();
 
-//Crear informe en formato CSV
 router.get('/informe', autenticar, autorizar(ROLES.ADMINISTRADOR), reservasControlador.crearInforme); 
 
-//Listar reservas
 router.get('/',autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO, ROLES.CLIENTE), reservasControlador.listarReservas);
 
-//Buscar reserva por id
 router.get('/:id',autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO), reservasControlador.listarReservaPorId);
 
-//Crear reserva
 router.post('/', autenticar, autorizar(ROLES.ADMINISTRADOR,ROLES.CLIENTE),[
     validacionesReservas.fecha_reserva,
     validacionesReservas.salon_id,
@@ -26,10 +22,8 @@ router.post('/', autenticar, autorizar(ROLES.ADMINISTRADOR,ROLES.CLIENTE),[
     validarCampos
 ], reservasControlador.crearReserva);
 
-//Eliminar reserva
 router.delete('/:id',autenticar, autorizar(ROLES.ADMINISTRADOR), reservasControlador.desactivarReserva);  
 
-//Actualizar reserva
 router.put('/:id',autenticar, autorizar(ROLES.ADMINISTRADOR), reservasControlador.actualizarReserva);
 
 export { router };

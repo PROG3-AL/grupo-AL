@@ -19,22 +19,18 @@ export default class NotificacionesService {
         const plantilla = fs.readFileSync(plantillaPath, 'utf-8');
 
         const template = handlebars.compile(plantilla);
-
-        // Formato de fecha mas legible   
+ 
         const fechaLegible = new Date(datosCorreo.reservaExistente.fecha).toLocaleDateString('es-ES', {
             day: 'numeric',
             month: 'long',
             year: 'numeric'
         });
 
-        //Formato de hora para no incluir los segundos
         const formatearHora = (hora) => hora.split(':').slice(0, 2).join(':');
 
-        //Buscar correo del usuario
         const usuario = await this.usuariosServicios.buscarPorId(datosCorreo.reservaExistente.usuario_id);
         const correoElectronico = usuario.nombre_usuario;
 
-        //Buscar los correos de los administradores
         const admins = await this.usuariosServicios.buscarCorreoAdministradores();
         const correoAministradores = admins.map(correo => correo.nombre_usuario);
         const listaCorreosCC = correoAministradores.join(",");
@@ -59,7 +55,6 @@ export default class NotificacionesService {
         });
         
         const mailOptions = {
-            // from: `Reservas <${process.env.EMAIL_USER}>`,
             from: `reservas-no-reply@grupoal.com`,
             to: correoElectronico,
             cc: listaCorreosCC,

@@ -13,7 +13,6 @@ export default class TurnosControlador {
     try {
       const turnos = await this.turnosServicio.buscarTurnos();
 
-      // Si no hay turnos
       if (!turnos || turnos.length === 0) {
         return res.status(404).json({
           estado: false,

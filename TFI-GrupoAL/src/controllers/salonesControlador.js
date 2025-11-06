@@ -6,7 +6,6 @@ export default class SalonesControlador {
         this.salonesServicio = new SalonesServicio();
     };
 
-    //Funcion para mostrar todos los salones
     listarSalones = async (req, res, next) => {
 
         try{
@@ -31,7 +30,6 @@ export default class SalonesControlador {
 
     };
 
-    //Funcion para mostrar solo los salones con un id especifico
     listarSalonPorId = async (req, res, next) => {
     
         if (!req.params.id) {
@@ -68,7 +66,6 @@ export default class SalonesControlador {
         }
     };
 
-    //Funcion para desactivar el salon o "eliminarlo"
     desactivarSalon = async (req, res, next) => {
 
         if (!req.params.id) {
@@ -82,7 +79,6 @@ export default class SalonesControlador {
 
             const { id } = req.params;
             
-            // Verificar que el salón existe y está activo
             const salonExistente = await this.salonesServicio.buscarPorId(id);
 
             if (!salonExistente) {
@@ -92,7 +88,6 @@ export default class SalonesControlador {
                 });
             }
 
-            // Verificar si ya está desactivado
             if (salonExistente.activo === 0) {
                 return res.status(400).send({
                     estado: false,
@@ -100,7 +95,6 @@ export default class SalonesControlador {
                 });
             }
 
-            // Ejecución
             await this.salonesServicio.desactivarSalon(id);
             
             res.status(200).json({
@@ -121,7 +115,6 @@ export default class SalonesControlador {
         };
     };
 
-    //Funcion para actualizar el salon
     actualizarSalon = async (req, res, next) => {
         if (!req.params.id || !req.body) {
             return res.status(400).send({ 
@@ -133,7 +126,6 @@ export default class SalonesControlador {
         try {
             const { id } = req.params;
 
-            // Actualizar el salón y obtener el registro completo
             const actualizado = await this.salonesServicio.actualizarSalon(id, req.body);
 
             if (!actualizado) {

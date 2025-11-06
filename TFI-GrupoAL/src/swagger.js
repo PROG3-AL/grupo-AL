@@ -27,10 +27,8 @@ const swaggerDefinition = {
       bearerAuth: { type: "http", scheme: "bearer", bearerFormat: "JWT" },
     },
   },
-  paths: {
-    // ---------- USUARIOS ----------
 
-    // LOGIN USUARIO
+  paths: {
     "/usuarios/login": {
       post: {
         tags: ["Usuarios"],
@@ -78,8 +76,8 @@ const swaggerDefinition = {
         },
       },
     },
+
     "/usuarios": {
-      // CREAR USUARIO
       post: {
         tags: ["Usuarios"],
         summary: "Crear un nuevo usuario",
@@ -143,7 +141,6 @@ const swaggerDefinition = {
         },
       },
 
-      // LISTAR TODOS LOS USUARIOS
       get: {
         tags: ["Usuarios"],
         summary: "Listar todos los usuarios",
@@ -178,7 +175,6 @@ const swaggerDefinition = {
       },
     },
 
-    // LISTAR USUARIOS POR ID
     "/usuarios/{id}": {
       get: {
         tags: ["Usuarios"],
@@ -233,7 +229,6 @@ const swaggerDefinition = {
         },
       },
 
-      // ACTUALIZAR USUARIO
       put: {
         tags: ["Usuarios"],
         summary: "Actualizar usuario existente",
@@ -296,7 +291,6 @@ const swaggerDefinition = {
         },
       },
 
-      // ELIMINAR USUARIO
       delete: {
         tags: ["Usuarios"],
         summary: "Desactivar usuario",
@@ -336,7 +330,6 @@ const swaggerDefinition = {
         },
       },
 
-      // ACTIVAR USUARIOS POR ID
       patch: {
         tags: ["Usuarios"],
         summary: "Activar usuario desactivado",
@@ -377,9 +370,6 @@ const swaggerDefinition = {
       },
     },
 
-
-    // ---------- RESERVAS ----------
-    // LISTAR RESERVAS
     "/reservas": {
       get: {
         tags: ["Reservas"],
@@ -436,7 +426,7 @@ const swaggerDefinition = {
           },
         },
       },
-      // CREAR UNA RESERVA
+
       post: {
         tags: ["Reservas"],
         summary: "Crear una nueva reserva",
@@ -510,7 +500,7 @@ const swaggerDefinition = {
         },
       },
     },
-    // BUSCAR RESERVA POR ID
+
     "/reservas/{id}": {
       get: {
         tags: ["Reservas"],
@@ -573,7 +563,7 @@ const swaggerDefinition = {
           },
         },
       },
-      // ACTUALIZAR RESERVA
+
       put: {
         tags: ["Reservas"],
         summary: "Actualizar una reserva existente",
@@ -634,7 +624,7 @@ const swaggerDefinition = {
           },
         },
       },
-      // ELIMINAR RESERVA
+
       delete: {
         tags: ["Reservas"],
         summary: "Desactivar una reserva",
@@ -673,7 +663,6 @@ const swaggerDefinition = {
       },
     },
 
-    // INFORME RESERVAS
     "/reservas/informe": {
       get: {
         tags: ["Reservas"],
@@ -722,8 +711,7 @@ const swaggerDefinition = {
         },
       },
     },
-    // ---------- SALONES ----------
-    // Listar Salones activos
+
     "/salones": {
       get: {
         tags: ["Salones"],
@@ -765,7 +753,7 @@ const swaggerDefinition = {
           },
         },
       },
-      // Crear Salon
+
       post: {
         tags: ["Salones"],
         summary: "Crear un nuevo salón",
@@ -832,7 +820,7 @@ const swaggerDefinition = {
         },
       },
     },
-    // Buscar salon por ID
+
     "/salones/{id}": {
       get: {
         tags: ["Salones"],
@@ -892,7 +880,7 @@ const swaggerDefinition = {
           },
         },
       },
-      // Actualizar Salón
+
       put: {
         tags: ["Salones"],
         summary: "Actualizar un salón existente",
@@ -963,7 +951,7 @@ const swaggerDefinition = {
           },
         },
       },
-      // Eliminar Salón
+
       delete: {
         tags: ["Salones"],
         summary: "Desactivar un salón",
@@ -1014,7 +1002,7 @@ const swaggerDefinition = {
         },
       },
     },
-    // ---------- SERVICIOS ----------
+
     "/servicios": {
       get: {
         tags: ["Servicios"],
@@ -1264,63 +1252,8 @@ const swaggerDefinition = {
         },
       },
     },
-    "/servicios/{id}/activar": {
-      patch: {
-        tags: ["Servicios"],
-        summary: "Activar un servicio desactivado",
-        security: [{ bearerAuth: [] }],
-        parameters: [{ name: "id", in: "path", schema: { type: "integer" }, required: true }],
-        responses: {
-          200: {
-            description: "Servicio activado correctamente",
-            content: {
-              "application/json": {
-                example: {
-                  estado: true,
-                  mensaje: "Servicio activado correctamente",
-                },
-              },
-            },
-          },
-          400: {
-            description: "El cliente no ha proporcionado el id a activar",
-            content: {
-              "application/json": {
-                example: {
-                  estado: false,
-                  mensaje: "Falta el id del servicio a activar",
-                },
-              },
-            },
-          },
-          404: {
-            description: "Servicio no encontrado",
-            content: {
-              "application/json": {
-                example: {
-                  estado: false,
-                  mensaje: "El servicio con el ID proporcionado no existe",
-                },
-              },
-            },
-          },
-          409: {
-            description: "El servicio ya esta activado",
-            content: {
-              "application/json": {
-                example: {
-                  estado: false,
-                  mensaje: "El servicio con el id proporcionado ya esta activado",
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-    // ---------- TURNOS ----------
+
     "/turnos": {
-      // LISTAR TODOS LOS TURNOS ACTIVOS
       get: {
         tags: ["Turnos"],
         summary: "Listar todos los turnos activos",
@@ -1349,7 +1282,7 @@ const swaggerDefinition = {
           },
         },
       },
-      // CREAR TURNOS
+
       post: {
         tags: ["Turnos"],
         summary: "Crear un nuevo turno",
@@ -1406,7 +1339,7 @@ const swaggerDefinition = {
         },
       },
     },
-    // BUSCAR TURNOS POR ID
+
     "/turnos/{id}": {
       get: {
         tags: ["Turnos"],
@@ -1446,7 +1379,7 @@ const swaggerDefinition = {
           },
         },
       },
-      // ACTUALIZAR TURNOS
+
       put: {
         tags: ["Turnos"],
         summary: "Actualizar un turno",
@@ -1496,7 +1429,7 @@ const swaggerDefinition = {
       },
     },
     "/turnos/{id}/desactivar": {
-      patch: {
+      delete: {
         tags: ["Turnos"],
         summary: "Desactivar un turno",
         security: [{ bearerAuth: [] }],
