@@ -1,28 +1,14 @@
-import { verificarToken } from '../utils/JWT.js';
+import passport from "./passport.js";
 
 export const autenticar = (req, res, next) => {
-  const header = req.headers['authorization'];
-  if (!header) {
-    return res.status(401).json({
-      mensaje: 'Token requerido',
-    });
-  }
-
-  const token = header.split(' ')[1];
-
-  try {
-    const payload = verificarToken(token);
-    if (!payload) {
-      return res.status(403).json({
-        mensaje: 'Token inválido o expirado',
+  return passport.authenticate("jwt", { session: false }, (err, user) => {
+    if (err) return next(err);
+    if (!user) {
+      return res.status(401).json({
+        mensaje: "Token requerido o inválido",
       });
     }
-
-    req.usuario = payload;
+    req.usuario = user;
     next();
-  } catch (error) {
-    return res.status(403).json({
-      mensaje: 'Token inválido o corrupto',
-    });
-  }
+  })(req, res, next);
 };

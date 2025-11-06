@@ -9,6 +9,7 @@ import morgan from 'morgan';
 import fs from 'fs';
 import { router as v1TurnosRutas } from "./v1/routes/turnosRouter.js";
 import { swaggerDocs } from './swagger.js';
+import passport from "./middlewares/passport.js";
 
 const app = express();
 
@@ -26,6 +27,8 @@ app.use(express.json(
 app.get('/estado', (req, res) => {
   res.json({'ok':true})
 })
+
+app.use(passport.initialize());
 
 let log = fs.createWriteStream('./access.log', { flags: 'a' })
 app.use(morgan('dev')) 
