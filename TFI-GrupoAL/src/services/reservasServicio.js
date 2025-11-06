@@ -69,17 +69,14 @@ export default class ReservasServicio {
             servicios
         };
 
-       // creo la reserva con los servicios
         const result = await this.reserva.crearReserva(nuevaReserva);
 
         if (!result) {
             return null;
         }
 
-        // relaciono las tablas 
         await this.reservas_servicios.crear(result.reserva_id, servicios);     
 
-        // obtengo los datos desde la base de datos, poara enviar la noti
         const reservaExistente = await this.reserva.datosParaNotificacion(result.reserva_id);
         const serviciosExistentes = await this.reservas_servicios.obtenerServiciosExistentes(result.reserva_id);
         const datosParaCorreo = {
@@ -87,10 +84,8 @@ export default class ReservasServicio {
             servicios: serviciosExistentes
         }
         
-        // instancio notificaciones_servicio y uso el método enviar correo pasándole como parámetro los datos obtenidos de la bd
         await this.notificaciones_servicio.enviarCorreo(datosParaCorreo);
         
-        // queda pendiente retornar también los servicios, ahora solo retorna las reservas. debería retornar también un array de servicios.
         return this.reserva.buscarPorId(result.reserva_id);
 
     };

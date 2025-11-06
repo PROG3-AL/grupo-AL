@@ -1,14 +1,15 @@
 import ReservasServicio from "../services/reservasServicio.js";
 import Servicios from "../services/serviciosServicio.js";
+import Salones from "../services/salonesServicio.js";
 
 export default class ServiciosControlador {
 
     constructor () {
         this.reservasServicio = new ReservasServicio();
         this.servicios = new Servicios();
+        this.salones = new Salones();
     };
 
-    //Funcion para mostrar todas las reservas
     listarReservas = async (req, res, next) => {
 
         try{
@@ -48,7 +49,6 @@ export default class ServiciosControlador {
 
     };
 
-    //Funcion para listar reservas por id
     listarReservaPorId = async (req, res, next) => {
     
         if (!req.params.id) {
@@ -59,11 +59,10 @@ export default class ServiciosControlador {
         }
 
         try{
-            //console.log("entré al try");
+            
             const {id} = req.params;
             const reserva = await this.reservasServicio.buscarPorId(id);
 
-        // Agregado Andy
         const servicios = await this.reservasServicio.obtenerServiciosExistentes(id);
         console.log(servicios);
 
@@ -77,8 +76,7 @@ export default class ServiciosControlador {
             res.json({
                 estado: true,
                 datos: reserva,
-                //agregado de andy
-                servicios: servicios // && servicios.length > 0 ? servicios : null
+                servicios: servicios
             });
             
         } catch (err) {
@@ -93,7 +91,6 @@ export default class ServiciosControlador {
         }
     };
 
-    //Funcion para desactivar/eliminar la reserva
     desactivarReserva = async (req, res, next) => {
 
         if (!req.params.id) {
@@ -107,7 +104,6 @@ export default class ServiciosControlador {
 
             const { id } = req.params;
             
-            // Verificar que la reserva existe y está activa
             const reservaExistente = await this.reservasServicio.buscarPorId(id);
 
             if (!reservaExistente) {
@@ -117,7 +113,6 @@ export default class ServiciosControlador {
                 });
             }
 
-            // Verificar si ya está desactivada
             if (reservaExistente.activo === 0) {
                 return res.status(400).send({
                     estado: false,
@@ -157,7 +152,6 @@ export default class ServiciosControlador {
         try {
             const { id } = req.params;
             
-            // Verificar que la reserva existe
             const reservaExistente = await this.reservasServicio.buscarPorId(id);
 
             if (!reservaExistente) {
@@ -167,7 +161,6 @@ export default class ServiciosControlador {
                 });
             };
 
-            // Verificar si ya está activa
             if (salonExistente.activo === 1) {
                 return res.status(400).send({
                     estado: false,
@@ -175,7 +168,6 @@ export default class ServiciosControlador {
                 });
             };
 
-            // Activarla
             await this.reservasServicio.activarReserva(id);
             
             res.status(200).json({
@@ -196,7 +188,6 @@ export default class ServiciosControlador {
         };
     };
 
-    //Funcion para actualizar la reserva
     actualizarReserva = async (req, res, next) => {
         if (!req.params.id || !req.body) {
             return res.status(400).send({ 
@@ -205,7 +196,6 @@ export default class ServiciosControlador {
             });
         }
 
-        //Checkeo que el id del servicio exista en la tabla servicio, sino devuelve error
         if (req.body.servicios && req.body.servicios.length > 0) {
             const servicios = req.body.servicios;
             const obtenerServiciosIds = await this.servicios.buscarServicios();
@@ -224,7 +214,6 @@ export default class ServiciosControlador {
         try {
             const { id } = req.params;
 
-            // Actualizar la reserva y obtener el objeto completo
             const actualizado = await this.reservasServicio.actualizarReserva(id, req.body);
 
             if (!actualizado) {
@@ -253,14 +242,13 @@ export default class ServiciosControlador {
     crearReserva = async (req, res, next) => {
 
         if (!req.body || !req.body.fecha_reserva || !req.body.salon_id || !req.body.turno_id
-        ) { //AGREGAR LOS CAMPOS QUE FALTAN
+        ) { 
             return res.status(400).send({
                 estado: false,
                 mensaje: "Faltan datos requeridos para crear la reserva (fecha de reserva, salón_id, turno_id)"
             });
         }
 
-        //Checkeo que el id del servicio exista en la tabla servicio, sino devuelve error
         if (req.body.servicios && req.body.servicios.length > 0) {
             const servicios = req.body.servicios;
             const obtenerServiciosIds = await this.servicios.buscarServicios();
@@ -276,6 +264,17 @@ export default class ServiciosControlador {
             });
         };
 
+        const salon = await this.salones.buscarPorId(req.body.salon_id);
+
+        if (!salon) {
+            return res.status(404).json({
+                estado: false,
+                mensaje: 'El salon con ID no existe'
+            });
+        };
+
+        const precioSalon = salon.importe;
+
         try {
             const nuevaReserva = {
                 fecha_reserva: req.body.fecha_reserva,
@@ -284,9 +283,9 @@ export default class ServiciosControlador {
                 turno_id: req.body.turno_id,
                 foto_cumpleaniero: req.body.foto_cumpleaniero || null,
                 tematica: req.body.tematica || null,
-                importe_salon: req.body.importe_salon || null,
-                importe_total: req.body.importe_total || null,  // aquí de alguna manera debería sumarse el importe del salón + los servicios -> Esto ya lo hice
-                servicios: req.body.servicios || []  // si no hay servicios creo un array vacío
+                importe_salon: precioSalon,
+                importe_total: req.body.importe_total || null, 
+                servicios: req.body.servicios || []  
             };
 
             const reservaCreada = await this.reservasServicio.crearReserva(nuevaReserva);
@@ -329,7 +328,6 @@ export default class ServiciosControlador {
                 )
             };
 
-            //Genero el informe con buffer para pdf, o path y headers
             const {buffer, path, headers} = await this.reservasServicio.crearInforme(formato);
 
             if (formato === 'pdf') {

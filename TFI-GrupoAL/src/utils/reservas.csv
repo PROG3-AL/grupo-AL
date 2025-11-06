@@ -1,12 +1,32 @@
 Numero de reserva,Fecha de reserva,Cliente,Orden,Titulo,Servicios,Importe total
-1,08/10/2025,Ezequiel Lopez,1,Principal,"Mesa dulce, Mozos, Sonido, Tarjetas de invitación",200000.00
-2,08/10/2025,Ezequiel Lopez,1,Secundario,"Mesa dulce, Sonido",100000.00
-3,08/10/2025,Ezequiel Lopez,1,Secundario,"Mesa dulce, Mozos, Sonido, Tarjetas de invitación",500000.00
-5,05/11/2025,Oscar Ramirez,3,Principal,"Mesa dulce, Sonido, Tarjetas de invitación",140000.00
-6,05/11/2025,Oscar Ramirez,3,Principal,"Mesa dulce, Sonido, Tarjetas de invitación",140000.00
-7,05/11/2025,Oscar Ramirez,3,Principal,"Mozos, Sonido",125000.00
-8,01/12/2025,Ezequiel Lopez,1,Principal,"Mesa dulce, Sonido",65000.00
-10,10/12/2025,Ezequiel Lopez,3,Principal,"Mesa dulce, Sonido, Tarjetas de invitación",75000.00
-11,10/12/2025,Ezequiel Lopez,3,Principal,"Mesa dulce, Sonido, Tarjetas de invitación",75000.00
-12,15/12/2025,Ezequiel Lopez,3,Principal,"Mesa dulce, Sonido, Tarjetas de invitación",75000.00
-13,10/12/2025,Ezequiel Lopez,3,Principal,"Mesa dulce, Sonido",70000.00
+1,08/10/2025,Alberto López,1,Principal,"Catering premium, Mesa dulce, Mozos, Tarjetas de invitación",200000.00
+2,08/10/2025,Alberto López,1,Secundario,"Catering premium, Mesa dulce",100000.00
+3,08/10/2025,Pamela Gómez,1,Secundario,"Catering premium, Mesa dulce, Mozos, Tarjetas de invitación",500000.00
+5,30/11/2026,Alberto López,1,Principal,"Mozos, Sala de video juegos, Tarjetas de invitación",155000.00
+6,30/11/2026,Alberto López,1,Principal,"Mozos, Sala de video juegos, Tarjetas de invitación",155000.00
+7,30/11/2026,Alberto López,1,Principal,"Mozos, Sala de video juegos, Tarjetas de invitación",155000.00
+8,30/11/2026,Alberto López,1,Principal,"Mozos, Sala de video juegos, Tarjetas de invitación",155000.00
+9,30/11/2026,Alberto López,1,Principal,"Mozos, Sala de video juegos, Tarjetas de invitación",155000.00
+10,30/11/2026,Alberto López,1,Principal,"Mozos, Sala de video juegos, Tarjetas de invitación",155000.00
+11,30/11/2026,Alberto López,1,Principal,"Mozos, Sala de video juegos, Tarjetas de invitación",155000.00
+12,30/11/2026,Alberto López,1,Principal,"Mozos, Sala de video juegos, Tarjetas de invitación",155000.00
+13,30/11/2026,Alberto López,1,Principal,"Mozos, Sala de video juegos, Tarjetas de invitación",155000.00
+14,30/11/2026,Alberto López,1,Principal,"Mozos, Sala de video juegos, Tarjetas de invitación",155000.00
+15,30/11/2026,Alberto López,1,Principal,"Mozos, Sala de video juegos, Tarjetas de invitación",155000.00
+16,30/11/2026,Alberto López,1,Principal,"Mozos, Sala de video juegos, Tarjetas de invitación",155000.00
+17,30/11/2026,Alberto López,1,Principal,"Mozos, Sala de video juegos, Tarjetas de invitación",155000.00
+18,30/11/2026,Alberto López,1,Principal,"Mozos, Sala de video juegos, Tarjetas de invitación",155000.00
+19,30/11/2026,Alberto López,1,Principal,"Mozos, Sala de video juegos, Tarjetas de invitación",155000.00
+20,30/11/2026,Alberto López,1,Principal,"Mozos, Sala de video juegos, Tarjetas de invitación",155000.00
+21,30/11/2026,Alberto López,1,Principal,"Mozos, Sala de video juegos, Tarjetas de invitación",155000.00
+22,30/11/2026,Alberto López,1,Principal,"Mozos, Sala de video juegos, Tarjetas de invitación",155000.00
+23,30/11/2026,Alberto López,1,Principal,"Mozos, Sala de video juegos, Tarjetas de invitación",155000.00
+24,30/11/2026,Alberto López,1,Principal,"Mozos, Sala de video juegos, Tarjetas de invitación",155000.00
+25,30/11/2026,Alberto López,1,Principal,"Mozos, Sala de video juegos, Tarjetas de invitación",155000.00
+26,30/11/2026,Alberto López,1,Principal,"Mozos, Sala de video juegos, Tarjetas de invitación",155000.00
+27,30/11/2026,Alberto López,1,Principal,"Mozos, Sala de video juegos, Tarjetas de invitación",155000.00
+28,30/11/2026,Alberto López,1,Principal,"Mozos, Sala de video juegos, Tarjetas de invitación",155000.00
+29,30/11/2026,Alberto López,1,Principal,"Mozos, Sala de video juegos, Tarjetas de invitación",155000.00
+30,25/12/2025,Miguel Arcangel,3,Maquina de Jugar,"Mago, Maquillaje infantil, Sala de video juegos",41000.00
+31,25/12/2025,Miguel Arcangel,3,Maquina de Jugar,"Mago, Maquillaje infantil, Sala de video juegos",41000.00
+32,30/12/2025,Miguel Arcangel,3,Maquina de Jugar,"Mago, Maquillaje infantil, Sala de video juegos",136000.00

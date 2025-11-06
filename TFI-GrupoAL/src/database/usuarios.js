@@ -2,13 +2,11 @@ import { conexion } from './conexion.js';
 
 export default class Usuarios {
 
-    // Buscar todos los usuarios
     buscarUsuarios = async () => {
-        const [resultados] = await conexion.query('SELECT * FROM usuarios WHERE activo = 1'); //conexion.query cuando no hay paramtros que pasar(mas eficiente)
+        const [resultados] = await conexion.query('SELECT * FROM usuarios WHERE activo = 1');
         return resultados;
     };
 
-    //Buscar Usuarios por Id
     buscarPorId = async (id) => {
         const usuarioId = Number(id);
 
@@ -20,18 +18,16 @@ export default class Usuarios {
         }
     };
 
-    //Buscar usuario por Email
     buscarUsuarioPorEmail = async (nombre_usuario) => {
         try {
             const [resultados] = await conexion.execute('SELECT * FROM usuarios WHERE nombre_usuario = ?', [nombre_usuario]);
-            return resultados[0] ?? null; // devuelve null si no encuentra nada
+            return resultados[0] ?? null;
         } catch (err) {
             console.error("Error al buscar usuario por email:", err);
             throw err;
         }
     };
 
-    //Crea un usuario
     crearUsuario = async (usuario) => {
         const sql = `
             INSERT INTO usuarios (
@@ -66,7 +62,6 @@ export default class Usuarios {
         }
     };
 
-    //desactivar Usuario
     desactivarUsuario = async (usuarioId) => {
         try {
             const [resultado] = await conexion.execute(
@@ -80,7 +75,6 @@ export default class Usuarios {
         }
     };
 
-    //Activar Usuario
     activarUsuario = async (usuarioId) => {
         try {
             const [resultado] = await conexion.execute(
@@ -107,7 +101,6 @@ export default class Usuarios {
         return resultado[0] ?? null;
     };
 
-    //Actualizar Usuario
     actualizarUsuario = async (id, datos) => {
         const usuarioId = Number(id);
         if (isNaN(usuarioId)) throw new Error('ID de usuario inválido');
@@ -152,7 +145,7 @@ export default class Usuarios {
     };
 
     buscarCorreoAdministradores = async () => {
-        const [resultados] = await conexion.query('SELECT nombre_usuario FROM usuarios WHERE tipo_usuario = 1'); //conexion.query cuando no hay paramtros que pasar(mas eficiente)
+        const [resultados] = await conexion.query('SELECT nombre_usuario FROM usuarios WHERE tipo_usuario = 1');
         return resultados;
     };
 

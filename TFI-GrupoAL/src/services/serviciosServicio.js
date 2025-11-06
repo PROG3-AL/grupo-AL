@@ -14,7 +14,6 @@ export default class ServiciosServicio {
         return this.servicios.buscarPorId(id);
     };
 
-    //Funcion extra para saber si el servicio se repite y evitar duplicados
     buscarServicioPorNombre = (descipcionServicio) => {
         return this.servicios.buscarServicioPorNombre(descipcionServicio);
     };
@@ -34,6 +33,5 @@ export default class ServiciosServicio {
     crearServicio = (nuevoServicio) => {
         return this.servicios.crearServicio(nuevoServicio);
     };
-
-
-}
+    
+};
