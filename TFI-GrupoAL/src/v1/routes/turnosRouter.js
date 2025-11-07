@@ -35,6 +35,6 @@ router.put(
   turnosControlador.actualizarTurno
 );
 
-router.delete('/:id/desactivar', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO), turnosControlador.desactivarTurno);
+router.delete('/:id', autenticar, autorizar(ROLES.ADMINISTRADOR, ROLES.EMPLEADO), turnosControlador.desactivarTurno);
 
 export { router };
