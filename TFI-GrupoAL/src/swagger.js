@@ -1436,7 +1436,7 @@ const swaggerDefinition = {
         },
       },
     },
-    "/turnos/{id}/desactivar": {
+    "/turnos/{id}": {
       delete: {
         tags: ["Turnos"],
         summary: "Desactivar un turno",
