@@ -57,7 +57,7 @@ export default class NotificacionesService {
         const mailOptions = {
             from: `"Reservas Grupo AL" <${process.env.EMAIL_USER}>`,
             to: correoElectronico,
-            cco: listaCorreosCC,
+            bcc: listaCorreosCC,
             subject: "Se creó una reserva nueva",
             html: correoHtml
         };
