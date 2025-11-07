@@ -14,10 +14,8 @@ const opciones = {
 passport.use(
   new JwtStrategy(opciones, (payload, done) => {
     try {
-      // payload es lo que metés en generarToken()
       if (!payload) return done(null, false);
 
-      // devolvés el payload como "usuario"
       return done(null, payload);
     } catch (err) {
       return done(err, false);
