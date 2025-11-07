@@ -55,9 +55,9 @@ export default class NotificacionesService {
         });
         
         const mailOptions = {
-            from: `reservas-no-reply@grupoal.com`,
+            from: `"Reservas Grupo AL" <${process.env.EMAIL_USER}>`,
             to: correoElectronico,
-            cc: listaCorreosCC,
+            cco: listaCorreosCC,
             subject: "Se creó una reserva nueva",
             html: correoHtml
         };

@@ -17,7 +17,7 @@ export const validacionesUsuario = {
     .trim()
     .notEmpty().withMessage("El Email es obligatorio")
     .isEmail().withMessage("Debe ser un email válido")
-    .normalizeEmail()  
+    .normalizeEmail({ gmail_remove_dots: false }) 
     .isLength({ max: 50 })
     .withMessage("El email no puede exceder 50 caracteres"),
 
